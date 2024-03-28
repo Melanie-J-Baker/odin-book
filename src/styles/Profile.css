@@ -1,0 +1,57 @@
+.profilePage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100vw;
+    height: 100%;
+    margin-top: 110px;
+}
+
+.profileSubheading {
+    font-size: 1.5rem;
+}
+
+.profileDetail {
+    font-size: 1.5rem;
+}
+
+.profileDetails {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+}
+
+.profileLinks {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 50px 5px;
+
+}
+
+.profileLink {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #646cff;
+    text-decoration: inherit;
+    padding: 10px;
+}
+
+.profileLink:hover {
+    color: #0713f3;
+    cursor: pointer;
+}
+
+#addFriends {
+    padding: 0px;
+    margin: 0px;
+}
+
+.post {
+    background-color: rgb(70, 70, 70);
+    margin-bottom: 20px;
+    padding: 20px;
+}

@@ -1,0 +1,17 @@
+.welcomePage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    width: 100vw;
+    margin-top: 110px;
+}
+
+.welcomeBtns {
+    margin-top: 20px;
+}
+
+.welcomeBtn {
+    padding: 20px;
+    font-size: 2rem;
+}

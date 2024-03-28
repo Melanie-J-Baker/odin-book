@@ -1,0 +1,17 @@
+.loggedOut {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100vw;
+    text-align: center;
+    margin-top: 110px;
+}
+
+.loggedOutText {
+    margin: 50px;
+    font-size: 2rem;
+}
+
+.homeLink {
+    font-size: 1.5rem;
+}
