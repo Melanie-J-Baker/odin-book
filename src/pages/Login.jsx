@@ -35,7 +35,7 @@ function Login() {
                 localStorage.setItem("userid", data.user._id);
                 localStorage.setItem("username", data.user.username);
                 localStorage.setItem("profilePicture", data.user.profile_image)
-                navigate('/odin-book/users/' + data.user._id)
+                navigate('/odin-book/users/' + data.user._id + '/feed')
                 navigate(0);
             } else {
                 setErrorMessage("Problem logging in. Please try again.") 

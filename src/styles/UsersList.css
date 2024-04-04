@@ -1,0 +1,28 @@
+.usersList {
+    margin-top: 110px;
+}
+
+.usersListHeading {
+    font-size: 2rem;
+    font-weight: 600;
+    padding: 20px;
+}
+
+.userImage {
+    width: 100px;
+    height: 100px;
+}
+
+.user {
+    padding: 20px;
+    margin: 20px;
+    background-color: cornflowerblue;
+}
+
+.addFriendBtn {
+    cursor: pointer;
+    background-color: darkblue;
+    color: white;
+    border-radius: 10px;
+    padding: 5px 10px;
+}

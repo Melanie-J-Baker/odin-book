@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate} from 'react-router-dom';
-import '../styles/Profile.css'
+import '../styles/Profile.css';
 import Loading from "./Loading";
 import { PropTypes } from 'prop-types';
 
@@ -15,7 +15,6 @@ function Profile({ token, userid, username, profilePicture }) {
 
   useEffect(() => {
     if (fetchDone.current) return;
-    fetchDone.current = false;
     const fetchData = () => {
       fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/?` + new URLSearchParams({
         secret_token: token,
@@ -41,7 +40,7 @@ function Profile({ token, userid, username, profilePicture }) {
   return fetchDone.current && userid ? (
     <div className='profilePage'>
       <h1 className='profileHeading'>{username}&#39;s Profile</h1>
-      {profilePicture && (<img className='profileDetail' id="profileImage" src={profilePicture} alt="Profile picture" />)}
+      {profilePicture && (<img className='profileDetail' id='profileImage' src={profilePicture} alt="Profile picture" />)}
       <div className='profileDetails'>
         <p className='profileSubheading'>First name:</p>
         <p className='profileDetail'>{firstName}</p>
@@ -50,7 +49,21 @@ function Profile({ token, userid, username, profilePicture }) {
         <p className='profileSubheading'>Email:</p>
         <p className='profileDetail'>{email}</p>
         <p className='profileSubheading'>Following:</p>
-        {following.length ? (<p className='profileDetail'>{following}</p>) : ( <Link className='profileLink' id='addFriends' to={`/odin-book/users/${userid}/userslist`}>Add new friends</Link>)}
+        <Link className='profileLink' id='addFriends' to={`/odin-book/users/${userid}/userslist`}>Add new friends</Link>
+        {following.length && (
+          <div className='following'>
+            <div className='followingHeading'>Following</div>
+            {following.map((followedUser) => {
+              return (
+                <div key={followedUser._id} className='followedUser' id={followedUser._id}>
+                    <img src={followedUser.profile_image} alt="followedUser" width="75px" height="75px" className="followedUserImage" />
+                    <div className='followedUsername'>{followedUser.username}</div>
+                </div>
+              )
+            })}
+          </div>
+        )}
+        
       </div>
       <div className='profileLinks'>
         {userid ? (

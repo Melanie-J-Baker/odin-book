@@ -12,7 +12,7 @@ import './styles/App.css'
 
 function App() {
   const [username, setUsername] = useState(
-    localStorage.getItem('username') === 'null'
+    localStorage.getItem('username') === 'null' || localStorage.getItem('token') === 'null'
       ? null
       : localStorage.getItem('username')
   
@@ -45,12 +45,12 @@ function App() {
       <Routes>
         <Route path="/" element={<Welcome userid={userid} />} />
         <Route path="/odin-book" element={<Welcome userid={userid} />} />
-        <Route path="/odin-book/users" element={<UsersList />}/>
+        <Route path="/odin-book/users/:userid/userslist" element={<UsersList token={token} userid={userid} />}/>
         <Route path="/odin-book/users/login" element={<Login /> } />
         <Route path="/odin-book/users/signup" element={<Signup />} />
         <Route path="/odin-book/users/logout" element={<Logout/>} />
         <Route path="/odin-book/users/:userid" element={<Profile token={token} userid={userid} username={username} profilePicture={profilePicture} />} />
-        <Route path="/odin-book/users/:userid/feed" element={<Feed />} />
+        <Route path="/odin-book/users/:userid/feed" element={<Feed token={token} userid={userid} username={username} profilePicture={profilePicture} />} />
       </Routes>
     </Router>
   )
