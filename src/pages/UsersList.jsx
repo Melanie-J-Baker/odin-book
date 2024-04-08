@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import '../styles/UsersList.css';
+import Loading from './Loading';
 
 UsersList.propTypes = {
     token: PropTypes.string,
@@ -10,7 +12,8 @@ UsersList.propTypes = {
 function UsersList({ token, userid }) {
     const fetchDone = useRef(false);
     const responseSending = useRef(false);
-    const [users, setUsers] = useState([])
+    const [users, setUsers] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (fetchDone.current) return;
@@ -24,7 +27,6 @@ function UsersList({ token, userid }) {
             }).then((response) => {
                 return response.json();
             }).then((data) => {
-                console.log(data);
                 setUsers(data.users)
             }).catch(error => console.log(error));
             fetchDone.current = true;
@@ -51,11 +53,12 @@ function UsersList({ token, userid }) {
             return response.json();
         }).then((data) => {
             console.log(data);
+            navigate(0)
         })
         responseSending.current = false;
     }
 
-    return (
+    return fetchDone.current ? (
         <div className="usersList">
             <div className="usersListHeading">Add new friends</div>
             {users.map((user) => {
@@ -66,7 +69,10 @@ function UsersList({ token, userid }) {
                         <div id={user._id} className='addFriendBtn' onClick={(event) => addFriend(event.target.id)}>Add friend</div>
                     </div>
                 )
-        })}</div>
+            })}
+        </div>
+    ) : (
+            <Loading/>
     )
 }
 

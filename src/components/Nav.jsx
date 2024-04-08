@@ -32,6 +32,9 @@ function Nav ({ userid, username, token, setToken, setUserid, setProfilePicture,
           <Link className='link' onClick={() => setCurrentRoute(`odin-book/users/${userid}`)} to={`odin-book/users/${userid}`}>Profile</Link>
         </li>)}
         {userid && currentRoute !== 'odin-book/users/logout' && (<li>
+          <Link className='link' onClick={() => setCurrentRoute(`odin-book/users/${userid}/feed`)} to={`odin-book/users/${userid}/feed`}>Feed</Link>
+        </li>)}
+        {userid && currentRoute !== 'odin-book/users/logout' && (<li>
           <Link className='link' onClick={() => handleLogout()} to="odin-book/users/logout">Log out</Link>
         </li>)}
       </ul>

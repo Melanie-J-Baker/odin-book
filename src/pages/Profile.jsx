@@ -3,14 +3,23 @@ import { Link, useNavigate} from 'react-router-dom';
 import '../styles/Profile.css';
 import Loading from "./Loading";
 import { PropTypes } from 'prop-types';
+import ProfilePost from '../components/ProfilePost';
+import AddPost from '../components/AddPost';
 
-function Profile({ token, userid, username, profilePicture }) {
+Profile.propTypes = {
+  token: PropTypes.string,
+  userid: PropTypes.string,
+  username: PropTypes.string,
+  profilePicture: PropTypes.string,
+}
+
+function Profile({ token, userid, username, profilePicture}) {
   const fetchDone = useRef(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [following, setFollowing] = useState([]);
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,7 +48,7 @@ function Profile({ token, userid, username, profilePicture }) {
 
   return fetchDone.current && userid ? (
     <div className='profilePage'>
-      <h1 className='profileHeading'>{username}&#39;s Profile</h1>
+      <h1 className='profileHeading'>{username}</h1>
       {profilePicture && (<img className='profileDetail' id='profileImage' src={profilePicture} alt="Profile picture" />)}
       <div className='profileDetails'>
         <p className='profileSubheading'>First name:</p>
@@ -48,11 +57,11 @@ function Profile({ token, userid, username, profilePicture }) {
         <p className='profileDetail'>{lastName}</p>
         <p className='profileSubheading'>Email:</p>
         <p className='profileDetail'>{email}</p>
-        <p className='profileSubheading'>Following:</p>
-        <Link className='profileLink' id='addFriends' to={`/odin-book/users/${userid}/userslist`}>Add new friends</Link>
+      </div>
+      <div className="followingContainer">
+        <p className='followingHeading'>Following:</p>
         {following.length && (
           <div className='following'>
-            <div className='followingHeading'>Following</div>
             {following.map((followedUser) => {
               return (
                 <div key={followedUser._id} className='followedUser' id={followedUser._id}>
@@ -63,7 +72,7 @@ function Profile({ token, userid, username, profilePicture }) {
             })}
           </div>
         )}
-        
+        <Link className='profileLink' id='addFriends' to={`/odin-book/users/${userid}/userslist`}>Add new friends</Link>
       </div>
       <div className='profileLinks'>
         {userid ? (
@@ -75,30 +84,18 @@ function Profile({ token, userid, username, profilePicture }) {
           <div className='profileLink' onClick={() => navigate(-1)}>Go back</div>
         )}
       </div>
+      <AddPost userid={userid} token={token} />
       {posts.length && (
         <div className='posts'>
           {posts.map((post) => {
             return (
-              <div key={post._id} className="post" id={post._id}>
-                <div className="postText">{post.text}</div>
-                <div className="postTimestamp">{post.timestamp_formatted}</div>
-                <img src={post.post_image} alt="Post Image" className='postImage' />
-                <div className="postLikes"></div>
-                <Link className='postLink' id='goToPost' to={`/odin-book/users/${userid}/posts/${post._id}`}>See post</Link>
-              </div>
+              <ProfilePost key={post._id} userid={userid} token={token} postid={post._id} postTimestamp={post.timestamp_formatted} postText={post.text} postImage={post.post_image} postLikes={post.likes} />
             )
           })}
         </div>
       )}
     </div>
   ) : <Loading />
-}
-
-Profile.propTypes = {
-  token: PropTypes.string,
-  userid: PropTypes.string,
-  username: PropTypes.string,
-  profilePicture: PropTypes.string
 }
 
 export default Profile;

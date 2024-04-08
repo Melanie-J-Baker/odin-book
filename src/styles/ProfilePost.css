@@ -1,0 +1,21 @@
+.profilePost {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+    background-color: rgb(70, 69, 69);
+    padding: 20px 0px;
+    width: 100vw;
+    margin: 40px 0px;
+}
+
+.postImage {
+    width: 100vw;
+}
+
+.comments {
+    background-color: rgb(70, 69, 69);
+    width: 100vw;
+    padding-bottom: 10px;
+}

@@ -1,0 +1,14 @@
+.feed {
+    margin-top: 110px;
+}
+
+.feedHeading {
+    text-align: center;
+    width: 100vw;
+    font-size: 2rem;
+}
+
+.post {
+    width: 100vw;
+    margin: 40px 10px;
+}

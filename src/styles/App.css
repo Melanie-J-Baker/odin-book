@@ -1,3 +1,11 @@
+body {
+  width: 100vw;
+}
+
+:root {
+  width: 100vw;
+}
+
 nav {
   position: fixed;
   top: 0;
@@ -13,7 +21,7 @@ nav {
 
 .mainMenu {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   margin: 0;
   width: 100vw;
@@ -25,7 +33,7 @@ ul {
 }
 
 li {
-  margin: 5px 50px;
+  margin: 5px 0px;
 }
 
 .loggedInAs {

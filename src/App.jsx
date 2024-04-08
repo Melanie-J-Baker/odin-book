@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Welcome from './pages/Welcome';
 import Login from './pages/Login';
@@ -8,21 +8,19 @@ import Logout from './pages/Logout';
 import Nav from './components/Nav';
 import Feed from './pages/Feed';
 import UsersList from './pages/UsersList';
-import './styles/App.css'
+import './styles/App.css';
 
 function App() {
   const [username, setUsername] = useState(
     localStorage.getItem('username') === 'null' || localStorage.getItem('token') === 'null'
       ? null
       : localStorage.getItem('username')
-  
-  ) 
+  )
   const [profilePicture, setProfilePicture] = useState(
     localStorage.getItem('profilePicture') === 'null'
       ? null
       : localStorage.getItem('profilePicture')
   );
-
   const [token, setToken] = useState(
     localStorage.getItem('token') === 'null'
       ? null
@@ -33,12 +31,16 @@ function App() {
       ? null
       : localStorage.getItem('userid')
   );
+
   useEffect(() => {
     localStorage.setItem('token', token);
     localStorage.setItem('userid', userid);
     localStorage.setItem('username', username)
     localStorage.setItem('profilePicture', profilePicture);
   }, [token, userid, profilePicture, username]);
+
+
+
   return (
     <Router>
       <Nav userid={userid} username={username} token={token} setToken={setToken} setUserid={setUserid} setProfilePicture={setProfilePicture} setUsername={setUsername} />

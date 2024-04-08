@@ -1,0 +1,45 @@
+.postUserDetails {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 20px;
+}
+
+.postUsernameTimestamp {
+    display: flex;
+    flex-direction: column;
+}
+
+.feedProfileImage {
+    width: 50px;
+    height: 50px;
+    padding-right: 20px;
+}
+
+.postText {
+    padding-bottom: 20px;
+}
+
+.comments {
+    background-color: rgb(70, 69, 69);
+    width: 100vw;
+    padding-bottom: 10px;
+}
+
+.likeBtnPost {
+    background-image: url("../../public/assets/icons/like.svg");
+    width: 24px;
+    height: 24px;
+    background-size: cover;
+    cursor: pointer;
+}
+
+.likedPost {
+    background-image: url("../../public/assets/icons/liked.svg");
+    width: 24px;
+    height: 24px;
+    background-size: cover;
+    cursor: pointer;
+}
+
+
+

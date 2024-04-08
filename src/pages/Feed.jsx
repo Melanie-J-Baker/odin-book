@@ -1,22 +1,23 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import Loading from './Loading';
+import Post from '../components/Post';
+import AddPost from '../components/AddPost';
+import '../styles/Feed.css';
 
 Feed.propTypes = {
     token: PropTypes.string,
     userid: PropTypes.string,
-    username: PropTypes.string,
-    profilePicture: PropTypes.string
 }
 
-function Feed({ token, userid, /*username, profilePicture*/ }) {
+function Feed({ token, userid }) {
     const fetchDone = useRef(false);
     const [feedPosts, setFeedPosts] = useState([]);
 
     useEffect(() => {
         if (fetchDone.current) return;
         const fetchData = () => {
-            fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/feed?` + new URLSearchParams({
+            fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/feed/?` + new URLSearchParams({
                 secret_token: token,
             }), {
                 headers: {
@@ -25,32 +26,27 @@ function Feed({ token, userid, /*username, profilePicture*/ }) {
             }).then((response) => {
                 return response.json();
             }).then((data) => {
-                console.log(data);
                 setFeedPosts(data.feedPosts)
             }).catch(error => console.log(error));
-            fetchDone.current = true;
         }
         fetchData()
+        fetchDone.current = true;
     }, [token, userid])
 
-    {
-        feedPosts && (
-            <div className="feed">
-                <h2>Feed</h2>
-                {feedPosts.map((post) => {
-                    return (
-                        <div key={post._id} className="post" id={post._id}>
-                            <div className="postText">{post.text}</div>
-                            <div className="postTimestamp">{post.timestamp_formatted}</div>
-                            <img src={post.post_image} alt="Post Image" className='postImage' />
-                            <div className="postLikes"></div>
-                            <Link className='postLink' id='goToPost' to={`/odin-book/users/${userid}/posts/${post._id}`}>See post</Link>
-                        </div>
-                    )
-                })}
-            </div>
-        )
-    }
+    return fetchDone.current ? (
+        <div className="feed">
+            <AddPost userid={userid} token={token} />
+            <h2 className="feedHeading">Feed</h2>
+            {feedPosts.map((post) => {
+                return (
+                    <Post className="post" key={post._id} userid={userid} token={token} postid={post._id} postUserImage={post.user.profile_image} postUsername={post.user.username} postTimestamp={post.timestamp_formatted} postText={post.text} postImage={post.post_image} postLikes={post.likes}/>
+                )
+            })}
+        </div>
+    ) : (
+        <Loading/>
+    )
+            
 }
 
 export default Feed;
