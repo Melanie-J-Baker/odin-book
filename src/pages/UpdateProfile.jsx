@@ -40,7 +40,7 @@ function UpdateProfile({ token, userid, setUsername }) {
         }).catch(error => {
             setError(error.msg)
         }).finally(() => setLoading(false));
-    },[setUsername, token, userid])
+    },[token, userid])
  
     const submitUpdateProfile = () => {
         setLoading(true);
@@ -64,10 +64,10 @@ function UpdateProfile({ token, userid, setUsername }) {
             return response.json();
         }).then((data) => {
             console.log(data);
-            setErrorMessage(data.error.msg);
-            localStorage.setItem('username', data.user.username);
-            setUsername(data.user.username);
             setStatus(data.status);
+            localStorage.setItem("username", data.user.username);
+            setUsername(data.user.username);
+            navigate(`/odin-book/users/${data.user._id}/`)
         }).catch(error => {
             setErrorMessage(error.msg);
         }).finally(() => {

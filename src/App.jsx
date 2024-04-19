@@ -42,7 +42,7 @@ function App() {
   useEffect(() => {
     localStorage.setItem('token', token);
     localStorage.setItem('userid', userid);
-    localStorage.setItem('username', username)
+    localStorage.setItem('username', username);
     localStorage.setItem('profilePicture', profilePicture);
   }, [token, userid, profilePicture, username]);
 

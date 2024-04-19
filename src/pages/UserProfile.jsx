@@ -81,7 +81,7 @@ function UserProfile({ token, currentuserid, handleFollow }) {
     return username ? (
         <div className='profilePage'>
             <h1 className='profileHeading'>{username}</h1>
-            {profileImage && (<img className='profileDetail' id='profileImage' src={profileImage} alt="Profile picture" />)}
+            {profileImage && (<img className='profileImageLarge' src={profileImage} alt="Profile picture" />)}
             <div className='profileDetails'>
                 <p className='profileSubheading'>Name:</p>
                 <p className='profileDetail'>{firstName} {lastName}</p>
