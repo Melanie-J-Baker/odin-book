@@ -67,13 +67,14 @@ function Post({ userid, token, postid, postUserId, postUsername, postTimestamp, 
             setMessage(data.message);
             setTimeout(() => {
                 setMessage("");
-            }, 2000)
+            }, 4000)
+            navigate(0);
         }).catch((error) => {
             setError(error)
         }).finally(() => setLoading(false))
     }
 
-    if (error || message) return <p>A network error was encountered ({message})</p>
+    if (error || message) return <p className="postError">{message} {error}</p>
     if (loading) return <Loading/>
     return (
         <div className="post">

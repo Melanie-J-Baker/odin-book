@@ -8,6 +8,10 @@
     align-items: center;
 }
 
+.postError {
+    text-align: center;
+}
+
 .postUserDetails {
     display: flex;
     flex-direction: row;

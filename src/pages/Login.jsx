@@ -36,6 +36,7 @@ function Login({setToken, setUserid, setUsername, setProfilePicture}) {
             return response.json();
         }).then((data) => {
             if (data.user && data.token) {
+                console.log(data);
                 setErrorMessage("");
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("userid", data.user._id);
@@ -56,7 +57,12 @@ function Login({setToken, setUserid, setUsername, setProfilePicture}) {
         })
     };
 
-    if (errorMessage) return <div>{errorMessage}</div>
+    if (errorMessage) return (
+        <div className="error">
+            <div className="errorText">{errorMessage}</div>
+            <Link id="backToHome" className="backToHome link" to={'/odin-book'}>Go back</Link>
+        </div>
+    )
     if (loading) return <Loading/>
     return (
         <div className="login">

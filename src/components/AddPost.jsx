@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import '../styles/AddPost.css';
 import Loading from '../pages/Loading';
@@ -9,6 +10,7 @@ AddPost.propTypes = {
 }
 
 function AddPost({ userid, token }) {
+    const navigate = useNavigate();
     const [text, setText] = useState('');
     const [loading, setLoading] = useState(false);
     const [postImage, setPostImage] = useState('');
@@ -40,7 +42,8 @@ function AddPost({ userid, token }) {
             return response.json();
         }).then((data) => {
             console.log(data);
-            setPostid(data.post._id)
+            setPostid(data.post._id);
+            navigate(0)
         }).catch(error => {
             setError(error.msg)
         }).finally(() => {
@@ -69,6 +72,7 @@ function AddPost({ userid, token }) {
                 setTimeout(() => {
                     setMessage('');
                 }, 10000)
+                //navigate(0);
             }).catch(error => {
                 setError(error.msg)
                 setMessage(error.msg)

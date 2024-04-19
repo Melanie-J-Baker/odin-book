@@ -8,9 +8,10 @@ UpdateProfile.propTypes = {
     token: PropTypes.string,
     userid: PropTypes.string,
     setUsername: PropTypes.func,
+    setProfilePicture: PropTypes.func,
 }
 
-function UpdateProfile({ token, userid, setUsername }) {
+function UpdateProfile({ token, userid, setUsername, setProfilePicture }) {
     const navigate = useNavigate();
     const [error, setError] = useState('');
     const [usernameInput, setUsernameInput] = useState('');
@@ -20,7 +21,7 @@ function UpdateProfile({ token, userid, setUsername }) {
     const [errorMessage, setErrorMessage] = useState('');
     const [formSubmit, setFormSubmit] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [profileImage, setProfileImage] = useState('');
+    const [file, setFile] = useState('');
     const [status, setStatus] = useState('');
 
     useEffect(() => {
@@ -67,17 +68,19 @@ function UpdateProfile({ token, userid, setUsername }) {
             setStatus(data.status);
             localStorage.setItem("username", data.user.username);
             setUsername(data.user.username);
-            navigate(`/odin-book/users/${data.user._id}/`)
+            if (file == '') {
+                navigate(`/odin-book/users/${data.user._id}/`)
+            }
         }).catch(error => {
             setErrorMessage(error.msg);
         }).finally(() => {
             setLoading(false);
             setFormSubmit(true);
         })
-        if (profileImage !== '') {
+        if (file !== '') {
             setFormSubmit(false);
             const formData = new FormData();
-            formData.append("profileImage", profileImage);
+            formData.append("profileImage", file);
             setLoading(true);
             fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/newprofileimage/?` + new URLSearchParams({
                 secret_token: token,
@@ -86,7 +89,6 @@ function UpdateProfile({ token, userid, setUsername }) {
                 mode: 'cors',
                 credentials : "include",
                 headers: {
-                    'Content-Type': undefined,
                     Authorization: `Bearer ${token}`,
                 },
                 body: formData
@@ -94,13 +96,12 @@ function UpdateProfile({ token, userid, setUsername }) {
                 return response.json();
             }).then((data) => {
                 console.log(data);
-                setErrorMessage(data.error.msg);
-                console.log(data.user.profile_image);
-                //setProfileImage(data.user.profile_image);
-                //localStorage.setItem('profilePicture', data.user.profile_image)
-                navigate(0);
+                setErrorMessage(data.message);
+                setStatus(data.message);
+                localStorage.setItem('profilePicture', data.user.profile_image)
+                setProfilePicture(data.user.profile_image);
             }).catch(error => {
-                setErrorMessage(error.msg)
+                console.log(error)
             }).finally(() => {
                 setLoading(false);
                 setFormSubmit(true);
@@ -109,7 +110,7 @@ function UpdateProfile({ token, userid, setUsername }) {
     };
 
     const handleSelectFile = (e) => {
-        setProfileImage(e.target.files[0])
+        setFile(e.target.files[0])
     }
 
     if (error) return <div className="error">({error})</div>
@@ -117,7 +118,7 @@ function UpdateProfile({ token, userid, setUsername }) {
     return !formSubmit ? (
         <div className="updateProfile">
             <h2 className="updateProfileHeading">Update your details</h2>
-            <form className="updateProfileInputs">
+            <form encType="multipart/form-data" className="updateProfileInputs">
                 <input id="updateProfileUsername" autoComplete="username" name="username" className="updateProfileInput" type="text" placeholder="Enter new username" defaultValue={usernameInput} onChange={(event) => setUsernameInput(event.target.value)} />
                 <input id="updateProfileFirstName" autoComplete="name" name="first_name" className="updateProfileInput" type="text" placeholder="Enter new first name" defaultValue={firstName} onChange={(event) => setFirstName(event.target.value)} />
                 <input id="updateProfileLastName" autoComplete="name" name="last_name" className="updateProfileInput" type="text" placeholder="Enter new last name" defaultValue={lastName} onChange={(event) => setLastName(event.target.value)} />
@@ -131,7 +132,7 @@ function UpdateProfile({ token, userid, setUsername }) {
         </div>        
     ) : formSubmit && !errorMessage && !error ? (
         <div className="accountUpdated">
-                <div className="accountUpdatedHeading">Account updated {status}</div>
+                <div className="accountUpdatedHeading">{status}</div>
             <Link id="backToProfile" className="backToProfile link" to={`/odin-book/users/${userid}`}>Back to profile</Link>
         </div >
     ) : (
