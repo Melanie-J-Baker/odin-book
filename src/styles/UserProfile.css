@@ -1,0 +1,98 @@
+.profilePage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100%;
+    margin-top: 110px;
+}
+
+.profileHeading {
+    font-size: 1.5rem;
+}
+
+.profileSubheading {
+    font-size: 1rem;
+    margin-left: 10px;
+    font-weight: 500;
+
+}
+
+.profileDetail {
+    font-size: 1rem;
+}
+
+.profileDetails {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+}
+
+.profileLink {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #646cff;
+    text-decoration: inherit;
+    padding: 10px;
+    text-align: center;
+}
+
+.profileLink:hover {
+    color: #0713f3;
+    cursor: pointer;
+}
+
+#addFollows {
+    padding: 0px;
+    margin: 0px;
+}
+
+.followingContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.following {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    font-size: 0.9rem;
+    border: 1px solid #646cff;
+}
+
+.followedUser {
+    margin-left: 10px;
+    text-align: center;
+    padding: 10px;
+}
+
+.profileOption {
+    margin: 0px 20px;
+}
+
+.seeProfileBtn {
+    cursor: pointer;
+    background-color: darkblue;
+    color: white;
+    border-radius: 10px;
+    padding: 5px 10px;
+    margin: 5px;
+}
+
+.addFollowBtn {
+    cursor: pointer;
+    background-color: darkblue;
+    color: white;
+    border-radius: 10px;
+    padding: 5px 10px;
+    margin: 5px;
+}

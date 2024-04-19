@@ -2,9 +2,10 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     text-align: center;
     width: 100vw;
-    margin-top: 110px;
+    height: 100vh;
 }
 
 .welcomeBtns {

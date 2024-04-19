@@ -1,46 +1,32 @@
-import { useEffect, useState, useRef } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Comments from '../components/Comments';
 import Loading from '../pages/Loading';
-import Comment from '../components/Comment';
 import '../styles/Post.css';
 
 Post.propTypes = {
     userid: PropTypes.string,
     token: PropTypes.string,
     postid: PropTypes.string,
-    postUserImage: PropTypes.string,
+    postUserId: PropTypes.string,
     postUsername: PropTypes.string,
     postTimestamp: PropTypes.string,
     postText: PropTypes.string,
+    postUserImage: PropTypes.string,
     postImage: PropTypes.string,
     postLikes: PropTypes.array,
 }
-function Post({ userid, token, postid, postUserImage, postUsername, postTimestamp, postText, postImage, postLikes}) {
-    const fetchDone = useRef(false);
-    const [comments, setComments] = useState([]);
+function Post({ userid, token, postid, postUserId, postUsername, postTimestamp, postText, postUserImage, postImage, postLikes }) {
+    const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
-    
-    useEffect(() => {
-        if (fetchDone.current) return;
-        const fetchComments = () => {
-            fetch(`${import.meta.env.VITE_API}/odin-book/posts/${postid}/comments/?` + new URLSearchParams({
-                secret_token: token,
-            }), {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
-            }).then((response) => {
-                return response.json();
-            }).then((data) => {
-                setComments(data);
-            }).catch(error => console.log(error));
-        }
-        fetchComments()
-        fetchDone.current = true;
-    }, [postid, token])
+    const [error, setError] = useState(null);
+    const [currentPostLikes, setCurrentPostLikes] = useState(postLikes)
 
-    const likePost = (postid) => {
-        fetch(`${import.meta.env.VITE_API}/odin-book/posts/${postid}/?` + new URLSearchParams({
+    const likePost = (id) => {
+        setLoading(true);
+        fetch(`${import.meta.env.VITE_API}/odin-book/posts/${id}/?` + new URLSearchParams({
             secret_token: token,
         }), {
             method: 'PUT',
@@ -53,44 +39,72 @@ function Post({ userid, token, postid, postUserImage, postUsername, postTimestam
                 likes: userid
             })
         }).then((response) => {
-        return response.json();
+            return response.json();
         }).then((data) => {
-        console.log(data);
-        setMessage(data.message);
-        })
+            setMessage(data.message);
+            setCurrentPostLikes(data.post.likes);
+            setTimeout(() => {
+                setMessage("");
+            }, 2000)
+        }).catch((error) => {
+            setError(error)
+        }).finally(() => setLoading(false))
     }
 
-    return fetchDone.current ? (
+    const deletePost = (postid) => {
+        setLoading(true);
+        fetch(`${import.meta.env.VITE_API}/odin-book/posts/${postid}/?` + new URLSearchParams({
+            secret_token: token,
+        }), {
+            method: 'DELETE',
+            mode: 'cors',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }).then((response) => {
+            return response.json();
+        }).then((data) => {
+            setMessage(data.message);
+            setTimeout(() => {
+                setMessage("");
+            }, 2000)
+        }).catch((error) => {
+            setError(error)
+        }).finally(() => setLoading(false))
+    }
+
+    if (error || message) return <p>A network error was encountered ({message})</p>
+    if (loading) return <Loading/>
+    return (
         <div className="post">
             <div className="postUserDetails">
-                <img src={postUserImage} alt='Profile Image' className='feedProfileImage' />
-                <div className="postUsernameTimestamp">
-                    <div className='postUsername'>{postUsername}</div>
-                    <div className="postTimestamp">{postTimestamp}</div>
+                <div className="userDetails">
+                    <img src={postUserImage} alt='Profile Image' className='feedProfileImage' />
+                    <div className="postUsernameTimestamp">
+                        <div className='postUsername'>{postUsername}</div>
+                        <div className="postTimestamp">{postTimestamp}</div>
+                    </div>
                 </div>
+                {postUserId == userid ? (
+                    <div className='postOptions'>
+                        <div id={postid} className='updatePost' onClick={(e) => navigate(`/odin-book/posts/${e.target.id}/update`)}></div>
+                        <div id={postid} className='deletePost' onClick={(e) => deletePost(e.target.id)}></div>
+                    </div>
+                ) : <div className='postOptions'></div>}
             </div>
             <div className="postText">{postText}</div>
-            <img src={postImage} alt="Post Image" className='postImage' />
-            {!postLikes.includes(userid) ? (<div className='likeBtnPost' id={postid} onClick={(event) => likePost(event.target.id)}></div>) : (<><div className='postLiked'></div><div className='postLikedText'>Liked</div></>)}
-            {postLikes.length === 1 ? (
-                <div className="postLikes">1 like</div>
-            ) : (
-                <div className="postLikes">{postLikes.length} likes</div>
-            )}
-            <div className='message'>{message}</div>
-            {comments.length !== 0 ? (
-                <div className='comments'>
-                    <div className='commentsHeading'>Comments</div>
-                    {comments.map((comment) => (
-                        <Comment key={comment._id} userid={userid} token={token} commentid={comment._id} />
-                    ))}
-                </div>
-            ) : (
-                <div className='noComments'>No comments</div>
-            )}
+            {postImage && (<img src={postImage} alt="Post Image" className='postImage' />)}
+            <div className="likesDiv">
+                {currentPostLikes && !currentPostLikes.includes(userid) ? (<div className='likeBtnPost' id={postid} onClick={(event) => likePost(event.target.id)}></div>) : (<div className='postLiked' id={postid} onClick={(event) => likePost(event.target.id)}></div>)}
+                {currentPostLikes.length === 1 ? (
+                    <div className="postLikes">1 like</div>
+                ) : (
+                    <div className="postLikes">{currentPostLikes.length} likes</div>
+                )}
+                <div className='postMessage'>{message}</div>
+            </div>
+            <Comments userid={userid} postid={postid} token={token} />
         </div>
-    ) : (
-        <Loading />
     )
 }
 

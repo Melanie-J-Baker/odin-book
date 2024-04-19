@@ -1,78 +1,57 @@
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import '../styles/UsersList.css';
 import Loading from './Loading';
 
 UsersList.propTypes = {
     token: PropTypes.string,
-    userid: PropTypes.string
+    userid: PropTypes.string,
+    handleFollow: PropTypes.func,
+    users: PropTypes.array,
+    setUsers: PropTypes.func,
+    error: PropTypes.string,
+    setError: PropTypes.func,
 }
 
-function UsersList({ token, userid }) {
-    const fetchDone = useRef(false);
-    const responseSending = useRef(false);
-    const [users, setUsers] = useState([]);
+function UsersList({ token, userid, handleFollow, users, setUsers, error, setError }) {
     const navigate = useNavigate();
-
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
-        if (fetchDone.current) return;
-        const fetchData = () => {
-            fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/userslist/?` + new URLSearchParams({
-                secret_token: token,
-            }), {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
-            }).then((response) => {
-                return response.json();
-            }).then((data) => {
-                setUsers(data.users)
-            }).catch(error => console.log(error));
-            fetchDone.current = true;
-        }
-        fetchData();
-    }, [token, userid])
-
-    const addFriend = (newUserId) => {
-        if (responseSending.current) return;
-        responseSending.current = true;
-        fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/addfriend/?` + new URLSearchParams({
+        fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/userslist/?` + new URLSearchParams({
             secret_token: token,
         }), {
-            method: 'PUT',
-            mode: 'cors',
             headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                following: newUserId
-            })
+                Authorization: `Bearer ${token}`,
+            }
         }).then((response) => {
             return response.json();
         }).then((data) => {
-            console.log(data);
-            navigate(0)
-        })
-        responseSending.current = false;
-    }
+            setUsers(data.users)
+        }).catch(error => {
+            setError(error)
+        }).finally(() => setLoading(false));
+    }, [setError, setUsers, token, userid])
 
-    return fetchDone.current ? (
+    if (error) return <p>A network error was encountered (error)</p>
+    if (loading) return <Loading/>
+    return (
         <div className="usersList">
-            <div className="usersListHeading">Add new friends</div>
-            {users.map((user) => {
+            <div className="usersListHeading">Follow new users</div>
+            {users.length ? users.map((user) => {
                 return (
-                    <div key={user._id} className='user' id={user._id}>
+                    <div key={user._id} className='user'>
                         <img src={user.profile_image} alt="User profile image" className='userImage'/>
                         <div className='username'>{user.username}</div>
-                        <div id={user._id} className='addFriendBtn' onClick={(event) => addFriend(event.target.id)}>Add friend</div>
+                        <Link id='seeProfileBtn' to={`/odin-book/users/${user._id}/userprofile`}>See profile</Link>
+                        <div id={user._id} className='addFollowBtn' onClick={(event) => handleFollow(event.target.id)}>Follow</div>
                     </div>
                 )
-            })}
+            }) : (
+                <div className="noUsers">No new users available!</div>
+            )}
+            <div className='goBack' onClick={() => navigate(-1)}>Go back</div>
         </div>
-    ) : (
-            <Loading/>
     )
 }
 

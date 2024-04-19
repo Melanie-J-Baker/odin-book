@@ -1,5 +1,5 @@
 .comment {
-    background-color: rgb(102, 100, 100);
+    background-color: rgb(153, 152, 152);
     margin: 10px;
     padding: 10px;
 }
@@ -11,21 +11,22 @@
 .commentLikesDiv {
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 
 .likeBtnComment {
-    background-image: url("../../public/assets/icons/like.svg");
-    width: 24px;
-    height: 24px;
+    background-image: url("../assets/icons/like.svg");
+    width: 20px;
+    height: 20px;
     background-size: cover;
     cursor: pointer;
     margin-right: 5px;
 }
 
 .commentLiked {
-    background-image: url("../../public/assets/icons/liked.svg");
-    width: 24px;
-    height: 24px;
+    background-image: url("../assets/icons/liked.svg");
+    width: 20px;
+    height: 20px;
     background-size: cover;
     cursor: pointer;
     margin-right: 5px;

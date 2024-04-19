@@ -10,7 +10,7 @@ nav {
   position: fixed;
   top: 0;
   background-color: rgb(7, 7, 7);
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   height: 100px;
   display: flex;
   flex-direction: column;
@@ -36,9 +36,32 @@ li {
   margin: 5px 0px;
 }
 
+.lowerNav {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.profileImage {
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+}
+
 .loggedInAs {
-  padding: 0px;
-  margin: 5px;
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 1rem;
+}
+
+.logout {
+  background-color: #161946;
+  color: white;
+  font-size: 0.8rem;
+  border-radius: 10px;
+  text-align: center;
+  padding: 5px 10px;
+  height: 25px;
+  line-height: 25px;
 }

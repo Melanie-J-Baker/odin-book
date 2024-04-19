@@ -1,6 +1,7 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import '../styles/Signup.css';
+import Loading from "./Loading";
 
 function Signup() {
     const [usernameInput, setUsernameInput] = useState('');
@@ -11,11 +12,11 @@ function Signup() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [profileImage, setProfileImage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const fetchDone = useRef(false);
+    const [formSubmit, setFormSubmit] = useState(false);
+    const [loading, setLoading] = useState(false);
  
     const submitSignup = () => {
-        if (fetchDone.current) return;
-        fetchDone.current = false;
+        setLoading(true);
         fetch(`${import.meta.env.VITE_API}/odin-book/users/signup`, {
             method: 'POST',
             mode: 'cors',
@@ -31,17 +32,21 @@ function Signup() {
                 email: email,
                 password: passwordInput,
                 password_confirm: confirmPassword,
-                profile_image: profileImage,
             })
         }).then((response) => {
             return response.json();
         }).then((data) => {
             console.log(data);
-        }).catch(error => setErrorMessage(error));
-        fetchDone.current = true;
+        }).catch(error => {
+            setErrorMessage(error)
+        }).finally(() => {
+            setLoading(false);
+            setFormSubmit(true);
+        })
     };
 
-    return !fetchDone.current ? (
+    if (loading) return <Loading/>
+    return !formSubmit ? (
         <div className="signup">
             <h1 className="signupHeading">Enter your details</h1>
             <div className="signupInputs">
@@ -53,14 +58,14 @@ function Signup() {
                 <input id="signupConfirmPassword" autoComplete="new-password" name="password_confirm" className="signupInput" type="password" placeholder="Re-enter your password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} />
                 <input id="profileImage" name="profile_image" className="signupInput" type="image" value={profileImage} onChange={(event) => setProfileImage(event.target.value)} />
                 <button type="button" className="signupBtn" onClick={submitSignup}>Sign up</button>
-                <Link id="cancelSignup" className="cancelSignup" to={'/odin-book'}>Cancel</Link>
+                <Link id="cancelSignup" className="cancelSignup link" to={'/odin-book'}>Cancel</Link>
             </div>
             <div className="errorMsg">{errorMessage}</div>
         </div>        
     ) : (
         <div className="accountCreated">
-            <h1 className="accountCreated">Account created!</h1>
-            <Link id="toLogin" className="toLogin" to={'/odin-book/users/login'}>Please log in</Link>
+            <h1 className="accountCreatedHeading">Account created!</h1>
+            <Link id="toLogin" className="toLogin link" to={'/odin-book/users/login'}>Please log in</Link>
         </div >)
 }
 

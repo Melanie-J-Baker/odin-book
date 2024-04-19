@@ -6,23 +6,58 @@
     font-size: 2rem;
     font-weight: 600;
     padding: 20px;
+    text-align: center;
 }
 
 .userImage {
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
 }
 
 .user {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding: 20px;
     margin: 20px;
     background-color: cornflowerblue;
 }
 
-.addFriendBtn {
+.username {
+    font-size: 1.3rem;
+    color: black;
+}
+
+.noUsers {
+    width: 100vw;
+    text-align: center;
+}
+
+#seeProfileBtn, .addFollowBtn {
+    width: 200px;
+}
+
+.addFollowBtn, #seeProfileBtn, .goBack {
+    text-decoration: none;
     cursor: pointer;
     background-color: darkblue;
     color: white;
     border-radius: 10px;
     padding: 5px 10px;
+    margin: 5px;
+    text-align: center;
+}
+
+.addFollowBtn:hover,
+#seeProfileBtn:hover,
+.goBack:hover {
+    color: rgb(91, 91, 243);
+}
+
+.goBack {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 10px;
 }

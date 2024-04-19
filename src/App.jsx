@@ -3,11 +3,16 @@ import { useState, useEffect } from 'react';
 import Welcome from './pages/Welcome';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Profile from './pages/Profile';
+import PersonalProfile from './pages/PersonalProfile';
+import UpdateProfile from './pages/UpdateProfile';
+import DeleteAccount from './pages/DeleteAccount';
+import ChangePassword from './pages/ChangePassword';
 import Logout from './pages/Logout';
 import Nav from './components/Nav';
 import Feed from './pages/Feed';
 import UsersList from './pages/UsersList';
+import UserProfile from './pages/UserProfile';
+import UpdatePost from './pages/UpdatePost';
 import './styles/App.css';
 
 function App() {
@@ -31,6 +36,8 @@ function App() {
       ? null
       : localStorage.getItem('userid')
   );
+  const [users, setUsers] = useState([]);
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     localStorage.setItem('token', token);
@@ -39,20 +46,43 @@ function App() {
     localStorage.setItem('profilePicture', profilePicture);
   }, [token, userid, profilePicture, username]);
 
-
+  const handleFollow = (newUserId) => {
+    fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/addfollow/?` + new URLSearchParams({
+        secret_token: token,
+    }), {
+        method: 'PUT',
+        mode: 'cors',
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            toFollow: newUserId
+        })
+    }).then((response) => {
+        return response.json();
+    }).then((data) => {
+        setUsers(data.notFollowing);
+    }).catch((error) => setError(error))
+  }
 
   return (
     <Router>
-      <Nav userid={userid} username={username} token={token} setToken={setToken} setUserid={setUserid} setProfilePicture={setProfilePicture} setUsername={setUsername} />
+      <Nav userid={userid} username={username} profilePicture={profilePicture}  token={token} setToken={setToken} setUserid={setUserid} setProfilePicture={setProfilePicture} setUsername={setUsername} />
       <Routes>
         <Route path="/" element={<Welcome userid={userid} />} />
         <Route path="/odin-book" element={<Welcome userid={userid} />} />
-        <Route path="/odin-book/users/:userid/userslist" element={<UsersList token={token} userid={userid} />}/>
-        <Route path="/odin-book/users/login" element={<Login /> } />
+        <Route path="/odin-book/users/:userid/addfollows" element={<UsersList token={token} userid={userid} handleFollow={handleFollow} users={users} setUsers={setUsers} error={error} setError={setError} />}/>
+        <Route path="/odin-book/users/login" element={<Login setToken={setToken} setUserid={setUserid} setUsername={setUsername} setProfilePicture={setProfilePicture} />} />
         <Route path="/odin-book/users/signup" element={<Signup />} />
         <Route path="/odin-book/users/logout" element={<Logout/>} />
-        <Route path="/odin-book/users/:userid" element={<Profile token={token} userid={userid} username={username} profilePicture={profilePicture} />} />
-        <Route path="/odin-book/users/:userid/feed" element={<Feed token={token} userid={userid} username={username} profilePicture={profilePicture} />} />
+        <Route path="/odin-book/users/:userid" element={<PersonalProfile token={token} userid={userid} />} />
+        <Route path="/odin-book/users/:userid/updateprofile" element={<UpdateProfile token={token} userid={userid} setUsername={setUsername} />} />
+        <Route path="/odin-book/users/:userid/deleteaccount" element={<DeleteAccount token={token} userid={userid} />} />
+        <Route path="/odin-book/users/:userid/changepassword" element={<ChangePassword token={token} userid={userid} />} />
+        <Route path="/odin-book/users/:userid/userprofile" element={<UserProfile token={token} currentuserid={userid} handleFollow={handleFollow} />} />
+        <Route path="/odin-book/users/:userid/feed" element={<Feed token={token} userid={userid} /*username={username} profilePicture={profilePicture}*/ />} />
+        <Route path="/odin-book/posts/:postid/update" element={<UpdatePost token={token} userid={userid} />} />
       </Routes>
     </Router>
   )

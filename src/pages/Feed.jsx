@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import Loading from './Loading';
 import Post from '../components/Post';
 import AddPost from '../components/AddPost';
@@ -11,42 +11,41 @@ Feed.propTypes = {
 }
 
 function Feed({ token, userid }) {
-    const fetchDone = useRef(false);
-    const [feedPosts, setFeedPosts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [feedPosts, setFeedPosts] = useState();
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        if (fetchDone.current) return;
-        const fetchData = () => {
-            fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/feed/?` + new URLSearchParams({
-                secret_token: token,
-            }), {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
-            }).then((response) => {
-                return response.json();
-            }).then((data) => {
-                setFeedPosts(data.feedPosts)
-            }).catch(error => console.log(error));
-        }
-        fetchData()
-        fetchDone.current = true;
+        fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/feed/?` + new URLSearchParams({
+            secret_token: token,
+        }), {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        }).then((response) => {
+            return response.json();
+        }).then((data) => {
+            setFeedPosts(data.feedPosts)
+        }).catch(error => {
+            setError(error)
+        }).finally(() => setLoading(false));
     }, [token, userid])
 
-    return fetchDone.current ? (
+    if (error) return <p>A network error was encountered (error)</p>
+    if (loading) return <Loading/> 
+    return (
         <div className="feed">
             <AddPost userid={userid} token={token} />
             <h2 className="feedHeading">Feed</h2>
-            {feedPosts.map((post) => {
+            {feedPosts.length ? feedPosts.map((post) => {
                 return (
-                    <Post className="post" key={post._id} userid={userid} token={token} postid={post._id} postUserImage={post.user.profile_image} postUsername={post.user.username} postTimestamp={post.timestamp_formatted} postText={post.text} postImage={post.post_image} postLikes={post.likes}/>
+                    <Post className="post" key={post._id} userid={userid} token={token} postid={post._id} postUserId={post.user._id} postUsername={post.user.username} postTimestamp={post.timestamp_formatted} postText={post.text} postUserImage={post.user.profile_image} postImage={post.post_image} postLikes={post.likes} />
                 )
-            })}
+            }) : (
+                <div className='noPosts'>There are no posts in your feed</div>
+            )}
         </div>
-    ) : (
-        <Loading/>
-    )
-            
+    )  
 }
 
 export default Feed;

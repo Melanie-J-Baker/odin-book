@@ -1,11 +1,16 @@
-#loading {
+.loginSuccess {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100vw;
+    margin-top: 110px;
 }
 
-.loadingText {
+.loginSuccessHeading {
     text-align: center;
+}
+
+#goToFeed {
+    font-size: 2rem;
 }

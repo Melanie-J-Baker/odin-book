@@ -1,12 +1,33 @@
+.post {
+    width: 100vw;
+    margin: 40px 0px;
+    background-color: rgb(116, 115, 115);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .postUserDetails {
     display: flex;
     flex-direction: row;
     padding-bottom: 20px;
+    align-self: flex-start;
+    margin-left: 10px;
+    margin-top: 10px;
+    justify-content: space-between;
+    width: 100vw;
+}
+
+.userDetails {
+    display: flex;
+    flex-direction: row;
 }
 
 .postUsernameTimestamp {
     display: flex;
     flex-direction: column;
+    text-align: left;
 }
 
 .feedProfileImage {
@@ -15,30 +36,89 @@
     padding-right: 20px;
 }
 
+.postOptions {
+    display: flex;
+    flex-direction: row;
+    margin-right: 20px;
+}
+
 .postText {
     padding-bottom: 20px;
+    margin-left: 10px;
+}
+
+.postImage {
+    width: 90%;
 }
 
 .comments {
-    background-color: rgb(70, 69, 69);
+    background-color: rgb(116, 115, 115);
     width: 100vw;
     padding-bottom: 10px;
 }
 
+.likesDiv {
+    display: flex;
+    flex-direction: row;
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    align-self: flex-start;
+    align-items: center;
+}
+
+.commentsHeading {
+    margin-left: 10px;
+    font-weight: 500;
+}
+
 .likeBtnPost {
-    background-image: url("../../public/assets/icons/like.svg");
-    width: 24px;
-    height: 24px;
+    background-image: url("../assets/icons/like.svg");
+    width: 20px;
+    height: 20px;
+    background-size: cover;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.postLiked {
+    background-image: url("../assets/icons/liked.svg");
+    width: 20px;
+    height: 20px;
+    background-size: cover;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.postMessage {
+    margin-left: 5px;
+    font-weight: 500;
+    color: #161946;
+}
+
+.updatePost {
+    background-image: url("../assets/icons/edit.svg");
+    width: 20px;
+    height: 20px;
     background-size: cover;
     cursor: pointer;
 }
 
-.likedPost {
-    background-image: url("../../public/assets/icons/liked.svg");
-    width: 24px;
-    height: 24px;
+.deletePost {
+    background-image: url("../assets/icons/delete.svg");
+    width: 20px;
+    height: 20px;
     background-size: cover;
     cursor: pointer;
+    margin-left: 10px;
+}
+
+.updatePost:hover {
+    background-image: url("../assets/icons/editselected.svg");
+}
+
+.deletePost:hover {
+    background-image: url("../assets/icons/deleteselected.svg");
 }
 
 

@@ -1,37 +1,32 @@
-import { useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import '../styles/Logout.css';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Loading from './Loading';
+import '../styles/Logout.css';
 
 function Logout() {
-    const responseSending = useRef(false);
-    const navigate = useNavigate();
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (responseSending.current) return;
-        responseSending.current = true;
-        const submitLogout = () => {
-            fetch(`${import.meta.env.VITE_API}/odin-book/users/logout`, { mode: 'cors', method: 'POST', credentials: "include" })
-                .then((response) => {
-                    return response.json();
-                }).then((data) => {
-                    console.log(data);
-                    localStorage.clear();
-                }).catch(error => console.log(error));
-        };
-        submitLogout();
-        responseSending.current = false;
-        setTimeout(() => {
-            navigate('/odin-book')
-        }, 3000);
-    })
+        fetch(`${import.meta.env.VITE_API}/odin-book/users/logout`, { mode: 'cors', method: 'POST', credentials: "include" })
+            .then((response) => {
+                return response.json();
+            }).then((data) => {
+                console.log(data);
+                localStorage.clear();
+            }).catch(error => {
+                setError(error)
+            }).finally(() => setLoading(false));
+    }, [])
     
-    return !responseSending.current ? (
+    if (error) return <p>A network error was encountered (error)</p>
+    if (loading) return <Loading/>
+    return (
         <div className="loggedOut" >
             <div className="loggedOutText">You have logged out!</div>
-            <Link className="homeLink" to="/odin-book">Home</Link>
+            <Link className="homeLink link" to="/odin-book">Home</Link>
         </div >
-    )  : (<Loading /> )
+    )
 }
 
 export default Logout;
