@@ -78,7 +78,7 @@ function App() {
         <Route path="/odin-book/users/logout" element={<Logout/>} />
         <Route path="/odin-book/users/:userid" element={<PersonalProfile token={token} userid={userid} />} />
         <Route path="/odin-book/users/:userid/updateprofile" element={<UpdateProfile token={token} userid={userid} setUsername={setUsername} />} />
-        <Route path="/odin-book/users/:userid/deleteaccount" element={<DeleteAccount token={token} userid={userid} />} />
+        <Route path="/odin-book/users/:userid/deleteaccount" element={<DeleteAccount token={token} userid={userid} setUsername={setUsername} setToken={setToken} setProfilePicture={setProfilePicture} setUserid={setUserid}/>} />
         <Route path="/odin-book/users/:userid/changepassword" element={<ChangePassword token={token} userid={userid} />} />
         <Route path="/odin-book/users/:userid/userprofile" element={<UserProfile token={token} currentuserid={userid} handleFollow={handleFollow} />} />
         <Route path="/odin-book/users/:userid/feed" element={<Feed token={token} userid={userid} /*username={username} profilePicture={profilePicture}*/ />} />

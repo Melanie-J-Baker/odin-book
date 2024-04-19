@@ -50,7 +50,7 @@ function Nav ({ userid, username, profilePicture, token, setToken, setUserid, se
       <div className="lowerNav">
         {profilePicture && (<img src={profilePicture} alt="Profile Image" className="profileImage"/>)}
         {token && currentRoute !== 'odin-book/users/login' && currentRoute !== 'odin-book/users/logout' && (<p className='loggedInAs'>Logged in as {username}</p>)}
-        {userid && currentRoute !== 'odin-book/users/logout' && (<Link className='logout link' onClick={() => handleLogout()} to="odin-book/users/logout">Log out</Link>)}
+        {userid && currentRoute !== 'odin-book/users/logout' && (<Link className='logout' onClick={() => handleLogout()} to="odin-book/users/logout">Log out</Link>)}
       </div>
     </nav>
   )

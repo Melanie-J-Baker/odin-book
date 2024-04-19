@@ -56,12 +56,18 @@ li {
 }
 
 .logout {
-  background-color: #161946;
+  text-decoration: none;
+  background-color: darkblue;
   color: white;
-  font-size: 0.8rem;
+  font-size: 1rem;
   border-radius: 10px;
   text-align: center;
   padding: 5px 10px;
   height: 25px;
   line-height: 25px;
+}
+
+.logout:hover {
+  color: rgb(120, 120, 240);
+    background-color: rgb(0, 0, 26);
 }
