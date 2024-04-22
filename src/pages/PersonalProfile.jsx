@@ -22,6 +22,9 @@ function PersonalProfile({ token, userid}) {
     const [following, setFollowing] = useState([]);
     const [posts, setPosts] = useState([]);
     const [error, setError] = useState(null);
+    const [postLiked, setPostLiked] = useState(false);
+    const [postDeleted, setPostDeleted] = useState(false);
+    const [postAdded, setPostAdded] = useState(false);
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/?` + new URLSearchParams({
@@ -43,7 +46,7 @@ function PersonalProfile({ token, userid}) {
         }).catch(error => {
             setError(error)
         }).finally(() => setLoading(false));
-    },[token, userid])
+    },[token, userid, postLiked, postDeleted, postAdded])
 
     if (error) return <p>A network error was encountered (error)</p>
     if (loading) return <Loading/>
@@ -87,12 +90,12 @@ function PersonalProfile({ token, userid}) {
                     <Link className='profileLink link' id='addFollows' to={`/odin-book/users/${userid}/addfollows`}>Follow new users</Link>
                 </div>
             </div>
-            <AddPost userid={userid} token={token} />
+            <AddPost userid={userid} token={token} setPostAdded={setPostAdded}/>
             {posts.length ? (
                 <div className='posts'>
                     {posts.map((post) => {
                         return (
-                            <Post key={post._id} userid={userid} token={token} postid={post._id} postUserId={userid} postUsername={username} postTimestamp={post.timestamp_formatted} postText={post.text} postUserImage={profilePicture} postImage={post.post_image} postLikes={post.likes} />
+                            <Post key={post._id} userid={userid} token={token} postid={post._id} postUserId={userid} postUsername={username} postTimestamp={post.timestamp_formatted} postText={post.text} postUserImage={profilePicture} postImage={post.post_image} postLikes={post.likes} setPostLiked={setPostLiked} setPostDeleted={setPostDeleted}/>
                         )
                     })}
                 </div>

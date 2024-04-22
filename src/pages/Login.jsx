@@ -36,7 +36,6 @@ function Login({setToken, setUserid, setUsername, setProfilePicture}) {
             return response.json();
         }).then((data) => {
             if (data.user && data.token) {
-                console.log(data);
                 setErrorMessage("");
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("userid", data.user._id);
@@ -46,7 +45,9 @@ function Login({setToken, setUserid, setUsername, setProfilePicture}) {
                 setUserid(data.user._id);
                 setUsername(data.user.username);
                 setProfilePicture(data.user.profile_image);
-                navigate(`/odin-book/users/${data.user._id}/feed`)
+                setTimeout(() => {
+                    navigate(`/odin-book/users/${data.user._id}/feed`)
+                }, 2000)
             } else {
                 setErrorMessage("Problem logging in. Please try again.") 
             }

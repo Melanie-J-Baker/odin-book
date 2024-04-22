@@ -4,18 +4,59 @@
     padding: 10px;
 }
 
+.commentUserDetails {
+    display: flex;
+    flex-direction: row;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.commentUsername {
+    margin-right: 10px;
+}
+
+.commentProfileImage {
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    margin-right: 10px;
+}
+
+.commentDiv {
+    background-color: whitesmoke;
+}
+
 .commentImage {
-    width: 100%;
+    width: 100px;
+    margin: 10px;
+}
+
+.commentText {
+    color: black;
+    background-color: whitesmoke;
+    padding: 10px;
+    margin: 10px 0px;
+}
+
+.commentImageTextDiv {
+    display: flex;
+    flex-direction: row;
 }
 
 .commentLikesDiv {
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin: 0px 5px 5px 5px;
+}
+
+.commentLikes {
+    font-size: 0.9rem;
+    color: black;
 }
 
 .likeBtnComment {
-    background-image: url("../assets/icons/like.svg");
+    background-image: url("../assets/icons/likeblack.svg");
     width: 20px;
     height: 20px;
     background-size: cover;
@@ -36,4 +77,42 @@
     margin-left: 5px;
     font-weight: 500;
     color: #161946;
+}
+
+.commentLikesOptionsDiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.commentOptions {
+    display: flex;
+    flex-direction: row;
+    margin: 5px;
+}
+
+.updateComment {
+    background-image: url("../assets/icons/editselected.svg");
+    width: 20px;
+    height: 20px;
+    background-size: cover;
+    cursor: pointer;
+}
+
+.deleteComment {
+    background-image: url("../assets/icons/deleteselected.svg");
+    width: 20px;
+    height: 20px;
+    background-size: cover;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.updateComment:hover {
+    background-image: url("../assets/icons/editblue.svg");
+}
+
+.deleteComment:hover {
+    background-image: url("../assets/icons/deleteblue.svg");
 }

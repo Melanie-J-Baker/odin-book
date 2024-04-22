@@ -1,25 +1,26 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import '../styles/AddPost.css';
+import '../styles/AddComment.css';
 import Loading from '../pages/Loading';
 
-AddPost.propTypes = {
+AddComment.propTypes = {
     userid: PropTypes.string,
     token: PropTypes.string,
-    setPostAdded: PropTypes.func,
+    postid: PropTypes.string,
+    setCommentAdded: PropTypes.func,
 }
 
-function AddPost({ userid, token, setPostAdded }) {
+function AddComment({ userid, token, postid, setCommentAdded }) {
     const [text, setText] = useState('');
     const [loading, setLoading] = useState(false);
     const [file, setFile] = useState('');
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
 
-    const addPost = (e) => {
+    const addComment = (e) => {
         e.preventDefault();
         setLoading(true);
-        fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/posts/?` + new URLSearchParams({
+        fetch(`${import.meta.env.VITE_API}/odin-book/posts/${postid}/comments?` + new URLSearchParams({
             secret_token: token,
         }), {
             method: 'POST',
@@ -29,17 +30,18 @@ function AddPost({ userid, token, setPostAdded }) {
                 Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
+                post: postid,
                 user: userid,
                 text: text,
             })
         }).then((response) => {
             return response.json();
         }).then((data) => {
-            console.log(data.post._id)
+            console.log(data.comment._id)
             if (file !== '') {
                 const formData = new FormData();
-                formData.append("postImage", file);
-                return fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/posts/${data.post._id}/uploadimage/?` + new URLSearchParams({
+                formData.append("commentImage", file);
+                return fetch(`${import.meta.env.VITE_API}/odin-book/comments/${data.comment._id}/uploadimage/?` + new URLSearchParams({
                     secret_token: token,
                 }), {
                     method: 'PUT',
@@ -74,7 +76,7 @@ function AddPost({ userid, token, setPostAdded }) {
             setError(error.msg)
         }).finally(() => {
             setLoading(false);
-            setPostAdded({ added: true });
+            setCommentAdded({ added: true });
             setText('');
             setFile('');
         });
@@ -87,16 +89,15 @@ function AddPost({ userid, token, setPostAdded }) {
     if (error) return <div className='error'>A network error was encountered {error}</div>
     if (loading) return <Loading/>
     return (
-        <form encType='multipart/form-data' name='addPostForm' className='addPostForm' onSubmit={(e) => addPost(e)}>
-            <div className='addPostHeading'>Create a new post</div>
-            <textarea className="addPostText" value={text} placeholder="Write your post here" name="text" id="text" rows="3" cols="30" onChange={(event) => setText(event.target.value)}></textarea>
-            <div className="addPostBtns">
-                <input type="file" id="postImage" name="postImage" onChange={handleSelectFile} multiple={false}></input>
-                <button type="submit" className="createPost">Post</button>
-            </div>
+        <form encType='multipart/form-data' name='addCommentForm' className='addCommentForm' onSubmit={(e) => addComment(e)}>
+            <div className="commentFormDiv">
+                <textarea className="addCommentText" value={text} placeholder="Write your comment here" name="text" id="text" rows="2" cols="30" onChange={(event) => setText(event.target.value)}></textarea>
+                <button type="submit" className="addCommentBtn">Comment</button>
+            </div>    
+                <input type="file" id="commentImage" name="commentImage" onChange={handleSelectFile} multiple={false}></input>
             <div className='message'>{message}</div>
         </form>
     )
 }
 
-export default AddPost;
+export default AddComment;

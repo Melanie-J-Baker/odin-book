@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import '../styles/UserProfile.css';
+import '../styles/Profile.css';
 import Loading from "./Loading";
 import { PropTypes } from 'prop-types';
 import Post from '../components/Post';
 
-UserProfile.propTypes = {
+Profile.propTypes = {
     token: PropTypes.string,
     currentuserid: PropTypes.string,
     handleFollow: PropTypes.func,
 }
 
-function UserProfile({ token, currentuserid, handleFollow }) {
+function Profile({ token, currentuserid, handleFollow }) {
     const { userid } = useParams();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
@@ -123,4 +123,4 @@ function UserProfile({ token, currentuserid, handleFollow }) {
     )
 }
 
-export default UserProfile;
+export default Profile;

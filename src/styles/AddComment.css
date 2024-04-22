@@ -1,26 +1,27 @@
-.addPostHeading {
-    font-size: 1.3rem;
-    margin-bottom: 10px;
-}
-
-.addPostForm {
+.addCommentForm {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #161946;
-    padding: 20px 0px;
-    width: 100vw;
+    width: 100%;
+    background-color: rgb(87, 86, 86);
+    padding: 10px 0px;
 }
 
-.addPostText {
-    margin: 10px 0px;
+.addCommentText {
+    padding: 5px;
 }
 
-.addPostBtns {
+.addCommentBtn {
+    font-size: 0.8rem;
+    margin-left: 5px;
+}
+
+.commentFormDiv {
     display: flex;
     flex-direction: row;
-    margin-top: 10px;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
 input::file-selector-button {
@@ -38,4 +39,3 @@ input::file-selector-button {
 input::file-selector-button:hover {
     border-color: #646cff;
 }
-

@@ -11,8 +11,9 @@ import Logout from './pages/Logout';
 import Nav from './components/Nav';
 import Feed from './pages/Feed';
 import UsersList from './pages/UsersList';
-import UserProfile from './pages/UserProfile';
+import Profile from './pages/Profile';
 import UpdatePost from './pages/UpdatePost';
+import UpdateComment from './pages/UpdateComment';
 import './styles/App.css';
 
 function App() {
@@ -80,9 +81,10 @@ function App() {
         <Route path="/odin-book/users/:userid/updateprofile" element={<UpdateProfile token={token} userid={userid} setUsername={setUsername} setProfilePicture={setProfilePicture} />} />
         <Route path="/odin-book/users/:userid/deleteaccount" element={<DeleteAccount token={token} userid={userid} setUsername={setUsername} setToken={setToken} setProfilePicture={setProfilePicture} setUserid={setUserid}/>} />
         <Route path="/odin-book/users/:userid/changepassword" element={<ChangePassword token={token} userid={userid} />} />
-        <Route path="/odin-book/users/:userid/userprofile" element={<UserProfile token={token} currentuserid={userid} handleFollow={handleFollow} />} />
-        <Route path="/odin-book/users/:userid/feed" element={<Feed token={token} userid={userid} /*username={username} profilePicture={profilePicture}*/ />} />
+        <Route path="/odin-book/users/:userid/userprofile" element={<Profile token={token} currentuserid={userid} handleFollow={handleFollow} />} />
+        <Route path="/odin-book/users/:userid/feed" element={<Feed token={token} userid={userid} />} />
         <Route path="/odin-book/posts/:postid/update" element={<UpdatePost token={token} userid={userid} />} />
+        <Route path="/odin-book/comments/:commentid/update" element={<UpdateComment token={token} userid={userid} />} />
       </Routes>
     </Router>
   )

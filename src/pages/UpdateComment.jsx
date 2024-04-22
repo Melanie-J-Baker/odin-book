@@ -1,27 +1,27 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import '../styles/UpdatePost.css';
+import '../styles/UpdateComment.css';
 import Loading from './Loading';
 
-UpdatePost.propTypes = {
+UpdateComment.propTypes = {
     token: PropTypes.string,
     userid: PropTypes.string,
 }
 
-function UpdatePost({ token, userid }) {
-    const { postid } = useParams();
+function UpdateComment({ token, userid }) {
+    const { commentid } = useParams();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [postText, setPostText] = useState('');
-    const [currentPostImage, setCurrentPostImage] = useState('');
+    const [commentText, setCommentText] = useState('');
+    const [commentImage, setCommentImage] = useState('');
     const [status, setStatus] = useState('');
     const [formSubmit, setFormSubmit] = useState(false);
     const [file, setFile] = useState('');
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API}/odin-book/posts/${postid}/?` + new URLSearchParams({
+        fetch(`${import.meta.env.VITE_API}/odin-book/comments/${commentid}/?` + new URLSearchParams({
             secret_token: token,
         }), {
             headers: {
@@ -30,17 +30,17 @@ function UpdatePost({ token, userid }) {
         }).then((response) => {
             return response.json();
         }).then((data) => {
-            setPostText(data.text);
-            setCurrentPostImage(data.post_image);
+            setCommentText(data.text);
+            setCommentImage(data.comment_image);
         }).catch(error => {
             setError(error.msg)
         }).finally(() => setLoading(false));
     })
 
-    const updatePost = (e) => {
+    const updateComment = (e) => {
         e.preventDefault();
         setLoading(true);
-        fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/posts/${postid}/?` + new URLSearchParams({
+        fetch(`${import.meta.env.VITE_API}/odin-book/comments/${commentid}/?` + new URLSearchParams({
             secret_token: token,
         }), {
             method: 'PUT',
@@ -51,7 +51,7 @@ function UpdatePost({ token, userid }) {
                 Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
-                text: postText
+                text: commentText
             })
         }).then((response) => {
             return response.json();
@@ -70,9 +70,9 @@ function UpdatePost({ token, userid }) {
         if (file !== '') {
             setFormSubmit(false);
             const formData = new FormData();
-            formData.append("postImage", file);
+            formData.append("commentImage", file);
             setLoading(true);
-            fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/posts/${postid}/uploadimage/?` + new URLSearchParams({
+            fetch(`${import.meta.env.VITE_API}/odin-book/comments/${commentid}/uploadimage/?` + new URLSearchParams({
                 secret_token: token,
             }), {
                 method: 'PUT',
@@ -89,7 +89,7 @@ function UpdatePost({ token, userid }) {
                 setStatus(data.status || data.message);
                 setError(data.error);
             }).catch(error => {
-                console.log(error);
+                console.log(error)
                 setError(error.msg)
                 setStatus(error.msg)
             }).finally(() => {
@@ -106,27 +106,28 @@ function UpdatePost({ token, userid }) {
     if (error) return <div className="error">A network error was encountered {error}</div>
     if (loading) return <Loading />
     return !formSubmit ? (
-        <div className="updatePostDiv">
-            {currentPostImage && (<img src={currentPostImage} alt="Post image" className='updatePostImage' />)}
-            <form encType="multipart/form-data" className='updatePostForm'>
-                <div className='updatePostHeading'>Update post</div>
-                <textarea className="updatePostText" defaultValue={postText} name="text" id="text" rows="3" cols="30" onChange={(event) => setPostText(event.target.value)}></textarea>
-                <input type="file" id="postImage" className="postImageInput"  name="postImage" onChange={handleSelectFile} multiple={false}></input>
-                <button type="button" className="updatePostSubmit" onClick={(e) => updatePost(e)}>Update Post</button>
-                <div className='back link' onClick={() => navigate(-1)}>Cancel</div>
-            </form>
-        </div>
+        <form encType="multipart/form-data" className='updateCommentForm'>
+            <div className='updateCommentHeading'>Update comment</div>
+            {commentImage && (<img src={commentImage} alt="Comment image" className='updateCommentImage' />)}
+            <textarea className="updateCommentText" defaultValue={commentText} name="text" id="text" rows="3" cols="30" onChange={(event) => setCommentText(event.target.value)}></textarea>
+            <input type="file" id="commentImage" className="commentImageInput" name="commentImage" onChange={handleSelectFile} multiple={false}></input>
+            <button type="button" className="updateCommentSubmit" onClick={(e) => updateComment(e)}>Update Comment</button>
+            <div className='back link' onClick={() => navigate(-1)}>Cancel</div>
+        </form>
     ) : formSubmit && !error ? (
-        <div className="postUpdated">
-            <div className="postUpdatedHeading">{status}</div>
-            <Link id="back" className="back link" to={`/odin-book/users/${userid}/`}>Back to Profile</Link>
+        <div className="commentUpdated">
+            <div className="commentUpdatedHeading">{status}</div>
+            <Link className="back link" to={`/odin-book/users/${userid}/feed`}>Back to Feed</Link>
+            <Link className="back link" to={`/odin-book/users/${userid}/`}>Back to Profile</Link>
         </div > 
     ) : (
         <>
             <div className='error'>{error}</div>
-            <Link id="back" className="back link" to={`/odin-book/users/${userid}/`}>Back to Profile</Link>
+            <Link className="back link" to={`/odin-book/users/${userid}/feed`}>Back to Feed</Link>
+            <Link className="back link" to={`/odin-book/users/${userid}/`}>Back to Profile</Link>
+                    
         </>
     )
 }
 
-export default UpdatePost;
+export default UpdateComment;

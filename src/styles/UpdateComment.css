@@ -1,55 +1,30 @@
-.updatePostDiv {
+.updateCommentForm {
     display: flex;
     flex-direction: column;
     margin-top: 120px;
     align-items: center;
+    padding: 20px 0px;
     width: 100vw;
     height: 100vh;
 }
-.updatePostHeading {
+
+.updateCommentHeading {
     font-size: 1.5rem;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     font-weight: 500;
 }
 
-.updatePostImage {
+.updateCommentImage {
     width: 200px;
     margin-bottom: 20px;
 }
 
-.updatePostForm {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px 0px;
-
-}
-
-.updatePostText {
+.updateCommentText {
     margin: 10px 0px;
 }
 
-.postImageInput {
+.commentImageInput {
     margin: 30px 0px;
-}
-
-.updatePostSubmit {
-    margin-bottom: 20px;
-}
-
-.postUpdated {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    height: 100vh;
-}
-
-.postUpdatedHeading {
-    text-align: center;
-    font-size: 1.5rem;
 }
 
 input::file-selector-button {
@@ -66,4 +41,22 @@ input::file-selector-button {
 
 input::file-selector-button:hover {
     border-color: #646cff;
+}
+
+.updateCommentSubmit {
+    margin-bottom: 20px;
+}
+
+.commentUpdated {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.commentUpdatedHeading {
+    text-align: center;
+    font-size: 1.5rem;
 }

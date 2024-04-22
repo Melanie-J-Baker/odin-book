@@ -6,13 +6,14 @@ import '../styles/Logout.css';
 function Logout() {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [data, setData] = useState('');
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API}/odin-book/users/logout`, { mode: 'cors', method: 'POST', credentials: "include" })
             .then((response) => {
                 return response.json();
             }).then((data) => {
-                console.log(data);
+                setData(data.message);
                 localStorage.clear();
             }).catch(error => {
                 setError(error)
@@ -23,7 +24,7 @@ function Logout() {
     if (loading) return <Loading/>
     return (
         <div className="loggedOut" >
-            <div className="loggedOutText">You have logged out!</div>
+            <div className="loggedOutText">{data}</div>
             <Link className="homeLink link" to="/odin-book">Home</Link>
         </div >
     )

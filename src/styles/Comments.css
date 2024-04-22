@@ -1,0 +1,21 @@
+.comments {
+    background-color: rgb(116, 115, 115);
+    width: 100%;
+    padding-bottom: 10px;
+}
+
+.commentsHeading {
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+    font-weight: 500;
+    font-size: 1.2rem;
+}
+
+.noComments {
+    text-align: center;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}

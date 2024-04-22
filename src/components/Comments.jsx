@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Loading from '../pages/Loading';
+import AddComment from '../components/AddComment';
 import Comment from '../components/Comment';
+import '../styles/Comments.css';
 
 Comments.propTypes = {
     userid: PropTypes.string,
@@ -13,6 +15,9 @@ function Comments({ userid, postid, token }) {
     const [loading, setLoading] = useState(true);
     const [comments, setComments] = useState([]);
     const [error, setError] = useState(null);
+    const [commentAdded, setCommentAdded] = useState({ added: false });
+    const [commentLiked, setCommentLiked] = useState({ liked: false });
+    const [commentDeleted, setCommentDeleted] = useState({deleted: false});
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API}/odin-book/posts/${postid}/comments/?` + new URLSearchParams({
@@ -28,18 +33,24 @@ function Comments({ userid, postid, token }) {
         }).catch(error => {
             setError(error)
         }).finally(() => setLoading(false));
-    }, [postid, token]);
+    }, [postid, token, commentAdded, commentLiked, commentDeleted]);
 
     if (error) return <p>A network error was encountered loading Comments (error)</p>
     if (loading) return <Loading/>
-    return comments.length > 0 ? (
+    return comments.length != 0 ? (
         <div className='comments'>
-            <div className='commentsHeading'>Comments:</div>
+            <div className='commentsHeading'>Comments</div>
             {comments.map((comment) => (
-                <Comment key={comment._id} userid={userid} token={token} commentid={comment._id} commentImage={comment.comment_image} commentText={comment.text} commentUsername={comment.user.username} commentTimestamp={comment.timestamp_formatted} commentLikes={comment.likes} />
+                <Comment key={comment._id} userid={userid} token={token} commentid={comment._id} commentImage={comment.comment_image} commentText={comment.text} commentUsername={comment.user.username} commentUserImage={comment.user.profile_image} commentUserId={comment.user._id} commentTimestamp={comment.timestamp_formatted} commentLikes={comment.likes} setCommentLiked={setCommentLiked} setCommentDeleted={setCommentDeleted}/>
             ))}
+            <AddComment userid={userid} token={token} postid={postid} setCommentAdded={setCommentAdded} />
         </div>
-    ) : (<div className='noComments'>No comments</div>)
+    ) : (
+        <>
+            <div className='noComments'>No comments</div>
+            <AddComment userid={userid} token={token} postid={postid} setCommentAdded={setCommentAdded} />
+        </>
+    )
 }
 
 export default Comments;

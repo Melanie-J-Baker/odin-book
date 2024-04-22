@@ -1,6 +1,6 @@
 .post {
-    width: 100vw;
-    margin: 40px 0px;
+    width: 100%;
+    margin-bottom: 40px;
     background-color: rgb(116, 115, 115);
     display: flex;
     flex-direction: column;
@@ -10,6 +10,7 @@
 
 .postError {
     text-align: center;
+    margin-top: 110px;
 }
 
 .postUserDetails {
@@ -20,7 +21,7 @@
     margin-left: 10px;
     margin-top: 10px;
     justify-content: space-between;
-    width: 100vw;
+    width: 100%;
 }
 
 .userDetails {
@@ -34,10 +35,11 @@
     text-align: left;
 }
 
-.feedProfileImage {
+.postProfileImage {
     width: 50px;
     height: 50px;
-    padding-right: 20px;
+    border-radius: 50px;
+    margin-right: 10px;
 }
 
 .postOptions {
@@ -46,19 +48,22 @@
     margin-right: 20px;
 }
 
+.postDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: whitesmoke;
+    width: 95%;
+}
+
 .postText {
-    padding-bottom: 20px;
-    margin-left: 10px;
+    padding: 10px;
+    color: black;
 }
 
 .postImage {
     width: 90%;
-}
-
-.comments {
-    background-color: rgb(116, 115, 115);
-    width: 100vw;
-    padding-bottom: 10px;
 }
 
 .likesDiv {
@@ -69,15 +74,11 @@
     margin-bottom: 10px;
     align-self: flex-start;
     align-items: center;
-}
-
-.commentsHeading {
-    margin-left: 10px;
-    font-weight: 500;
+    color: black;
 }
 
 .likeBtnPost {
-    background-image: url("../assets/icons/like.svg");
+    background-image: url("../assets/icons/likeblack.svg");
     width: 20px;
     height: 20px;
     background-size: cover;
@@ -97,7 +98,8 @@
 .postMessage {
     margin-left: 5px;
     font-weight: 500;
-    color: #161946;
+    color: white;
+    font-size: 1.5rem;
 }
 
 .updatePost {

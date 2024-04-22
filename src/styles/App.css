@@ -52,12 +52,13 @@ li {
 
 .loggedInAs {
   text-align: center;
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 .logout {
   text-decoration: none;
   background-color: darkblue;
+  border: 1px solid transparent;
   color: white;
   font-size: 1rem;
   border-radius: 10px;
@@ -65,9 +66,10 @@ li {
   padding: 5px 10px;
   height: 25px;
   line-height: 25px;
+  transition: border-color 0.25s;
 }
 
 .logout:hover {
-  color: rgb(120, 120, 240);
-    background-color: rgb(0, 0, 26);
+  background-color: darkblue;
+  border-color: #646cff;
 }

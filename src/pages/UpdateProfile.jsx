@@ -21,6 +21,7 @@ function UpdateProfile({ token, userid, setUsername, setProfilePicture }) {
     const [errorMessage, setErrorMessage] = useState('');
     const [formSubmit, setFormSubmit] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [profileImage, setProfileImage] = useState('');
     const [file, setFile] = useState('');
     const [status, setStatus] = useState('');
 
@@ -38,6 +39,7 @@ function UpdateProfile({ token, userid, setUsername, setProfilePicture }) {
             setFirstName(data.user.first_name);
             setLastName(data.user.last_name);
             setEmail(data.user.email);
+            setProfileImage(data.user.profile_image);
         }).catch(error => {
             setError(error.msg)
         }).finally(() => setLoading(false));
@@ -64,7 +66,6 @@ function UpdateProfile({ token, userid, setUsername, setProfilePicture }) {
         }).then((response) => {
             return response.json();
         }).then((data) => {
-            console.log(data);
             setStatus(data.status);
             localStorage.setItem("username", data.user.username);
             setUsername(data.user.username);
@@ -95,13 +96,13 @@ function UpdateProfile({ token, userid, setUsername, setProfilePicture }) {
             }).then((response) => {
                 return response.json();
             }).then((data) => {
-                console.log(data);
                 setErrorMessage(data.message);
                 setStatus(data.message);
                 localStorage.setItem('profilePicture', data.user.profile_image)
                 setProfilePicture(data.user.profile_image);
             }).catch(error => {
-                console.log(error)
+                console.log(error);
+                setErrorMessage(error.message)
             }).finally(() => {
                 setLoading(false);
                 setFormSubmit(true);
@@ -119,11 +120,15 @@ function UpdateProfile({ token, userid, setUsername, setProfilePicture }) {
         <div className="updateProfile">
             <h2 className="updateProfileHeading">Update your details</h2>
             <form encType="multipart/form-data" className="updateProfileInputs">
+                {profileImage && (<img src={profileImage} alt="Current profile image" className="currentProfileImage" />)}
                 <input id="updateProfileUsername" autoComplete="username" name="username" className="updateProfileInput" type="text" placeholder="Enter new username" defaultValue={usernameInput} onChange={(event) => setUsernameInput(event.target.value)} />
                 <input id="updateProfileFirstName" autoComplete="name" name="first_name" className="updateProfileInput" type="text" placeholder="Enter new first name" defaultValue={firstName} onChange={(event) => setFirstName(event.target.value)} />
                 <input id="updateProfileLastName" autoComplete="name" name="last_name" className="updateProfileInput" type="text" placeholder="Enter new last name" defaultValue={lastName} onChange={(event) => setLastName(event.target.value)} />
                 <input id="updateProfileEmail" autoComplete="email" name="email" className="updateProfileInput" type="email" placeholder="Enter new email address" defaultValue={email} onChange={(event) => setEmail(event.target.value)} />
-                <input type="file" id="profileImage" name="profileImage" onChange={handleSelectFile} multiple={false}></input>
+                <div className="fileInputDiv">
+                    <label htmlFor="profileImage" className="fileInputLabel">Upload profile image:</label>
+                    <input type="file" id="profileImage" name="profileImage" onChange={handleSelectFile} multiple={false}></input>
+                </div>
                 <button type="button" className="updateProfileBtn" onClick={submitUpdateProfile}>Update Profile</button>
                 <Link id="changePassword" className="changePasswordBtn link" to={`/odin-book/users/${userid}/changepassword`}>Change Password</Link>
                 <Link id="cancelUpdateProfile" className="cancelUpdateProfile link" to={`/odin-book/users/${userid}`}>Cancel</Link>
