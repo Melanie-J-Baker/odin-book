@@ -67,6 +67,7 @@
 }
 
 .likesDiv {
+    position: relative;
     display: flex;
     flex-direction: row;
     margin-top: 5px;
@@ -125,6 +126,24 @@
 
 .deletePost:hover {
     background-image: url("../assets/icons/deleteselected.svg");
+}
+
+.deleteConfirmation {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.deleteConfirmationText {
+    text-align: center;
+}
+
+.deleteConfirmationBtns {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 

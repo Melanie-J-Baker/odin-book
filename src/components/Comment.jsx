@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../pages/Loading';
+import LikeUsers from '../components/LikeUsers';
 import '../styles/Comment.css';
 
 Comment.propTypes = {
@@ -20,11 +21,13 @@ Comment.propTypes = {
 }
 
 function Comment({ userid, token, commentid, commentImage, commentText, commentUsername, commentUserImage, commentUserId, commentTimestamp, commentLikes, setCommentLiked, setCommentDeleted }) {
+    const navigate = useNavigate();
+    const component = "comment";
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState();
     const [error, setError] = useState();
     const [likeError, setLikeError] = useState('');
-    const navigate = useNavigate();
+    const [likeUsersShowing, setLikeUsersShowing] = useState(false);
 
     const likeComment = (id) => {
         setLoading(true);
@@ -75,6 +78,14 @@ function Comment({ userid, token, commentid, commentImage, commentText, commentU
             setError(error.msg)
         }).finally(() => setLoading(false))
     }
+
+    const showLikeUsers = () => {
+        setLikeUsersShowing(true);
+    }
+
+    const hideLikeUsers = () => {
+        setLikeUsersShowing(false);
+    }
     
     if (likeError) return <p className='error'>Error liking comment {likeError}</p>
     if (error) return <p className='error'>{error}</p>
@@ -92,7 +103,8 @@ function Comment({ userid, token, commentid, commentImage, commentText, commentU
                     <div className="commentText">{commentText}</div>
                 </div>
                 <div className="commentLikesOptionsDiv">
-                    <div className="commentLikesDiv">
+                    <div className="commentLikesDiv" onMouseEnter={showLikeUsers} onMouseLeave={hideLikeUsers}>
+                        {likeUsersShowing && (<LikeUsers component={component} id={commentid} token={token} />)}
                         {commentLikes.includes(userid) ? (<div className='commentLiked' id={commentid} onClick={(event) => likeComment(event.target.id)}></div>) : (<div className='likeBtnComment' id={commentid} onClick={(event) => likeComment(event.target.id)}></div>)}
                         {commentLikes.length === 1 ? (
                             <div className='commentLikes'>1 like</div>

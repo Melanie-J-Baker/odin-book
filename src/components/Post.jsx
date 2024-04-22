@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Comments from '../components/Comments';
+import LikeUsers from '../components/LikeUsers';
 import Loading from '../pages/Loading';
 import '../styles/Post.css';
 
@@ -24,6 +25,8 @@ function Post({ userid, token, postid, postUserId, postUsername, postTimestamp, 
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
     const [error, setError] = useState(null);
+    const [likeUsersShowing, setLikeUsersShowing] = useState(false);
+    const component = "post";
 
     const likePost = (id) => {
         setLoading(true);
@@ -75,6 +78,14 @@ function Post({ userid, token, postid, postUserId, postUsername, postTimestamp, 
         }).finally(() => setLoading(false))
     }
 
+    const showLikeUsers = () => {
+        setLikeUsersShowing(true);
+    }
+
+    const hideLikeUsers = () => {
+        setLikeUsersShowing(false);
+    }
+
     if (error || message) return <p className="postError">{message} {error}</p>
     if (loading) return <Loading />
     return (
@@ -97,7 +108,8 @@ function Post({ userid, token, postid, postUserId, postUsername, postTimestamp, 
             <div className="postDiv">
                 <div className="postText">{postText}</div>
                 {postImage && (<img src={postImage} alt="Post Image" className='postImage' />)}
-                <div className="likesDiv">
+                <div className="likesDiv" onMouseEnter={showLikeUsers} onMouseLeave={hideLikeUsers}>
+                    {likeUsersShowing && (<LikeUsers component={component} id={postid} token={token} />)}
                     {postLikes && !postLikes.includes(userid) ? (<div className='likeBtnPost' id={postid} onClick={(event) => likePost(event.target.id)}></div>) : (<div className='postLiked' id={postid} onClick={(event) => likePost(event.target.id)}></div>)}
                     {postLikes.length === 1 ? (
                         <div className="postLikes">1 like</div>

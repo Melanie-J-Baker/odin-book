@@ -48,7 +48,7 @@ function Signup() {
     if (loading) return <Loading/>
     return !formSubmit ? (
         <div className="signup">
-            <h1 className="signupHeading">Enter your details</h1>
+            <div className="signupHeading">Enter your details</div>
             <div className="signupInputs">
                 <input id="signupUsername" autoComplete="username" name="username" className="signupInput" type="text" placeholder="Enter your username" value={usernameInput} onChange={(event) => setUsernameInput(event.target.value)} />
                 <input id="signupFirstName" autoComplete="name" name="first_name" className="signupInput" type="text" placeholder="Enter your first name" value={firstName} onChange={(event) => setFirstName(event.target.value)} />

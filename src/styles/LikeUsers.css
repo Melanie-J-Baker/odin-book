@@ -1,0 +1,21 @@
+.likeUsers {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    bottom: 0;
+    background-color: white;
+    border: 1px solid black;
+}
+
+.likeUser {
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+}
+
+.likeUserImage {
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    margin-right: 10px;
+}
