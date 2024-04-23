@@ -30,7 +30,7 @@ function Post({ userid, token, postid, postUserId, postUsername, postTimestamp, 
 
     const likePost = (id) => {
         setLoading(true);
-        fetch(`${import.meta.env.VITE_API}/odin-book/posts/${id}/?` + new URLSearchParams({
+        fetch(`${import.meta.env.VITE_API}/odin-book/posts/${id}/like?` + new URLSearchParams({
             secret_token: token,
         }), {
             method: 'PUT',
@@ -86,7 +86,7 @@ function Post({ userid, token, postid, postUserId, postUsername, postTimestamp, 
         setLikeUsersShowing(false);
     }
 
-    if (error || message) return <p className="postError">{message} {error}</p>
+    if (error) return <p className="postError">{error}</p>
     if (loading) return <Loading />
     return (
         <div className="post">
@@ -108,15 +108,17 @@ function Post({ userid, token, postid, postUserId, postUsername, postTimestamp, 
             <div className="postDiv">
                 <div className="postText">{postText}</div>
                 {postImage && (<img src={postImage} alt="Post Image" className='postImage' />)}
-                <div className="likesDiv" onMouseEnter={showLikeUsers} onMouseLeave={hideLikeUsers}>
-                    {likeUsersShowing && (<LikeUsers component={component} id={postid} token={token} />)}
-                    {postLikes && !postLikes.includes(userid) ? (<div className='likeBtnPost' id={postid} onClick={(event) => likePost(event.target.id)}></div>) : (<div className='postLiked' id={postid} onClick={(event) => likePost(event.target.id)}></div>)}
-                    {postLikes.length === 1 ? (
-                        <div className="postLikes">1 like</div>
-                    ) : (
-                        <div className="postLikes">{postLikes.length} likes</div>
-                    )}
-                    <div className='postMessage'>{message}</div>
+                <div className="likesDiv" >
+                    <div className="likes">
+                        {postLikes && !postLikes.includes(userid) ? (<div className='likeBtnPost' id={postid} onClick={(event) => likePost(event.target.id)}></div>) : (<div className='postLiked' id={postid} onClick={(event) => likePost(event.target.id)}></div>)}
+                        {postLikes.length === 1 ? (
+                            <div className="postLikes">1 like</div>
+                        ) : (
+                            <div className="postLikes">{postLikes.length} likes</div>
+                        )}
+                    </div>
+                    {!likeUsersShowing ? (<div className="showLikeUsers" onClick={showLikeUsers}>Show likes</div>) : (<LikeUsers component={component} id={postid} token={token} hideLikeUsers={hideLikeUsers} />)}
+                    {message && (<div className='postMessage'>{message}</div>)}
                 </div>
             </div>
             <Comments userid={userid} postid={postid} token={token} />

@@ -67,15 +67,33 @@
 }
 
 .likesDiv {
-    position: relative;
     display: flex;
     flex-direction: row;
-    margin-top: 5px;
-    margin-left: 10px;
-    margin-bottom: 10px;
-    align-self: flex-start;
-    align-items: center;
+    margin: 5px 10px 10px 10px;
+    justify-content: space-between;
+    width: 100%;
     color: black;
+}
+
+.likes {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.postLikes {
+    margin-right: 10px;
+}
+
+.showLikeUsers {
+    cursor: pointer;
+    color: black;
+    text-align: end;
+    margin-right: 10px;
+}
+
+.showLikeUsers:hover {
+    color: darkblue;
 }
 
 .likeBtnPost {
@@ -84,23 +102,28 @@
     height: 20px;
     background-size: cover;
     cursor: pointer;
-    margin-right: 10px;
+    margin: 0px 10px;
+    transition: scale .5s ease-in-out;
+}
+
+.likeBtnPost:hover, .postLiked:hover {
+    transform: scale(1.2)
 }
 
 .postLiked {
-    background-image: url("../assets/icons/liked.svg");
+    background-image: url("../assets/icons/likeblue.svg");
     width: 20px;
     height: 20px;
     background-size: cover;
     cursor: pointer;
-    margin-right: 10px;
+    margin: 0px 10px;
+    transition: scale .5s ease-in-out;
 }
 
 .postMessage {
-    margin-left: 5px;
-    font-weight: 500;
-    color: white;
-    font-size: 1.5rem;
+    margin-left: 10px;
+    font-weight: 400;
+    color: darkblue;
 }
 
 .updatePost {

@@ -31,7 +31,7 @@ function Comment({ userid, token, commentid, commentImage, commentText, commentU
 
     const likeComment = (id) => {
         setLoading(true);
-        fetch(`${import.meta.env.VITE_API}/odin-book/comments/${id}/?` + new URLSearchParams({
+        fetch(`${import.meta.env.VITE_API}/odin-book/comments/${id}/like/?` + new URLSearchParams({
             secret_token: token,
         }), {
             method: 'PUT',
@@ -102,22 +102,22 @@ function Comment({ userid, token, commentid, commentImage, commentText, commentU
                     {commentImage && (<img src={commentImage} alt="Comment image" className='commentImage' />)}
                     <div className="commentText">{commentText}</div>
                 </div>
-                <div className="commentLikesOptionsDiv">
-                    <div className="commentLikesDiv" onMouseEnter={showLikeUsers} onMouseLeave={hideLikeUsers}>
-                        {likeUsersShowing && (<LikeUsers component={component} id={commentid} token={token} />)}
+                <div className="commentLikesDiv">
+                    <div className="likes">
                         {commentLikes.includes(userid) ? (<div className='commentLiked' id={commentid} onClick={(event) => likeComment(event.target.id)}></div>) : (<div className='likeBtnComment' id={commentid} onClick={(event) => likeComment(event.target.id)}></div>)}
                         {commentLikes.length === 1 ? (
                             <div className='commentLikes'>1 like</div>
                         ) : (
                             <div className='commentLikes'>{commentLikes.length} likes</div>
                         )}
-                        <div className='commentMessage'>{message}</div>
                     </div>
-                        {commentUserId == userid ? (
-                            <div className='commentOptions'>
-                                <div id={commentid} className='updateComment' onClick={(e) => navigate(`/odin-book/comments/${e.target.id}/update`)}></div>
-                                <div id={commentid} className='deleteComment' onClick={(e) => deleteComment(e.target.id)}></div>
-                            </div>
+                    {!likeUsersShowing ? (<div className="showLikeUsers" onClick={showLikeUsers}>Show likes</div>) : (<LikeUsers component={component} id={commentid} token={token} hideLikeUsers={hideLikeUsers} />)}
+                    <div className='commentMessage'>{message}</div>  
+                    {commentUserId == userid ? (
+                        <div className='commentOptions'>
+                            <div id={commentid} className='updateComment' onClick={(e) => navigate(`/odin-book/comments/${e.target.id}/update`)}></div>
+                            <div id={commentid} className='deleteComment' onClick={(e) => deleteComment(e.target.id)}></div>
+                        </div>
                     ) : (
                         <div className='commentOptions'></div>
                     )}

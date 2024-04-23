@@ -46,13 +46,31 @@
 .commentLikesDiv {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    width: 100%;
+    justify-content: space-between;
     margin: 0px 5px 5px 5px;
+}
+
+.likes {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .commentLikes {
     font-size: 0.9rem;
     color: black;
+    margin-right: 10px
+}
+
+.showLikeUsers {
+    cursor: pointer;
+    color: black;
+    font-size: 0.9rem;
+}
+
+.showLikeUsers:hover {
+    color: darkblue;
 }
 
 .likeBtnComment {
@@ -62,28 +80,28 @@
     background-size: cover;
     cursor: pointer;
     margin-right: 5px;
+    transition: scale .5s ease-in-out;
+}
+
+.likeBtnComment:hover,
+.commentLiked:hover {
+    transform: scale(1.2)
 }
 
 .commentLiked {
-    background-image: url("../assets/icons/liked.svg");
+    background-image: url("../assets/icons/likeblue.svg");
     width: 20px;
     height: 20px;
     background-size: cover;
     cursor: pointer;
     margin-right: 5px;
+    transition: scale .5s ease-in-out;
 }
 
 .commentMessage {
-    margin-left: 5px;
-    font-weight: 500;
-    color: #161946;
-}
-
-.commentLikesOptionsDiv {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    margin-left: 10px;
+    font-weight: 400;
+    color: darkblue;
 }
 
 .commentOptions {
