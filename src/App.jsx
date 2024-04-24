@@ -38,7 +38,8 @@ function App() {
       : localStorage.getItem('userid')
   );
   const [users, setUsers] = useState([]);
-  const [error, setError] = useState(null)
+  const [requests, setRequests] = useState([])
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     localStorage.setItem('token', token);
@@ -47,8 +48,8 @@ function App() {
     localStorage.setItem('profilePicture', profilePicture);
   }, [token, userid, profilePicture, username]);
 
-  const handleFollow = (newUserId) => {
-    fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/addfollow/?` + new URLSearchParams({
+  const sendFollowRequest = (newUserId) => {
+    fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/followrequest/?` + new URLSearchParams({
         secret_token: token,
     }), {
         method: 'PUT',
@@ -63,8 +64,12 @@ function App() {
     }).then((response) => {
         return response.json();
     }).then((data) => {
-        setUsers(data.notFollowing);
-    }).catch((error) => setError(error))
+      console.log(data);
+      setRequests(data.requests);
+    }).catch((error) => {
+      console.log(error);
+      setError(error)
+    })
   }
 
   return (
@@ -73,7 +78,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Welcome userid={userid} />} />
         <Route path="/odin-book" element={<Welcome userid={userid} />} />
-        <Route path="/odin-book/users/:userid/addfollows" element={<UsersList token={token} userid={userid} handleFollow={handleFollow} users={users} setUsers={setUsers} error={error} setError={setError} />}/>
+        <Route path="/odin-book/users/:userid/addfollows" element={<UsersList token={token} userid={userid} sendFollowRequest={sendFollowRequest} users={users} setUsers={setUsers} error={error} setError={setError} requests={requests} setRequests={setRequests} />}/>
         <Route path="/odin-book/users/login" element={<Login setToken={setToken} setUserid={setUserid} setUsername={setUsername} setProfilePicture={setProfilePicture} />} />
         <Route path="/odin-book/users/signup" element={<Signup />} />
         <Route path="/odin-book/users/logout" element={<Logout/>} />
@@ -81,7 +86,7 @@ function App() {
         <Route path="/odin-book/users/:userid/updateprofile" element={<UpdateProfile token={token} userid={userid} setUsername={setUsername} setProfilePicture={setProfilePicture} />} />
         <Route path="/odin-book/users/:userid/deleteaccount" element={<DeleteAccount token={token} userid={userid} setUsername={setUsername} setToken={setToken} setProfilePicture={setProfilePicture} setUserid={setUserid}/>} />
         <Route path="/odin-book/users/:userid/changepassword" element={<ChangePassword token={token} userid={userid} />} />
-        <Route path="/odin-book/users/:userid/userprofile" element={<Profile token={token} currentuserid={userid} handleFollow={handleFollow} />} />
+        <Route path="/odin-book/users/:userid/userprofile" element={<Profile token={token} currentuserid={userid} sendFollowRequest={sendFollowRequest} setUsers={setUsers} />} />
         <Route path="/odin-book/users/:userid/feed" element={<Feed token={token} userid={userid} />} />
         <Route path="/odin-book/posts/:postid/update" element={<UpdatePost token={token} userid={userid} />} />
         <Route path="/odin-book/comments/:commentid/update" element={<UpdateComment token={token} userid={userid} />} />

@@ -4,7 +4,7 @@
     align-items: center;
     width: 100vw;
     text-align: center;
-    margin-top: 110px;
+    margin-top: 120px;
 }
 
 .loginInput {
@@ -27,6 +27,19 @@ form {
 
 .error {
     margin-top: 110px;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.loggingIn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.loggingInText {
     text-align: center;
     font-size: 1.5rem;
 }

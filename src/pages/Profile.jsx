@@ -8,10 +8,11 @@ import Post from '../components/Post';
 Profile.propTypes = {
     token: PropTypes.string,
     currentuserid: PropTypes.string,
-    handleFollow: PropTypes.func,
+    sendFollowRequest: PropTypes.func,
+    setUsers: PropTypes.func,
 }
 
-function Profile({ token, currentuserid, handleFollow }) {
+function Profile({ token, currentuserid, sendFollowRequest, setUsers }) {
     const { userid } = useParams();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
@@ -23,7 +24,7 @@ function Profile({ token, currentuserid, handleFollow }) {
     const [profileImage, setProfileImage] = useState(''); 
     const [posts, setPosts] = useState([]);
     const [error, setError] = useState(null);
-    const [isFollowed, setIsFollowed] = useState();
+    const [currentlyFollowing, setCurrentlyFollowing] = useState(false);
 
     useEffect(() => {
         setLoading(true);
@@ -59,21 +60,38 @@ function Profile({ token, currentuserid, handleFollow }) {
         }).then((response) => {
             return response.json();
         }).then((data) => {
-            data.user.following.forEach((user) => {
-                if (user._id == userid) {
-                    setIsFollowed(true)
-                } else {
-                    setIsFollowed(false)
-                }
-            })
+            console.log(data.user.following)
+            if (data.user.following.some(user => user._id === userid)) {
+                setCurrentlyFollowing(true);
+            } else {
+                setCurrentlyFollowing(false);
+            }
         }).catch(error => {
             setError(error)
         }).finally(() => setLoading(false));
     }, [token, currentuserid, userid])
 
-    const handleClick = (id) => {
-        handleFollow(id);
-        navigate(0)
+    const removeFriend = (id) => {
+        setLoading(true);
+        fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/addfollow/?` + new URLSearchParams({
+            secret_token: token,
+        }), {
+            method: 'PUT',
+            mode: 'cors',
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                toFollow: id
+            })
+        }).then((response) => {
+            return response.json();
+        }).then((data) => {
+            setUsers(data.notFollowing);
+        }).catch((error) => {
+            setError(error.msg)
+        }).finally(() => setLoading(false));
     }
 
     if (error) return <p>A network error was encountered (error)</p>
@@ -88,7 +106,11 @@ function Profile({ token, currentuserid, handleFollow }) {
                 <p className='profileSubheading'>Email:</p>
                 <p className='profileDetail'>{email}</p>
             </div>
-            <div id={userid} className='addFollowBtn' onClick={(event) => handleClick(event.target.id)}>{!isFollowed ? "Follow" : "Unfollow"}</div>
+            {!currentlyFollowing ? (
+                <div id={userid} className='addFollowBtn' onClick={(event) => sendFollowRequest(event.target.id)}>Follow</div>
+            ) : (
+                <div id={userid} className='addFollowBtn' onClick={(event) => removeFriend(event.target.id)}>Unfollow</div>
+            )}
             <div className="followingContainer">
                 <p className='followingHeading'>Following:</p>
                 {following.length ? (

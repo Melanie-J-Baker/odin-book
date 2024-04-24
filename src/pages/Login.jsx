@@ -17,6 +17,7 @@ function Login({setToken, setUserid, setUsername, setProfilePicture}) {
     const [usernameInput, setUsernameInput] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [formSubmitted, setFormSubmitted] = useState(false);
 
     const submitLogin = () => {
         setLoading(true);
@@ -47,7 +48,7 @@ function Login({setToken, setUserid, setUsername, setProfilePicture}) {
                 setProfilePicture(data.user.profile_image);
                 setTimeout(() => {
                     navigate(`/odin-book/users/${data.user._id}/feed`)
-                }, 2000)
+                }, 1000)
             } else {
                 setErrorMessage("Problem logging in. Please try again.") 
             }
@@ -55,6 +56,7 @@ function Login({setToken, setUserid, setUsername, setProfilePicture}) {
             setErrorMessage(error)
         }).finally(() => {
             setLoading(false);
+            setFormSubmitted(true);
         })
     };
 
@@ -65,7 +67,7 @@ function Login({setToken, setUserid, setUsername, setProfilePicture}) {
         </div>
     )
     if (loading) return <Loading/>
-    return (
+    return !formSubmitted ? (
         <div className="login">
             <h1 className="loginHeading">Log in</h1>
             <input autoComplete="username" id="loginUsername" name="username" className="loginInput" type="text" placeholder="Enter your username" value={usernameInput} onChange={(event) => setUsernameInput(event.target.value)} />
@@ -73,6 +75,10 @@ function Login({setToken, setUserid, setUsername, setProfilePicture}) {
             <button className="loginBtn" onClick={submitLogin}>Log in</button>
             <p className="errorMessage">{errorMessage}</p>
             <Link id="cancelSignup" className="cancelSignup link" to={'/odin-book'}>Cancel</Link>
+        </div>
+    ) : (
+        <div className="loggingIn">
+            <div className="loggingInText">Attempting login...</div>
         </div>
     )
 }
