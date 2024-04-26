@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import '../styles/FollowRequests.css';
 import Loading from '../pages/Loading';
 
@@ -14,7 +14,8 @@ FollowRequests.propTypes = {
 }
 
 function FollowRequests({ token, userid, requestsLoading, requestDetails, setDeleted, setAccepted }) {
-    const [error, setError] = useState('');
+    const navigate = useNavigate();
+    const[error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
     const acceptRequest = (requestUserId) => {
@@ -72,10 +73,9 @@ function FollowRequests({ token, userid, requestsLoading, requestDetails, setDel
             {requestDetails.map((user) => {
                 return (
                     <div key={user._id} className='request'>
-                        <img src={user.profile_image} alt="User profile image" className='requestUserImage' />
+                        <img src={user.profile_image} alt="User profile image" className='requestUserImage' onClick={() => navigate(`/odin-book/users/${user._id}/profile`)}/>
                         <div className="requestUserDetails">
-                            <div className='requestUsername'>{user.username}</div>
-                            <Link id='seeProfileBtn' to={`/odin-book/users/${user._id}/profile`}>See profile</Link>
+                            <div className='requestUsername' onClick={() => navigate(`/odin-book/users/${user._id}/profile`)}>{user.username}</div>
                             <div className="requestBtns">
                                 <button type="button" id={user._id} className='requestAccept' onClick={(e) => acceptRequest(e.target.id)}>Accept</button>
                                 <button type="button" id={user._id} className='requestDelete' onClick={(e) => deleteRequest(e.target.id)}>Delete</button>

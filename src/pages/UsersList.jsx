@@ -57,7 +57,7 @@ function UsersList({ token, userid, sendFollowRequest, users, setUsers, error, s
                         <img src={user.profile_image} alt="User profile image" className='userImage'/>
                         <div className='username'>{user.username}</div>
                         <Link id='seeProfileBtn' to={`/odin-book/users/${user._id}/profile`}>See profile</Link>
-                        {!user.requests.includes(userid) && requestSent !== user._id ? (<div id={user._id} className='addFollowBtn' onClick={(event) => handleClick(event.target.id)}>Send follow request</div>) : (<div className='addFollowBtn'>Request sent!</div>)}
+                        {user.requests.includes(userid) || requestSent === user._id ? (<div className='addFollowBtn'>Request sent!</div>) : (<div id={user._id} className='addFollowBtn' onClick={(event) => handleClick(event.target.id)}>Send follow request</div>)}
                     </div>
                 )
             }) : (

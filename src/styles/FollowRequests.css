@@ -26,11 +26,13 @@
     height: 70px;
     border-radius: 50px;
     margin-right: 20px;
+    cursor: pointer;
 }
 
 .requestUsername {
     text-align: start;
     padding: 10px;
+    cursor: pointer;
 }
 
 .requestsHeading {

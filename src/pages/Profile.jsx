@@ -10,6 +10,7 @@ Profile.propTypes = {
     currentuserid: PropTypes.string,
     sendFollowRequest: PropTypes.func,
     setUsers: PropTypes.func,
+    requestDetails: PropTypes.array,
 }
 
 function Profile({ token, currentuserid, sendFollowRequest, setUsers }) {
@@ -21,10 +22,12 @@ function Profile({ token, currentuserid, sendFollowRequest, setUsers }) {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [following, setFollowing] = useState([]);
+    const [requests, setRequests] = useState([]);
     const [profileImage, setProfileImage] = useState(''); 
     const [posts, setPosts] = useState([]);
     const [error, setError] = useState(null);
     const [currentlyFollowing, setCurrentlyFollowing] = useState(false);
+    const [requestSent, setRequestSent] = useState();
 
     useEffect(() => {
         setLoading(true);
@@ -41,13 +44,14 @@ function Profile({ token, currentuserid, sendFollowRequest, setUsers }) {
             setFirstName(data.user.first_name);
             setLastName(data.user.last_name);
             setEmail(data.user.email);
+            setRequests(data.user.requests);
             setFollowing(data.user.following);
             setProfileImage(data.user.profile_image);
             setPosts(data.posts)
         }).catch(error => {
             setError(error)
         }).finally(() => setLoading(false));
-    }, [token, userid, currentuserid])
+    }, [token, userid])
 
     useEffect(() => {
         setLoading(true);
@@ -60,7 +64,6 @@ function Profile({ token, currentuserid, sendFollowRequest, setUsers }) {
         }).then((response) => {
             return response.json();
         }).then((data) => {
-            console.log(data.user.following)
             if (data.user.following.some(user => user._id === userid)) {
                 setCurrentlyFollowing(true);
             } else {
@@ -94,6 +97,11 @@ function Profile({ token, currentuserid, sendFollowRequest, setUsers }) {
         }).finally(() => setLoading(false));
     }
 
+    const handleClick = (id) => {
+        sendFollowRequest(id);
+        setRequestSent(true);
+    }
+
     if (error) return <p className='error'>A network error was encountered. {error}</p>
     if (loading) return <Loading/>
     return username ? (
@@ -106,8 +114,10 @@ function Profile({ token, currentuserid, sendFollowRequest, setUsers }) {
                 <p className='profileSubheading'>Email:</p>
                 <p className='profileDetail'>{email}</p>
             </div>
-            {!currentlyFollowing ? (
-                <div id={userid} className='addFollowBtn' onClick={(event) => sendFollowRequest(event.target.id)}>Follow</div>
+            {!currentlyFollowing && !requests.includes(currentuserid) && !requestSent ? (
+                <div id={userid} className='addFollowBtn' onClick={(event) => handleClick(event.target.id)}>Send Follow Request</div>
+            ) : !currentlyFollowing && requests.includes(currentuserid) || requestSent ? (
+                <div id={userid} className='addFollowBtn'>Request sent!</div>
             ) : (
                 <div id={userid} className='addFollowBtn' onClick={(event) => removeFriend(event.target.id)}>Unfollow</div>
             )}
