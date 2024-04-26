@@ -20,11 +20,11 @@ function Welcome({userid}) {
         setPostCount(data.numberOfPosts);
         setCommentCount(data.numberOfComments);
       }).catch(error => {
-        setError(error)
+        setError(error.msg)
       }).finally(() => setLoading(false));
   }, [])
 
-  if (error) return <p>A network error was encountered (error)</p>
+  if (error) return <p>A network error was encountered. {error}</p>
   if (loading) return <Loading/>
   return (
     <div className='welcomePage'>

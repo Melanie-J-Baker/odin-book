@@ -48,7 +48,7 @@ function LikeUsers({ component, id, token, hideLikeUsers }) {
         }
     }, [component, id, token])
 
-    if (error) return <div className='error'>{error}</div>
+    if (error) return <div className='error'>A network error was encountered. {error}</div>
     return !loading ? (
         <div className='likeUsers'>
             <div className='close' onClick={hideLikeUsers}>x</div>

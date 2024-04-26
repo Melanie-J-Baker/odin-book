@@ -41,7 +41,7 @@ function ChangePassword({ token, userid }) {
         }).then((data) => {
             setResponseStatus(data.message);
         }).catch(error => {
-            setError(error)
+            setError(error.msg)
         }).finally(() => {
             setLoading(false);
             setFormSubmit(true);
@@ -49,7 +49,7 @@ function ChangePassword({ token, userid }) {
 
     }
 
-    if (error) return <div className='error'>An error has occurred ({error})</div>
+    if (error) return <div className='error'>A network error was encountered. {error}</div>
     if (loading) return <Loading/>
     return !formSubmit ? (
         <div className='changePassword'>

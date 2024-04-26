@@ -13,13 +13,17 @@ UsersList.propTypes = {
     setUsers: PropTypes.func,
     error: PropTypes.string,
     setError: PropTypes.func,
-    requests: PropTypes.array,
-    setRequests: PropTypes.func,
+    requestsLoading: PropTypes.bool,
+    requestDetails: PropTypes.array,
+    setDeleted: PropTypes.func,
+    setAccepted: PropTypes.func,
 }
 
-function UsersList({ token, userid, sendFollowRequest, users, setUsers, error, setError, requests, setRequests }) {
+function UsersList({ token, userid, sendFollowRequest, users, setUsers, error, setError, requestsLoading, requestDetails, setDeleted, setAccepted}) {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
+    const [requestSent, setRequestSent] = useState();
+    
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/userslist/?` + new URLSearchParams({
             secret_token: token,
@@ -31,29 +35,29 @@ function UsersList({ token, userid, sendFollowRequest, users, setUsers, error, s
             return response.json();
         }).then((data) => {
             setUsers(data.users);
-            setRequests(data.requests);
-        }).catch(error => {
-            setError(error.msg)
+        }).catch(err => {
+            setError(err.msg)
         }).finally(() => setLoading(false));
-    }, [setError, setRequests, setUsers, token, userid])
+    }, [setError, setUsers, token, userid, requestSent])
 
     const handleClick = (id) => {
         sendFollowRequest(id);
+        setRequestSent(id);
     }
 
-    if (error) return <p>A network error was encountered {error}</p>
+    if (error) return <p>A network error was encountered. {error}</p>
     if (loading) return <Loading/>
     return (
         <div className="usersList">
-            <FollowRequests token={token} userid={userid} setUsers={setUsers} />
+            <FollowRequests token={token} userid={userid} requestsLoading={requestsLoading} requestDetails={requestDetails} setDeleted={setDeleted} setAccepted={setAccepted}/>
             <div className="usersListHeading">Follow new users</div>
             {users.length ? users.map((user) => {
                 return (
                     <div key={user._id} className='user'>
                         <img src={user.profile_image} alt="User profile image" className='userImage'/>
                         <div className='username'>{user.username}</div>
-                        <Link id='seeProfileBtn' to={`/odin-book/users/${user._id}/userprofile`}>See profile</Link>
-                        {!requests.includes(user._id) ? (<div id={user._id} className='addFollowBtn' onClick={(event) => handleClick(event.target.id)}>Send follow request</div>) : (<div className='addFollowBtn'>Request sent!</div>)}
+                        <Link id='seeProfileBtn' to={`/odin-book/users/${user._id}/profile`}>See profile</Link>
+                        {!user.requests.includes(userid) && requestSent !== user._id ? (<div id={user._id} className='addFollowBtn' onClick={(event) => handleClick(event.target.id)}>Send follow request</div>) : (<div className='addFollowBtn'>Request sent!</div>)}
                     </div>
                 )
             }) : (

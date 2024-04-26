@@ -8,11 +8,6 @@
     align-items: center;
 }
 
-.postError {
-    text-align: center;
-    margin-top: 110px;
-}
-
 .postUserDetails {
     display: flex;
     flex-direction: row;
@@ -167,6 +162,11 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+}
+
+.error {
+    text-align: center;
+    font-size: 1.5rem;
 }
 
 

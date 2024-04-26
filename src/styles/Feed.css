@@ -8,11 +8,17 @@
 
 .feedHeading {
     text-align: center;
-    width: 100vw;
+    width: 100%;
     font-size: 2rem;
 }
 
 .noPosts {
     text-align: center;
     width: 100%;
+}
+
+.error {
+    margin-top: 120px;
+    text-align: center;
+    font-size: 1.5rem;
 }

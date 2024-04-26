@@ -52,7 +52,7 @@ function Comment({ userid, token, commentid, commentImage, commentText, commentU
                 setMessage("");
             }, 2000)
         }).catch((error) => {
-            setLikeError(error)
+            setLikeError(error.msg)
         }).finally(() => setLoading(false));
     }
 
@@ -88,7 +88,7 @@ function Comment({ userid, token, commentid, commentImage, commentText, commentU
     }
     
     if (likeError) return <p className='error'>Error liking comment {likeError}</p>
-    if (error) return <p className='error'>{error}</p>
+    if (error) return <p className='error'>A network error was encountered. {error}</p>
     if (loading) return <Loading/>
     return (
         <div className='comment' id={commentid}>

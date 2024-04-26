@@ -35,7 +35,7 @@ function Comments({ userid, postid, token }) {
         }).finally(() => setLoading(false));
     }, [postid, token, commentAdded, commentLiked, commentDeleted]);
 
-    if (error) return <p>A network error was encountered loading Comments (error)</p>
+    if (error) return <p className='error'>A network error was encountered. {error}</p>
     if (loading) return <Loading/>
     return comments.length != 0 ? (
         <div className='comments'>

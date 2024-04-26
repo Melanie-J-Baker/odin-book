@@ -86,7 +86,7 @@ function Post({ userid, token, postid, postUserId, postUsername, postTimestamp, 
         setLikeUsersShowing(false);
     }
 
-    if (error) return <p className="postError">{error}</p>
+    if (error) return <p className="error">A network error was encountered. {error}</p>
     if (loading) return <Loading />
     return (
         <div className="post">

@@ -46,14 +46,14 @@ function DeleteAccount({ token, userid, setUsername, setToken, setProfilePicture
             }
         }).catch(error => {
             console.log(error)
-            setError(error)
+            setError(error.msg)
         }).finally(() => {
             setLoading(false)
             setFormSubmit(true);
         });
     }
 
-    if (error) return <p>A network error was encountered (error)</p>
+    if (error) return <p className='error'>A network error was encountered. {error}</p>
     if (loading) return <Loading />
     if (data) return <div>{data}</div>
     return !formSubmit ? (

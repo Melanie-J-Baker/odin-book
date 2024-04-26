@@ -30,11 +30,11 @@ function Feed({ token, userid }) {
         }).then((data) => {
             setFeedPosts(data.feedPosts)
         }).catch(error => {
-            setError(error)
+            setError(error.msg)
         }).finally(() => setLoading(false));
     }, [token, userid, postLiked, postDeleted, postAdded])
 
-    if (error) return <p>A network error was encountered (error)</p>
+    if (error) return <p className="error">A network error was encountered. {error}</p>
     if (loading) return <Loading/> 
     return (
         <div className="feed">

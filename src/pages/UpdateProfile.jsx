@@ -114,7 +114,7 @@ function UpdateProfile({ token, userid, setUsername, setProfilePicture }) {
         setFile(e.target.files[0])
     }
 
-    if (error) return <div className="error">({error})</div>
+    if (error) return <div className="error">A netork error was encountered. {error}</div>
     if (loading) return <Loading/>
     return !formSubmit ? (
         <div className="updateProfile">

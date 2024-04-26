@@ -44,11 +44,11 @@ function PersonalProfile({ token, userid}) {
             setPosts(data.posts)
             setProfilePicture(data.user.profile_image);
         }).catch(error => {
-            setError(error)
+            setError(error.msg)
         }).finally(() => setLoading(false));
     },[token, userid, postLiked, postDeleted, postAdded])
 
-    if (error) return <p>A network error was encountered (error)</p>
+    if (error) return <p className='error'>A network error was encountered. {error}</p>
     if (loading) return <Loading/>
     return userid ? (
         <div className='profilePage'>
@@ -78,7 +78,7 @@ function PersonalProfile({ token, userid}) {
                                 <div key={followedUser._id} className='followedUser' id={followedUser._id}>
                                     <img src={followedUser.profile_image} alt="followedUser" width="75px" height="75px" className="followedUserImage" />
                                     <div className='followedUsername'>{followedUser.username}</div>
-                                    <div className='seeProfileBtn' onClick={() => navigate(`/odin-book/users/${followedUser._id}/userprofile`)}>See profile</div>
+                                    <div className='seeProfileBtn' onClick={() => navigate(`/odin-book/users/${followedUser._id}/profile`)}>See profile</div>
                                 </div>
                             )   
                         })}

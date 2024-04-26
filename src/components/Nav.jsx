@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useLocation, Link } from 'react-router-dom';
 import { PropTypes } from "prop-types";
+import '../styles/Nav.css';
 
 Nav.propTypes = {
   userid: PropTypes.string,
@@ -10,10 +11,11 @@ Nav.propTypes = {
   setToken: PropTypes.func,
   setUserid: PropTypes.func,
   setProfilePicture: PropTypes.func,
-  setUsername: PropTypes.func
+  setUsername: PropTypes.func,
+  requestDetails: PropTypes.array,
 }
 
-function Nav ({ userid, username, profilePicture, token, setToken, setUserid, setProfilePicture, setUsername }) {
+function Nav ({ userid, username, profilePicture, token, setToken, setUserid, setProfilePicture, setUsername, requestDetails }) {
   const location = useLocation();
   const [currentRoute, setCurrentRoute] = useState(location.pathname);
   
@@ -40,11 +42,12 @@ function Nav ({ userid, username, profilePicture, token, setToken, setUserid, se
         {userid && currentRoute !== 'odin-book/users/logout' && (<li>
           <Link className='link' onClick={() => setCurrentRoute(`odin-book/users/${userid}`)} to={`odin-book/users/${userid}`}>Profile</Link>
         </li>)}
-        {userid && currentRoute !== 'odin-book/users/:userid/addfollows' && (<li>
-          <Link className='link' onClick={() => setCurrentRoute(`odin-book/users/${userid}/addfollows`)} to={`odin-book/users/${userid}/addfollows`}>Follow</Link>
-        </li>)}
         {userid && currentRoute !== 'odin-book/users/logout' && (<li>
           <Link className='link' onClick={() => setCurrentRoute(`odin-book/users/${userid}/feed`)} to={`odin-book/users/${userid}/feed`}>Feed</Link>
+        </li>)}
+        {userid && currentRoute !== 'odin-book/users/:userid/addfollows' && (<li>
+          <Link className='link' id="follow" onClick={() => setCurrentRoute(`odin-book/users/${userid}/addfollows`)} to={`odin-book/users/${userid}/addfollows`}>Follow</Link>
+          <div className='requestNotification'>{requestDetails.length}</div>
         </li>)}
       </ul>
       <div className="lowerNav">

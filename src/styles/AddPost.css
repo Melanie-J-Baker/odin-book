@@ -10,7 +10,7 @@
     align-items: center;
     background-color: #161946;
     padding: 20px 0px;
-    width: 100vw;
+    width: 100%;
 }
 
 .addPostText {
@@ -37,5 +37,10 @@ input::file-selector-button {
 
 input::file-selector-button:hover {
     border-color: #646cff;
+}
+
+.error {
+    text-align: center;
+    font-size: 1.5rem;
 }
 

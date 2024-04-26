@@ -19,3 +19,8 @@
     margin-bottom: 10px;
     font-size: 1.1rem;
 }
+
+.error {
+    text-align: center;
+    font-size: 1.5rem;
+}

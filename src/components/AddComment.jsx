@@ -86,7 +86,7 @@ function AddComment({ userid, token, postid, setCommentAdded }) {
         setFile(e.target.files[0]);
     }
 
-    if (error) return <div className='error'>A network error was encountered {error}</div>
+    if (error) return <div className='error'>A network error was encountered. {error}</div>
     if (loading) return <Loading/>
     return (
         <form encType='multipart/form-data' name='addCommentForm' className='addCommentForm' onSubmit={(e) => addComment(e)}>

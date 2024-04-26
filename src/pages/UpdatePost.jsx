@@ -103,7 +103,7 @@ function UpdatePost({ token, userid }) {
         setFile(e.target.files[0]);
     }
     
-    if (error) return <div className="error">A network error was encountered {error}</div>
+    if (error) return <div className="error">A network error was encountered. {error}</div>
     if (loading) return <Loading />
     return !formSubmit ? (
         <div className="updatePostDiv">

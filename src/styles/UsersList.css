@@ -1,11 +1,12 @@
 .usersList {
     margin-top: 110px;
+    width: 100%;
 }
 
 .usersListHeading {
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: 600;
-    padding: 20px;
+    padding-top: 20px;
     text-align: center;
 }
 
@@ -30,7 +31,7 @@
 }
 
 .noUsers {
-    width: 100vw;
+    width: 100%;
     text-align: center;
 }
 
@@ -61,4 +62,10 @@
     bottom: 0;
     right: 0;
     margin: 10px;
+}
+
+.error {
+    margin-top: 120px;
+    text-align: center;
+    font-size: 1.5rem;
 }

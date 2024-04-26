@@ -39,3 +39,8 @@ input::file-selector-button {
 input::file-selector-button:hover {
     border-color: #646cff;
 }
+
+.error {
+    text-align: center;
+    font-size: 1.5rem;
+}

@@ -38,7 +38,7 @@ function Signup() {
         }).then((data) => {
             console.log(data);
         }).catch(error => {
-            setErrorMessage(error)
+            setErrorMessage(error.msg)
         }).finally(() => {
             setLoading(false);
             setFormSubmit(true);

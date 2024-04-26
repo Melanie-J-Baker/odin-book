@@ -48,12 +48,12 @@ function Login({setToken, setUserid, setUsername, setProfilePicture}) {
                 setProfilePicture(data.user.profile_image);
                 setTimeout(() => {
                     navigate(`/odin-book/users/${data.user._id}/feed`)
-                }, 1000)
+                }, 2000)
             } else {
                 setErrorMessage("Problem logging in. Please try again.") 
             }
         }).catch(error => {
-            setErrorMessage(error)
+            setErrorMessage(error.msg)
         }).finally(() => {
             setLoading(false);
             setFormSubmitted(true);
@@ -62,7 +62,7 @@ function Login({setToken, setUserid, setUsername, setProfilePicture}) {
 
     if (errorMessage) return (
         <div className="error">
-            <div className="errorText">{errorMessage}</div>
+            <div className="errorText">A network error was encountered. {errorMessage}</div>
             <Link id="backToHome" className="backToHome link" to={'/odin-book'}>Go back</Link>
         </div>
     )

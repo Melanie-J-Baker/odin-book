@@ -1,75 +1,7 @@
 body {
-  width: 100vw;
+  width: 100%;
 }
 
 :root {
   width: 100vw;
-}
-
-nav {
-  position: fixed;
-  top: 0;
-  background-color: rgb(7, 7, 7);
-  font-size: 1.2rem;
-  height: 100px;
-  display: flex;
-  flex-direction: column;
-  width: 100vw;
-  justify-content: center;
-  align-items: center;
-}
-
-.mainMenu {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin: 0;
-  width: 100vw;
-  padding: 0;
-}
-
-ul {
-  list-style: none;
-}
-
-li {
-  margin: 5px 0px;
-}
-
-.lowerNav {
-  display: flex;
-  flex-direction: row;
-  width: 100vw;
-  justify-content: space-around;
-  align-items: center;
-}
-
-.profileImage {
-  width: 40px;
-  height: 40px;
-  border-radius: 50px;
-}
-
-.loggedInAs {
-  text-align: center;
-  font-size: 0.9rem;
-}
-
-.logout {
-  text-decoration: none;
-  background-color: darkblue;
-  border: 1px solid transparent;
-  color: white;
-  font-size: 1rem;
-  border-radius: 10px;
-  text-align: center;
-  padding: 5px 10px;
-  height: 25px;
-  line-height: 25px;
-  transition: border-color 0.25s;
-}
-
-.logout:hover {
-  background-color: darkblue;
-  border-color: #646cff;
 }

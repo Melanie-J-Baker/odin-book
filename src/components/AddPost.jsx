@@ -84,7 +84,7 @@ function AddPost({ userid, token, setPostAdded }) {
         setFile(e.target.files[0]);
     }
 
-    if (error) return <div className='error'>A network error was encountered {error}</div>
+    if (error) return <div className='error'>A network error was encountered. {error}</div>
     if (loading) return <Loading/>
     return (
         <form encType='multipart/form-data' name='addPostForm' className='addPostForm' onSubmit={(e) => addPost(e)}>
