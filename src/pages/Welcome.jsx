@@ -24,7 +24,7 @@ function Welcome({userid}) {
       }).finally(() => setLoading(false));
   }, [])
 
-  if (error) return <p>A network error was encountered. {error}</p>
+  if (error) return <div className='error'>A network error was encountered. {error}</div>
   if (loading) return <Loading/>
   return (
     <div className='welcomePage'>
