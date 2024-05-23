@@ -6,11 +6,6 @@ import Post from '../components/Post';
 import AddPost from '../components/AddPost';
 import '../styles/PersonalProfile.css';
 
-PersonalProfile.propTypes = {
-    token: PropTypes.string,
-    userid: PropTypes.string,
-}
-
 function PersonalProfile({ token, userid}) {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
@@ -109,6 +104,11 @@ function PersonalProfile({ token, userid}) {
             <div className='profileLink' onClick={() => navigate('/odin-book')}>Go to home</div>
         </>
     )
+}
+
+PersonalProfile.propTypes = {
+    token: PropTypes.string,
+    userid: PropTypes.string,
 }
 
 export default PersonalProfile;

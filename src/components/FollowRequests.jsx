@@ -4,15 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/FollowRequests.css';
 import Loading from '../pages/Loading';
 
-FollowRequests.propTypes = {
-    token: PropTypes.string,
-    userid: PropTypes.string,
-    requestsLoading: PropTypes.bool,
-    requestDetails: PropTypes.array,
-    setDeleted: PropTypes.func,
-    setAccepted: PropTypes.func,
-}
-
 function FollowRequests({ token, userid, requestsLoading, requestDetails, setDeleted, setAccepted }) {
     const navigate = useNavigate();
     const[error, setError] = useState('');
@@ -87,6 +78,15 @@ function FollowRequests({ token, userid, requestsLoading, requestDetails, setDel
             
         </div>
     )
+}
+
+FollowRequests.propTypes = {
+    token: PropTypes.string,
+    userid: PropTypes.string,
+    requestsLoading: PropTypes.bool,
+    requestDetails: PropTypes.array,
+    setDeleted: PropTypes.func,
+    setAccepted: PropTypes.func,
 }
 
 export default FollowRequests;

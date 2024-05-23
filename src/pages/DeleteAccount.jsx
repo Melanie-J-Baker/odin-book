@@ -4,15 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import Loading from './Loading';
 import '../styles/DeleteAccount.css';
 
-DeleteAccount.propTypes = {
-    token: PropTypes.string,
-    userid: PropTypes.string,
-    setUsername: PropTypes.func,
-    setToken: PropTypes.func,
-    setProfilePicture: PropTypes.func,
-    setUserid: PropTypes.func 
-}
-
 function DeleteAccount({ token, userid, setUsername, setToken, setProfilePicture, setUserid }) {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
@@ -70,6 +61,15 @@ function DeleteAccount({ token, userid, setUsername, setToken, setProfilePicture
             <Link className="goHome link" to={'/odin-book'}>Home</Link>
         </div>
     )
+}
+
+DeleteAccount.propTypes = {
+    token: PropTypes.string,
+    userid: PropTypes.string,
+    setUsername: PropTypes.func,
+    setToken: PropTypes.func,
+    setProfilePicture: PropTypes.func,
+    setUserid: PropTypes.func 
 }
 
 export default DeleteAccount;

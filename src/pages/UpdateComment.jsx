@@ -4,11 +4,6 @@ import PropTypes from 'prop-types';
 import '../styles/UpdateComment.css';
 import Loading from './Loading';
 
-UpdateComment.propTypes = {
-    token: PropTypes.string,
-    userid: PropTypes.string,
-}
-
 function UpdateComment({ token, userid }) {
     const { commentid } = useParams();
     const navigate = useNavigate();
@@ -128,6 +123,11 @@ function UpdateComment({ token, userid }) {
                     
         </>
     )
+}
+
+UpdateComment.propTypes = {
+    token: PropTypes.string,
+    userid: PropTypes.string,
 }
 
 export default UpdateComment;

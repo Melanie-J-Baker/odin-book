@@ -5,11 +5,6 @@ import Post from '../components/Post';
 import AddPost from '../components/AddPost';
 import '../styles/Feed.css';
 
-Feed.propTypes = {
-    token: PropTypes.string,
-    userid: PropTypes.string,
-}
-
 function Feed({ token, userid }) {
     const [loading, setLoading] = useState(true);
     const [feedPosts, setFeedPosts] = useState();
@@ -49,6 +44,11 @@ function Feed({ token, userid }) {
             )}
         </div>
     )  
+}
+
+Feed.propTypes = {
+    token: PropTypes.string,
+    userid: PropTypes.string,
 }
 
 export default Feed;

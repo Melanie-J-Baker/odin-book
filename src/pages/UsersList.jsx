@@ -5,20 +5,6 @@ import '../styles/UsersList.css';
 import Loading from './Loading';
 import FollowRequests from '../components/FollowRequests';
 
-UsersList.propTypes = {
-    token: PropTypes.string,
-    userid: PropTypes.string,
-    sendFollowRequest: PropTypes.func,
-    users: PropTypes.array,
-    setUsers: PropTypes.func,
-    error: PropTypes.string,
-    setError: PropTypes.func,
-    requestsLoading: PropTypes.bool,
-    requestDetails: PropTypes.array,
-    setDeleted: PropTypes.func,
-    setAccepted: PropTypes.func,
-}
-
 function UsersList({ token, userid, sendFollowRequest, users, setUsers, error, setError, requestsLoading, requestDetails, setDeleted, setAccepted}) {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
@@ -66,6 +52,20 @@ function UsersList({ token, userid, sendFollowRequest, users, setUsers, error, s
             <div className='goBack' onClick={() => navigate(-1)}>Go back</div>
         </div>
     )
+}
+
+UsersList.propTypes = {
+    token: PropTypes.string,
+    userid: PropTypes.string,
+    sendFollowRequest: PropTypes.func,
+    users: PropTypes.array,
+    setUsers: PropTypes.func,
+    error: PropTypes.string,
+    setError: PropTypes.func,
+    requestsLoading: PropTypes.bool,
+    requestDetails: PropTypes.array,
+    setDeleted: PropTypes.func,
+    setAccepted: PropTypes.func,
 }
 
 export default UsersList;

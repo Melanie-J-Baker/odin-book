@@ -3,13 +3,6 @@ import PropTypes from 'prop-types';
 import '../styles/AddComment.css';
 import Loading from '../pages/Loading';
 
-AddComment.propTypes = {
-    userid: PropTypes.string,
-    token: PropTypes.string,
-    postid: PropTypes.string,
-    setCommentAdded: PropTypes.func,
-}
-
 function AddComment({ userid, token, postid, setCommentAdded }) {
     const [text, setText] = useState('');
     const [loading, setLoading] = useState(false);
@@ -98,6 +91,13 @@ function AddComment({ userid, token, postid, setCommentAdded }) {
             <div className='message'>{message}</div>
         </form>
     )
+}
+
+AddComment.propTypes = {
+    userid: PropTypes.string,
+    token: PropTypes.string,
+    postid: PropTypes.string,
+    setCommentAdded: PropTypes.func,
 }
 
 export default AddComment;

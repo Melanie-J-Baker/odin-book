@@ -5,14 +5,6 @@ import Loading from "./Loading";
 import { PropTypes } from 'prop-types';
 import Post from '../components/Post';
 
-Profile.propTypes = {
-    token: PropTypes.string,
-    currentuserid: PropTypes.string,
-    sendFollowRequest: PropTypes.func,
-    setUsers: PropTypes.func,
-    requestDetails: PropTypes.array,
-}
-
 function Profile({ token, currentuserid, sendFollowRequest, setUsers }) {
     const { userid } = useParams();
     const navigate = useNavigate();
@@ -153,6 +145,14 @@ function Profile({ token, currentuserid, sendFollowRequest, setUsers }) {
             <div className='profileLink' onClick={() => navigate('/odin-book')}>Go to home</div>
         </>
     )
+}
+
+Profile.propTypes = {
+    token: PropTypes.string,
+    currentuserid: PropTypes.string,
+    sendFollowRequest: PropTypes.func,
+    setUsers: PropTypes.func,
+    requestDetails: PropTypes.array,
 }
 
 export default Profile;

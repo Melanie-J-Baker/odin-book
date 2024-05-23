@@ -4,13 +4,6 @@ import '../styles/UpdateProfile.css';
 import PropTypes from 'prop-types';
 import Loading from "./Loading";
 
-UpdateProfile.propTypes = {
-    token: PropTypes.string,
-    userid: PropTypes.string,
-    setUsername: PropTypes.func,
-    setProfilePicture: PropTypes.func,
-}
-
 function UpdateProfile({ token, userid, setUsername, setProfilePicture }) {
     const navigate = useNavigate();
     const [error, setError] = useState('');
@@ -146,6 +139,13 @@ function UpdateProfile({ token, userid, setUsername, setProfilePicture }) {
             <Link id="backToProfile" className="backToProfile link" to={`/odin-book/users/${userid}`}>Back to profile</Link>
         </>
     )
+}
+
+UpdateProfile.propTypes = {
+    token: PropTypes.string,
+    userid: PropTypes.string,
+    setUsername: PropTypes.func,
+    setProfilePicture: PropTypes.func,
 }
 
 export default UpdateProfile;

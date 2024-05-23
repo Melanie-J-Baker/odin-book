@@ -4,11 +4,6 @@ import '../styles/ChangePassword.css';
 import PropTypes from 'prop-types';
 import Loading from './Loading';
 
-ChangePassword.propTypes = {
-    token: PropTypes.string,
-    userid: PropTypes.string,
-}
-
 function ChangePassword({ token, userid }) {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -69,6 +64,11 @@ function ChangePassword({ token, userid }) {
     ) : (
         <div className='error'>{error}</div>
     )
+}
+
+ChangePassword.propTypes = {
+    token: PropTypes.string,
+    userid: PropTypes.string,
 }
 
 export default ChangePassword;

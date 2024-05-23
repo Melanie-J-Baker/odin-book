@@ -3,18 +3,6 @@ import { useLocation, Link } from 'react-router-dom';
 import { PropTypes } from "prop-types";
 import '../styles/Nav.css';
 
-Nav.propTypes = {
-  userid: PropTypes.string,
-  username: PropTypes.string,
-  profilePicture: PropTypes.string,
-  token: PropTypes.string,
-  setToken: PropTypes.func,
-  setUserid: PropTypes.func,
-  setProfilePicture: PropTypes.func,
-  setUsername: PropTypes.func,
-  requestDetails: PropTypes.array,
-}
-
 function Nav ({ userid, username, profilePicture, token, setToken, setUserid, setProfilePicture, setUsername, requestDetails }) {
   const location = useLocation();
   const [currentRoute, setCurrentRoute] = useState(location.pathname);
@@ -57,6 +45,18 @@ function Nav ({ userid, username, profilePicture, token, setToken, setUserid, se
       </div>
     </nav>
   )
+}
+
+Nav.propTypes = {
+  userid: PropTypes.string,
+  username: PropTypes.string,
+  profilePicture: PropTypes.string,
+  token: PropTypes.string,
+  setToken: PropTypes.func,
+  setUserid: PropTypes.func,
+  setProfilePicture: PropTypes.func,
+  setUsername: PropTypes.func,
+  requestDetails: PropTypes.array,
 }
 
 export default Nav;

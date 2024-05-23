@@ -3,12 +3,6 @@ import { useEffect, useState } from 'react';
 import Loading from '../pages/Loading';
 import '../styles/LikeUsers.css';
 
-LikeUsers.propTypes = {
-    component: PropTypes.string,
-    id: PropTypes.string,
-    token: PropTypes.string,
-    hideLikeUsers: PropTypes.func,
-}
 function LikeUsers({ component, id, token, hideLikeUsers }) {
     const [users, setUsers] = useState([]);
     const [error, setError] = useState('');
@@ -64,6 +58,13 @@ function LikeUsers({ component, id, token, hideLikeUsers }) {
             )}
         </div>
     ) : ( <Loading/> )
+}
+
+LikeUsers.propTypes = {
+    component: PropTypes.string,
+    id: PropTypes.string,
+    token: PropTypes.string,
+    hideLikeUsers: PropTypes.func,
 }
 
 export default LikeUsers;

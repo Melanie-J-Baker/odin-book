@@ -4,13 +4,6 @@ import PropTypes from 'prop-types';
 import Loading from './Loading';
 import '../styles/Login.css';
 
-Login.propTypes = {
-    setToken: PropTypes.func,
-    setUserid: PropTypes.func,
-    setUsername: PropTypes.func,
-    setProfilePicture: PropTypes.func,
-}
-
 function Login({setToken, setUserid, setUsername, setProfilePicture}) {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
@@ -81,6 +74,13 @@ function Login({setToken, setUserid, setUsername, setProfilePicture}) {
             <div className="loggingInText">Attempting login...</div>
         </div>
     )
+}
+
+Login.propTypes = {
+    setToken: PropTypes.func,
+    setUserid: PropTypes.func,
+    setUsername: PropTypes.func,
+    setProfilePicture: PropTypes.func,
 }
 
 export default Login;

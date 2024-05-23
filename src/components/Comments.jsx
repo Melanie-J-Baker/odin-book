@@ -5,12 +5,6 @@ import AddComment from '../components/AddComment';
 import Comment from '../components/Comment';
 import '../styles/Comments.css';
 
-Comments.propTypes = {
-    userid: PropTypes.string,
-    token: PropTypes.string,
-    postid: PropTypes.string,
-}
-
 function Comments({ userid, postid, token }) {
     const [loading, setLoading] = useState(true);
     const [comments, setComments] = useState([]);
@@ -51,6 +45,12 @@ function Comments({ userid, postid, token }) {
             <AddComment userid={userid} token={token} postid={postid} setCommentAdded={setCommentAdded} />
         </>
     )
+}
+
+Comments.propTypes = {
+    userid: PropTypes.string,
+    token: PropTypes.string,
+    postid: PropTypes.string,
 }
 
 export default Comments;

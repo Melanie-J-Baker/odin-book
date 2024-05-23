@@ -5,21 +5,6 @@ import Loading from '../pages/Loading';
 import LikeUsers from '../components/LikeUsers';
 import '../styles/Comment.css';
 
-Comment.propTypes = {
-    userid: PropTypes.string,
-    token: PropTypes.string,
-    commentid: PropTypes.string,
-    commentImage: PropTypes.string,
-    commentText: PropTypes.string,
-    commentUsername: PropTypes.string,
-    commentUserImage: PropTypes.string,
-    commentUserId: PropTypes.string,
-    commentTimestamp: PropTypes.string,
-    commentLikes: PropTypes.array,
-    setCommentLiked: PropTypes.func,
-    setCommentDeleted: PropTypes.func,
-}
-
 function Comment({ userid, token, commentid, commentImage, commentText, commentUsername, commentUserImage, commentUserId, commentTimestamp, commentLikes, setCommentLiked, setCommentDeleted }) {
     const navigate = useNavigate();
     const component = "comment";
@@ -125,6 +110,21 @@ function Comment({ userid, token, commentid, commentImage, commentText, commentU
             </div>
         </div>
     )
+}
+
+Comment.propTypes = {
+    userid: PropTypes.string,
+    token: PropTypes.string,
+    commentid: PropTypes.string,
+    commentImage: PropTypes.string,
+    commentText: PropTypes.string,
+    commentUsername: PropTypes.string,
+    commentUserImage: PropTypes.string,
+    commentUserId: PropTypes.string,
+    commentTimestamp: PropTypes.string,
+    commentLikes: PropTypes.array,
+    setCommentLiked: PropTypes.func,
+    setCommentDeleted: PropTypes.func,
 }
 
 export default Comment;

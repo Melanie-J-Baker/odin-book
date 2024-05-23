@@ -4,11 +4,6 @@ import PropTypes from 'prop-types';
 import '../styles/UpdatePost.css';
 import Loading from './Loading';
 
-UpdatePost.propTypes = {
-    token: PropTypes.string,
-    userid: PropTypes.string,
-}
-
 function UpdatePost({ token, userid }) {
     const { postid } = useParams();
     const navigate = useNavigate();
@@ -127,6 +122,11 @@ function UpdatePost({ token, userid }) {
             <Link id="back" className="back link" to={`/odin-book/users/${userid}/`}>Back to Profile</Link>
         </>
     )
+}
+
+UpdatePost.propTypes = {
+    token: PropTypes.string,
+    userid: PropTypes.string,
 }
 
 export default UpdatePost;

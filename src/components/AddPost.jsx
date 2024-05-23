@@ -3,12 +3,6 @@ import PropTypes from 'prop-types';
 import '../styles/AddPost.css';
 import Loading from '../pages/Loading';
 
-AddPost.propTypes = {
-    userid: PropTypes.string,
-    token: PropTypes.string,
-    setPostAdded: PropTypes.func,
-}
-
 function AddPost({ userid, token, setPostAdded }) {
     const [text, setText] = useState('');
     const [loading, setLoading] = useState(false);
@@ -97,6 +91,12 @@ function AddPost({ userid, token, setPostAdded }) {
             <div className='message'>{message}</div>
         </form>
     )
+}
+
+AddPost.propTypes = {
+    userid: PropTypes.string,
+    token: PropTypes.string,
+    setPostAdded: PropTypes.func,
 }
 
 export default AddPost;

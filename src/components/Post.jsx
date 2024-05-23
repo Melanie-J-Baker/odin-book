@@ -6,20 +6,6 @@ import LikeUsers from '../components/LikeUsers';
 import Loading from '../pages/Loading';
 import '../styles/Post.css';
 
-Post.propTypes = {
-    userid: PropTypes.string,
-    token: PropTypes.string,
-    postid: PropTypes.string,
-    postUserId: PropTypes.string,
-    postUsername: PropTypes.string,
-    postTimestamp: PropTypes.string,
-    postText: PropTypes.string,
-    postUserImage: PropTypes.string,
-    postImage: PropTypes.string,
-    postLikes: PropTypes.array,
-    setPostLiked: PropTypes.func,
-    setPostDeleted: PropTypes.func,
-}
 function Post({ userid, token, postid, postUserId, postUsername, postTimestamp, postText, postUserImage, postImage, postLikes, setPostLiked, setPostDeleted }) {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
@@ -89,13 +75,13 @@ function Post({ userid, token, postid, postUserId, postUsername, postTimestamp, 
     if (error) return <p className="error">A network error was encountered. {error}</p>
     if (loading) return <Loading />
     return (
-        <div className="post">
-            <div className="postUserDetails">
-                <div className="userDetails">
+        <div className='post'>
+            <div className='postUserDetails'>
+                <div className='userDetails'>
                     <img src={postUserImage} alt='Profile Image' className='postProfileImage' />
                     <div className="postUsernameTimestamp">
                         <div className='postUsername'>{postUsername}</div>
-                        <div className="postTimestamp">{postTimestamp}</div>
+                        <div className='postTimestamp'>{postTimestamp}</div>
                     </div>
                 </div>
                 {postUserId == userid ? (
@@ -117,13 +103,28 @@ function Post({ userid, token, postid, postUserId, postUsername, postTimestamp, 
                             <div className="postLikes">{postLikes.length} likes</div>
                         )}
                     </div>
-                    {!likeUsersShowing ? (<div className="showLikeUsers" onClick={showLikeUsers}>Show likes</div>) : (<LikeUsers component={component} id={postid} token={token} hideLikeUsers={hideLikeUsers} />)}
+                    {!likeUsersShowing ? (<div className='showLikeUsers' onClick={showLikeUsers}>Show likes</div>) : (<LikeUsers component={component} id={postid} token={token} hideLikeUsers={hideLikeUsers} />)}
                     {message && (<div className='postMessage'>{message}</div>)}
                 </div>
             </div>
             <Comments userid={userid} postid={postid} token={token} />
         </div>
     )
+}
+
+Post.propTypes = {
+    userid: PropTypes.string,
+    token: PropTypes.string,
+    postid: PropTypes.string,
+    postUserId: PropTypes.string,
+    postUsername: PropTypes.string,
+    postTimestamp: PropTypes.string,
+    postText: PropTypes.string,
+    postUserImage: PropTypes.string,
+    postImage: PropTypes.string,
+    postLikes: PropTypes.array,
+    setPostLiked: PropTypes.func,
+    setPostDeleted: PropTypes.func,
 }
 
 export default Post;
