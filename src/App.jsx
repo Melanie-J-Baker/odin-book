@@ -17,26 +17,18 @@ import UpdateComment from './pages/UpdateComment';
 import './styles/App.css';
 
 function App() {
-  const [username, setUsername] = useState(
-    localStorage.getItem('username') === 'null' || localStorage.getItem('token') === 'null'
-      ? null
-      : localStorage.getItem('username')
-  )
-  const [profilePicture, setProfilePicture] = useState(
-    localStorage.getItem('profilePicture') === 'null'
-      ? null
-      : localStorage.getItem('profilePicture')
-  );
-  const [token, setToken] = useState(
-    localStorage.getItem('token') === 'null'
-      ? null
-      : localStorage.getItem('token')
-  );
-  const [userid, setUserid] = useState(
-    localStorage.getItem('userid') === 'null'
-      ? null
-      : localStorage.getItem('userid')
-  );
+  const checkLocalStorage = (itemName) => {
+    if (localStorage.getItem(itemName) === 'null') {
+      return null;
+    } else {
+      localStorage.getItem(itemName);
+    }
+  }
+
+  const [username, setUsername] = useState(checkLocalStorage('username'))
+  const [profilePicture, setProfilePicture] = useState(checkLocalStorage('profilePicture'));
+  const [token, setToken] = useState(checkLocalStorage('token'));
+  const [userid, setUserid] = useState(checkLocalStorage('userid'));
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
   const [requestsLoading, setRequestsLoading] = useState(false);
@@ -89,7 +81,7 @@ function App() {
       console.log(data);
     }).catch((error) => {
       console.log(error);
-      setError(error)
+      setError(error);
     })
   }
 
