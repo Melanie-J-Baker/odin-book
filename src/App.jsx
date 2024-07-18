@@ -68,7 +68,7 @@ function App() {
             console.log(error);
             setError(error.msg);
         }).finally(() => setRequestsLoading(false));
-    }, [token, userid, deleted, accepted])
+  }, [token, userid, deleted, accepted])
 
   const sendFollowRequest = (newUserId) => {
     fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/followrequest/?` + new URLSearchParams({

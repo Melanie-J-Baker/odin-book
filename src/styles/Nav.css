@@ -66,16 +66,19 @@ li {
     border-color: #646cff;
 }
 
+#follow {
+    display: flex;
+    flex-direction: row;
+}
+
 .requestNotification {
-    position: absolute;
     color: white;
     background-color: rgba(255, 0, 0, 0.8);
     width: 20px;
     height: 20px;
     border-radius: 50px;
     text-align: center;
-    top: 10px;
-    right: 10px;
     font-size: 0.9rem;
     font-weight: 500;
+    margin-left: 10px;
 }
