@@ -52,23 +52,25 @@ function App() {
   }, [token, userid, profilePicture, username]);
 
   useEffect(() => {
-        setRequestsLoading(true);
-        fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/?` + new URLSearchParams({
-            secret_token: token,
-        }), {
-            mode: 'cors',
-            headers: {
-                "Authorization": `Bearer ${token}`,
-            },
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            setRequestDetails(data.user.requests);
-        }).catch((error) => {
-            console.log(error);
-            setError(error.msg);
-        }).finally(() => setRequestsLoading(false));
-    }, [token, userid, deleted, accepted])
+    if (userid) {
+      setRequestsLoading(true);
+      fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/?` + new URLSearchParams({
+          secret_token: token,
+      }), {
+          mode: 'cors',
+          headers: {
+              "Authorization": `Bearer ${token}`,
+          },
+      }).then((response) => {
+          return response.json();
+      }).then((data) => {
+          setRequestDetails(data.user.requests);
+      }).catch((error) => {
+          console.log(error);
+          setError(error.msg);
+      }).finally(() => setRequestsLoading(false));
+    }
+  }, [token, userid, deleted, accepted])
 
   const sendFollowRequest = (newUserId) => {
     fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/followrequest/?` + new URLSearchParams({
