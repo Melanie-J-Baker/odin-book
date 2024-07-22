@@ -1,5 +1,5 @@
 .comment {
-    background-color: rgb(153, 152, 152);
+    background-color: var(--light-grey);
     margin: 10px;
     padding: 10px;
 }
@@ -30,7 +30,7 @@
 }
 
 .commentDiv {
-    background-color: whitesmoke;
+    background-color: var(--light);
 }
 
 .commentImage {
@@ -40,7 +40,7 @@
 
 .commentText {
     color: black;
-    background-color: whitesmoke;
+    background-color: var(--light);
     padding: 10px;
     margin: 10px 0px;
 }
@@ -74,7 +74,7 @@
 }
 
 .commentLikes:hover {
-    color: darkblue;
+    color: var(--bright-blue);
 }
 
 .likeBtnComment {
@@ -105,7 +105,7 @@
 .commentMessage {
     margin-left: 10px;
     font-weight: 400;
-    color: darkblue;
+    color: var(--bright-blue);
 }
 
 .commentOptions {

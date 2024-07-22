@@ -101,10 +101,8 @@ function Profile({ token, currentuserid, sendFollowRequest, setUsers }) {
             <h1 className='profileHeading'>{username}</h1>
             {profileImage && (<img className='profileImageLarge' src={profileImage} alt="Profile picture" />)}
             <div className='profileDetails'>
-                <p className='profileSubheading'>Name:</p>
-                <p className='profileDetail'>{firstName} {lastName}</p>
-                <p className='profileSubheading'>Email:</p>
-                <p className='profileDetail'>{email}</p>
+                <p className='profileDetail'>Name: {firstName} {lastName}</p>
+                <p className='profileDetail'>Email: {email}</p>
             </div>
             {!currentlyFollowing && !requests.includes(currentuserid) && !requestSent ? (
                 <div id={userid} className='addFollowBtn' onClick={(event) => handleClick(event.target.id)}>Send Follow Request</div>

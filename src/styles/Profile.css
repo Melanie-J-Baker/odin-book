@@ -16,23 +16,13 @@
     width: 250px;
 }
 
-.profileSubheading {
-    font-size: 1rem;
-    margin-left: 10px;
-    font-weight: 500;
-    text-align: right;
-    margin-right: 20px;
-
-}
-
 .profileDetail {
     font-size: 1rem;
-    margin-left: 20px;
 }
 
 .profileDetails {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -40,14 +30,14 @@
 .profileLink {
     font-size: 1.2rem;
     font-weight: 500;
-    color: #646cff;
+    color: var(--light-blue);
     text-decoration: inherit;
     padding: 10px;
     text-align: center;
 }
 
 .profileLink:hover {
-    color: #0713f3;
+    color: var(--mid-blue);
     cursor: pointer;
 }
 
@@ -73,7 +63,7 @@
     align-items: center;
     width: 100%;
     font-size: 0.9rem;
-    border: 1px solid #646cff;
+    border: 1px solid var(--light-blue);
 }
 
 .followedUser {
@@ -88,8 +78,8 @@
 
 .seeProfileBtn {
     cursor: pointer;
-    background-color: darkblue;
-    color: white;
+    background-color: var(--mid-blue);
+    color: var(--light);
     border-radius: 10px;
     padding: 5px 10px;
     margin: 5px;
@@ -97,8 +87,8 @@
 
 .addFollowBtn {
     cursor: pointer;
-    background-color: darkblue;
-    color: white;
+    background-color: var(--bright-blue);
+    color: var(--light);
     border-radius: 10px;
     padding: 5px 10px;
     margin: 5px;

@@ -50,10 +50,8 @@ function PersonalProfile({ token, userid}) {
             <h1 className='profileHeading'>{username}</h1>
             {profilePicture && (<img className='profileImageLarge' src={profilePicture} alt="Profile picture" />)}
             <div className='profileDetails'>
-                <p className='profileSubheading'>Name:</p>
-                <p className='profileDetail'>{firstName} {lastName}</p>
-                <p className='profileSubheading'>Email:</p>
-                <p className='profileDetail'>{email}</p>
+                <p className='profileDetail'>Name: {firstName} {lastName}</p>
+                <p className='profileDetail'>Email: {email}</p>
             </div>
             {userid && (
                 <>

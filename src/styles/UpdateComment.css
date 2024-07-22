@@ -34,13 +34,13 @@ input::file-selector-button {
     font-size: 1.1em;
     font-weight: 500;
     font-family: inherit;
-    background-color: #1a1a1a;
+    background-color: (--darkest-blue);
     cursor: pointer;
     transition: border-color 0.25s;
 }
 
 input::file-selector-button:hover {
-    border-color: #646cff;
+    border-color: var(--light-blue);
 }
 
 .updateCommentSubmit {

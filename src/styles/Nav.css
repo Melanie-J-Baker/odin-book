@@ -1,7 +1,7 @@
 nav {
     position: fixed;
     top: 0;
-    background-color: rgb(7, 7, 7);
+    background-color: black;
     font-size: 1.2rem;
     height: 100px;
     display: flex;
@@ -49,9 +49,9 @@ li {
 
 .logout {
     text-decoration: none;
-    background-color: darkblue;
+    background-color: var(--bright-blue);
     border: 1px solid transparent;
-    color: white;
+    color: var(--light);
     font-size: 1rem;
     border-radius: 10px;
     text-align: center;
@@ -62,8 +62,8 @@ li {
 }
 
 .logout:hover {
-    background-color: rgb(1, 1, 77);
-    border-color: #646cff;
+    background-color: var(--dark-blue);
+    border-color: var(--light-blue);
 }
 
 .followNavDiv {
@@ -72,8 +72,8 @@ li {
 }
 
 .requestNotification {
-    color: white;
-    background-color: rgba(255, 0, 0, 0.8);
+    color: var(--light);
+    background-color: var(--alert);
     width: 20px;
     height: 20px;
     border-radius: 50px;

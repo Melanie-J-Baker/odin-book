@@ -1,7 +1,7 @@
 .followRequests {
     display: flex;
     flex-direction: column;
-    background-color: rgb(68, 68, 68);
+    background-color: var(--dark-grey);
     padding: 10px;
     align-items: center;
 }

@@ -1,7 +1,7 @@
 .post {
     width: 100%;
     margin-bottom: 40px;
-    background-color: rgb(116, 115, 115);
+    background-color: var(--mid-grey);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -57,7 +57,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: whitesmoke;
+    background-color: var(--light);
     width: 95%;
 }
 
@@ -93,7 +93,7 @@
     
 
 .postLikes:hover {
-    color: darkblue;
+    color: var(--bright-blue);
 }
 
 .likeBtnPost {
@@ -125,7 +125,7 @@
 .postMessage {
     margin-left: 10px;
     font-weight: 400;
-    color: darkblue;
+    color: var(--bright-blue);
 }
 
 .updatePost {
