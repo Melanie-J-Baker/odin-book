@@ -4,7 +4,7 @@
     align-items: center;
     width: 100%;
     text-align: center;
-    margin-top: 120px;
+    margin-top: 110px;
 }
 
 .signupHeading {
@@ -36,5 +36,19 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 120px;
+    margin-top: 110px;
+}
+
+.error {
+    margin-top: 110px;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+@media only screen and (min-width: 768px) {
+    .signUp, 
+    .accountCreated, 
+    .error {
+        margin-top: 160px;
+    }
 }

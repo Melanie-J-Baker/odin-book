@@ -44,3 +44,21 @@ input::file-selector-button:hover {
     font-size: 1.5rem;
 }
 
+@media only screen and (min-width: 768px) {
+    .addPostText {
+        width: 600px;
+        height: 80px;
+        font-size: 0.9rem;
+    }
+
+    .addPostBtn {
+        font-size: 1rem;
+    }
+}
+
+@media only screen and (min-width: 980px) {
+    .addPostText {
+        width: 800px;
+    }
+}
+

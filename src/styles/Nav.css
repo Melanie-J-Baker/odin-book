@@ -82,3 +82,34 @@ li {
     font-size: 0.9rem;
     font-weight: 500;
 }
+
+@media only screen and (min-width: 768px) {
+    nav {
+        height: 150px;
+    }
+
+    .lowerNav {
+        margin-top: 20px;
+    }
+
+    .requestNotification {
+        width: 25px;
+        height: 25px;
+    }
+
+    .profileImage {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+@media only screen and (min-width: 980px) {
+    .lowerNav {
+        margin-top: 5px;
+    }
+
+    .profileImage {
+        width: 80px;
+        height: 80px;
+    }
+}

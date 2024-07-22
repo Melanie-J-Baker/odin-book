@@ -30,7 +30,6 @@ function AddComment({ userid, token, postid, setCommentAdded }) {
         }).then((response) => {
             return response.json();
         }).then((data) => {
-            console.log(data.comment._id)
             if (file !== '') {
                 const formData = new FormData();
                 formData.append("commentImage", file);

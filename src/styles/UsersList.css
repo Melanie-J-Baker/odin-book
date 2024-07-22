@@ -35,11 +35,14 @@
     text-align: center;
 }
 
-#seeProfileBtn, .addFollowBtn {
+#seeProfileBtn, 
+.addFollowBtn {
     width: 200px;
 }
 
-.addFollowBtn, #seeProfileBtn, .goBack {
+.addFollowBtn, 
+#seeProfileBtn, 
+.goBack {
     text-decoration: none;
     cursor: pointer;
     background-color: darkblue;
@@ -65,7 +68,14 @@
 }
 
 .error {
-    margin-top: 120px;
+    margin-top: 110px;
     text-align: center;
     font-size: 1.5rem;
+}
+
+@media only screen and (min-width: 768px) {
+    .usersList,
+    .error {
+        margin-top: 160px;
+    }
 }

@@ -6,6 +6,7 @@
     width: 100%;
     height: 100vh;
     text-align: center;
+    margin-top: 110px;
 }
 
 .loggedOutText {
@@ -18,7 +19,14 @@
 }
 
 .error {
-    margin-top: 120px;
+    margin-top: 110px;
     text-align: center;
     font-size: 1.5rem;
+}
+
+@media only screen and (min-width: 768px) {
+    .loggedOut,
+    .error {
+        margin-top: 160px;
+    }
 }

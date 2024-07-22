@@ -28,7 +28,6 @@ input::file-selector-button {
     border-radius: 8px;
     border: 1px solid transparent;
     padding: 0.3em 0.6em;
-    font-size: 1em;
     font-weight: 500;
     font-family: inherit;
     background-color: #1a1a1a;
@@ -43,4 +42,22 @@ input::file-selector-button:hover {
 .error {
     text-align: center;
     font-size: 1.5rem;
+}
+
+@media only screen and (min-width: 768px) { 
+    .addCommentText {
+        width: 600px;
+        height: 80px;
+        font-size: 0.9rem;
+    }
+
+    .addCommentBtn {
+        font-size: 1rem;
+    }
+}
+
+@media only screen and (min-width: 980px) {
+    .addCommentText {
+        width: 800px;
+    }
 }
