@@ -48,7 +48,8 @@
     flex-direction: row;
     width: 100%;
     justify-content: space-between;
-    margin: 0px 5px 5px 5px;
+    align-items: center;
+    padding: 5px 10px 10px 10px;
 }
 
 .likes {
@@ -58,18 +59,13 @@
 }
 
 .commentLikes {
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: black;
-    margin-right: 10px
-}
-
-.showLikeUsers {
+    margin-right: 10px;
     cursor: pointer;
-    color: black;
-    font-size: 0.9rem;
 }
 
-.showLikeUsers:hover {
+.commentLikes:hover {
     color: darkblue;
 }
 

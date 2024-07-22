@@ -98,12 +98,12 @@ function Post({ userid, token, postid, postUserId, postUsername, postTimestamp, 
                     <div className="likes">
                         {postLikes && !postLikes.includes(userid) ? (<div className='likeBtnPost' id={postid} onClick={(event) => likePost(event.target.id)}></div>) : (<div className='postLiked' id={postid} onClick={(event) => likePost(event.target.id)}></div>)}
                         {postLikes.length === 1 ? (
-                            <div className="postLikes">1 like</div>
+                            <div className="postLikes" onClick={showLikeUsers}>1 like</div>
                         ) : (
-                            <div className="postLikes">{postLikes.length} likes</div>
+                            <div className="postLikes" onClick={showLikeUsers}>{postLikes.length} likes</div>
                         )}
                     </div>
-                    {!likeUsersShowing ? (<div className='showLikeUsers' onClick={showLikeUsers}>Show likes</div>) : (<LikeUsers component={component} id={postid} token={token} hideLikeUsers={hideLikeUsers} />)}
+                    {likeUsersShowing && (<LikeUsers component={component} id={postid} token={token} hideLikeUsers={hideLikeUsers} />)}
                     {message && (<div className='postMessage'>{message}</div>)}
                 </div>
             </div>

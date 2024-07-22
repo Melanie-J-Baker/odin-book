@@ -91,12 +91,12 @@ function Comment({ userid, token, commentid, commentImage, commentText, commentU
                     <div className="likes">
                         {commentLikes.includes(userid) ? (<div className='commentLiked' id={commentid} onClick={(event) => likeComment(event.target.id)}></div>) : (<div className='likeBtnComment' id={commentid} onClick={(event) => likeComment(event.target.id)}></div>)}
                         {commentLikes.length === 1 ? (
-                            <div className='commentLikes'>1 like</div>
+                            <div className='commentLikes' onClick={showLikeUsers}>1 like</div>
                         ) : (
-                            <div className='commentLikes'>{commentLikes.length} likes</div>
+                            <div className='commentLikes' onClick={showLikeUsers}>{commentLikes.length} likes</div>
                         )}
                     </div>
-                    {!likeUsersShowing ? (<div className="showLikeUsers" onClick={showLikeUsers}>Show likes</div>) : (<LikeUsers component={component} id={commentid} token={token} hideLikeUsers={hideLikeUsers} />)}
+                    {likeUsersShowing && (<LikeUsers component={component} id={commentid} token={token} hideLikeUsers={hideLikeUsers} />)}
                     <div className='commentMessage'>{message}</div>  
                     {commentUserId == userid ? (
                         <div className='commentOptions'>
