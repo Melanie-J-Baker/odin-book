@@ -28,6 +28,8 @@
 .username {
     font-size: 1.3rem;
     color: black;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .noUsers {
@@ -64,7 +66,7 @@
     position: fixed;
     bottom: 0;
     right: 0;
-    margin: 10px;
+    margin: 20px;
 }
 
 .error {
@@ -77,5 +79,9 @@
     .usersList,
     .error {
         margin-top: 160px;
+    }
+
+    .goBack {
+        font-size: 1.2rem;
     }
 }

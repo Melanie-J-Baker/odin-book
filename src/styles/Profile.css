@@ -105,4 +105,8 @@
     .error {
         margin-top: 160px;
     }
+
+    .profileDetails {
+        font-size: 1.2rem;
+    }
 }

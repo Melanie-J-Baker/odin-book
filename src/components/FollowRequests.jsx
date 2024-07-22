@@ -60,7 +60,7 @@ function FollowRequests({ token, userid, requestsLoading, requestDetails, setDel
     if (loading || requestsLoading) return <Loading />
     return (
         <div className='followRequests'>
-            <div className='requestsHeading'>Follow requests</div>
+            {requestDetails.length ? <div className='requestsHeading'>Follow requests</div> : <div className='requestsHeading'>No follow requests</div>}
             {requestDetails.map((user) => {
                 return (
                     <div key={user._id} className='request'>
