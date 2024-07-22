@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
+import { PropTypes } from 'prop-types';
 import { Link } from 'react-router-dom';
-import '../styles/Welcome.css'
+import '../styles/Welcome.css';
 import Loading from "./Loading";
-import { PropTypes } from 'prop-types'
+import LoginAsGuest from "./LoginAsGuest";
 
-function Welcome({userid}) {
+function Welcome({userid, setToken, setUserid, setUsername, setProfilePicture}) {
   const [loading, setLoading] = useState(true);
   const [userCount, setUserCount] = useState(0);
   const [postCount, setPostCount] = useState(0);
@@ -35,15 +36,22 @@ function Welcome({userid}) {
         <div className='commentCount'>Number of comments: {commentCount}</div>
       </div>
       {!userid && (<div className='welcomeBtns'>
-        <Link id='signupBtn' className="welcomeBtn link" to={'/odin-book/users/signup'}>Sign up</Link>
-        <Link id='loginBtn' className="welcomeBtn link" to={'/odin-book/users/login'}>Log in</Link>
+        <div>
+          <Link id='signupBtn' className="welcomeBtn link" to={'/odin-book/users/signup'}>Sign up</Link>
+          <Link id='loginBtn' className="welcomeBtn link" to={'/odin-book/users/login'}>Log in</Link>
+        </div>
+        <LoginAsGuest setToken={setToken} setUserid={setUserid} setUsername={setUsername} setProfilePicture={setProfilePicture} />
       </div>)}
     </div>
   )
 }
 
 Welcome.propTypes = {
-  userid: PropTypes.string
+  userid: PropTypes.string,
+  setToken: PropTypes.func, 
+  setUserid: PropTypes.func, 
+  setUsername: PropTypes.func,
+  setProfilePicture: PropTypes.func,
 }
 
 export default Welcome;

@@ -43,6 +43,7 @@ function App() {
   const [requestDetails, setRequestDetails] = useState([]);
   const [deleted, setDeleted] = useState('');
   const [accepted, setAccepted] = useState('');
+  const [data, setData] = useState('');
 
   useEffect(() => {
     localStorage.setItem('token', token);
@@ -66,7 +67,6 @@ function App() {
       }).then((data) => {
           setRequestDetails(data.user.requests);
       }).catch((error) => {
-          console.log(error);
           setError(error.msg);
       }).finally(() => setRequestsLoading(false));
     }
@@ -88,9 +88,8 @@ function App() {
     }).then((response) => {
         return response.json();
     }).then((data) => {
-      console.log(data);
+      setData(data)
     }).catch((error) => {
-      console.log(error);
       setError(error)
     })
   }
@@ -100,7 +99,7 @@ function App() {
       <Nav userid={userid} username={username} profilePicture={profilePicture} token={token} setToken={setToken} setUserid={setUserid} setProfilePicture={setProfilePicture} setUsername={setUsername} requestDetails={requestDetails} />
       <Routes>
         <Route path="/" element={<Welcome userid={userid} />} />
-        <Route path="/odin-book" element={<Welcome userid={userid} />} />
+        <Route path="/odin-book" element={<Welcome userid={userid} setToken={setToken} setUserid={setUserid} setUsername={setUsername} setProfilePicture={setProfilePicture}/>} />
         <Route path="/odin-book/users/:userid/addfollows" element={<UsersList token={token} userid={userid} sendFollowRequest={sendFollowRequest} users={users} setUsers={setUsers} error={error} setError={setError} requestsLoading={requestsLoading} requestDetails={requestDetails} setDeleted={setDeleted} setAccepted={setAccepted} />}/>
         <Route path="/odin-book/users/login" element={<Login setToken={setToken} setUserid={setUserid} setUsername={setUsername} setProfilePicture={setProfilePicture} />} />
         <Route path="/odin-book/users/signup" element={<Signup />} />

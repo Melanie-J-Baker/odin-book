@@ -21,12 +21,11 @@ function FollowRequests({ token, userid, requestsLoading, requestDetails, setDel
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                toFollow: requestUserId
+                requestUserId: requestUserId
             })
         }).then((response) => {
             return response.json();
         }).then((data) => {
-            console.log(data);
             setAccepted(data.user);
         }).catch((error) => {
             setError(error.msg)
@@ -50,7 +49,6 @@ function FollowRequests({ token, userid, requestsLoading, requestDetails, setDel
         }).then((response) => {
             return response.json();
         }).then((data) => {
-            console.log(data);
             setDeleted(data.user);
         }).catch((error) => {
             setError(error.msg)
