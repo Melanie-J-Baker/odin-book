@@ -15,14 +15,14 @@ function UsersList({ token, userid, sendFollowRequest, users, setUsers, error, s
             secret_token: token,
         }), {
             headers: {
-                Authorization: `Bearer ${token}`,
+                'Authorization': `Bearer ${token}`,
             }
         }).then((response) => {
             return response.json();
         }).then((data) => {
             setUsers(data.users);
-        }).catch(err => {
-            setError(err.msg)
+        }).catch(error => {
+            setError(error.msg)
         }).finally(() => setLoading(false));
     }, [setError, setUsers, token, userid, requestSent])
 

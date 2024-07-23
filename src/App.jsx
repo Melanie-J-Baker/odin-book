@@ -90,7 +90,7 @@ function App() {
     }).then((data) => {
       setData(data)
     }).catch((error) => {
-      setError(error)
+      setError(error.msg)
     })
   }
 
@@ -100,7 +100,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Welcome userid={userid} />} />
         <Route path="/odin-book" element={<Welcome userid={userid} setToken={setToken} setUserid={setUserid} setUsername={setUsername} setProfilePicture={setProfilePicture}/>} />
-        <Route path="/odin-book/users/:userid/addfollows" element={<UsersList token={token} userid={userid} sendFollowRequest={sendFollowRequest} users={users} setUsers={setUsers} error={error} setError={setError} requestsLoading={requestsLoading} requestDetails={requestDetails} setDeleted={setDeleted} setAccepted={setAccepted} />}/>
+        <Route path="/odin-book/users/:userid/addfollows" element={<UsersList token={token} userid={userid} sendFollowRequest={sendFollowRequest} users={users} setUsers={setUsers} error={error} setError={setError} requestsLoading={requestsLoading} requestDetails={requestDetails} setDeleted={setDeleted} setAccepted={setAccepted} data={data} />}/>
         <Route path="/odin-book/users/login" element={<Login setToken={setToken} setUserid={setUserid} setUsername={setUsername} setProfilePicture={setProfilePicture} />} />
         <Route path="/odin-book/users/signup" element={<Signup />} />
         <Route path="/odin-book/users/logout" element={<Logout/>} />

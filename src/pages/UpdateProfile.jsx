@@ -23,7 +23,7 @@ function UpdateProfile({ token, userid, setUsername, setProfilePicture }) {
             secret_token: token,
         }), {
             headers: {
-                Authorization: `Bearer ${token}`,
+                'Authorization': `Bearer ${token}`,
             }
         }).then((response) => {
             return response.json();
@@ -45,10 +45,10 @@ function UpdateProfile({ token, userid, setUsername, setProfilePicture }) {
         }), {
             method: 'PUT',
             mode: 'cors',
-            credentials : "include",
+            credentials : 'include',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
+                'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify({
                 username: usernameInput,
@@ -60,7 +60,7 @@ function UpdateProfile({ token, userid, setUsername, setProfilePicture }) {
             return response.json();
         }).then((data) => {
             setStatus(data.status);
-            localStorage.setItem("username", data.user.username);
+            localStorage.setItem('username', data.user.username);
             setUsername(data.user.username);
             if (file == '') {
                 navigate(`/odin-book/users/${data.user._id}/`)
@@ -74,16 +74,16 @@ function UpdateProfile({ token, userid, setUsername, setProfilePicture }) {
         if (file !== '') {
             setFormSubmit(false);
             const formData = new FormData();
-            formData.append("profileImage", file);
+            formData.append('profileImage', file);
             setLoading(true);
             fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/newprofileimage/?` + new URLSearchParams({
                 secret_token: token,
             }), {
                 method: 'PUT',
                 mode: 'cors',
-                credentials : "include",
+                credentials : 'include',
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: formData
             }).then((response) => {
@@ -94,7 +94,6 @@ function UpdateProfile({ token, userid, setUsername, setProfilePicture }) {
                 localStorage.setItem('profilePicture', data.user.profile_image)
                 setProfilePicture(data.user.profile_image);
             }).catch(error => {
-                console.log(error);
                 setErrorMessage(error.message)
             }).finally(() => {
                 setLoading(false);

@@ -13,6 +13,7 @@ function Signup() {
     const [profileImage, setProfileImage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [formSubmit, setFormSubmit] = useState(false);
+    const [data, setData] = useState('');
     const [loading, setLoading] = useState(false);
  
     const submitSignup = () => {
@@ -36,7 +37,7 @@ function Signup() {
         }).then((response) => {
             return response.json();
         }).then((data) => {
-            console.log(data);
+            setData(data);
         }).catch(error => {
             setErrorMessage(error.msg)
         }).finally(() => {
@@ -46,7 +47,7 @@ function Signup() {
     };
 
     if (loading) return <Loading/>
-    return !formSubmit ? (
+    return !formSubmit && !data ? (
         <div className="signup">
             <div className="signupHeading">Enter your details</div>
             <div className="signupInputs">
@@ -64,7 +65,7 @@ function Signup() {
         </div>        
     ) : (
         <div className="accountCreated">
-            <h1 className="accountCreatedHeading">Account created!</h1>
+                <h1 className="accountCreatedHeading">Account created for {data.user.username}!</h1>
             <Link id="toLogin" className="toLogin link" to={'/odin-book/users/login'}>Please log in</Link>
         </div >)
 }

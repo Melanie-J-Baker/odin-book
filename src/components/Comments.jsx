@@ -18,7 +18,7 @@ function Comments({ userid, postid, token }) {
             secret_token: token,
         }), {
             headers: {
-                Authorization: `Bearer ${token}`,
+                "Authorization": `Bearer ${token}`,
             }
         }).then((response) => {
             return response.json();

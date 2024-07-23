@@ -20,7 +20,7 @@ function AddComment({ userid, token, postid, setCommentAdded }) {
             mode: 'cors',
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
+                "Authorization": `Bearer ${token}`,
             },
             body: JSON.stringify({
                 post: postid,
@@ -40,19 +40,17 @@ function AddComment({ userid, token, postid, setCommentAdded }) {
                     mode: 'cors',
                     credentials : "include",
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        "Authorization": `Bearer ${token}`,
                     },
                     body: formData
                 }).then((response) => {
                     return response.json();
                 }).then((data) => {
-                    console.log(data)
                     setMessage(data.status);
                     setTimeout(() => {
                         setMessage('');
                     }, 3000)
                 }).catch(error => {
-                    console.log(error)
                     setError(error.message)
                     setMessage(error.message)
                     setTimeout(() => {
@@ -64,7 +62,6 @@ function AddComment({ userid, token, postid, setCommentAdded }) {
                 })
             }
         }).catch(error => {
-            console.log(error)
             setError(error.msg)
         }).finally(() => {
             setLoading(false);

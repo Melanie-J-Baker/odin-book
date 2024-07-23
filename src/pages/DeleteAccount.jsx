@@ -18,12 +18,11 @@ function DeleteAccount({ token, userid, setUsername, setToken, setProfilePicture
         }), {
             method: 'DELETE',
             headers: {
-                Authorization: `Bearer ${token}`,
+                'Authorization': `Bearer ${token}`,
             }
         }).then((response) => {
             return response.json();
         }).then((data) => {
-            console.log(data);
             setData(data.message);
             setTimeout(() => {
                 navigate('/odin-book');
@@ -36,7 +35,6 @@ function DeleteAccount({ token, userid, setUsername, setToken, setProfilePicture
                 setUserid('')
             }
         }).catch(error => {
-            console.log(error)
             setError(error.msg)
         }).finally(() => {
             setLoading(false)

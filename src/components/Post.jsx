@@ -22,7 +22,7 @@ function Post({ userid, token, postid, postUserId, postUsername, postTimestamp, 
             method: 'PUT',
             mode: 'cors',
             headers: {
-                Authorization: `Bearer ${token}`,
+                "Authorization": `Bearer ${token}`,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
@@ -49,7 +49,7 @@ function Post({ userid, token, postid, postUserId, postUsername, postTimestamp, 
             method: 'DELETE',
             mode: 'cors',
             headers: {
-                Authorization: `Bearer ${token}`,
+                "Authorization": `Bearer ${token}`,
             },
         }).then((response) => {
             return response.json();

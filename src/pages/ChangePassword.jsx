@@ -24,7 +24,7 @@ function ChangePassword({ token, userid }) {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
+                'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify({
                 currentPassword: currentPassword,
@@ -41,7 +41,6 @@ function ChangePassword({ token, userid }) {
             setLoading(false);
             setFormSubmit(true);
         })
-
     }
 
     if (error) return <div className='error'>A network error was encountered. {error}</div>

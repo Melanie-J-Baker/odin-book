@@ -15,7 +15,7 @@ function LikeUsers({ component, id, token, hideLikeUsers }) {
             }), {
                 mode: 'cors',
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    "Authorization": `Bearer ${token}`,
                 }
             }).then((response) => {
                 return response.json();
@@ -30,7 +30,7 @@ function LikeUsers({ component, id, token, hideLikeUsers }) {
             }), {
                 mode: 'cors',
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    "Authorization": `Bearer ${token}`,
                 }
             }).then((response) => {
                 return response.json();

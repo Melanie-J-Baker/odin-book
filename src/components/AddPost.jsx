@@ -20,7 +20,7 @@ function AddPost({ userid, token, setPostAdded }) {
             mode: 'cors',
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
+                "Authorization": `Bearer ${token}`,
             },
             body: JSON.stringify({
                 user: userid,
@@ -29,7 +29,6 @@ function AddPost({ userid, token, setPostAdded }) {
         }).then((response) => {
             return response.json();
         }).then((data) => {
-            console.log(data.post._id)
             if (file !== '') {
                 const formData = new FormData();
                 formData.append("postImage", file);
@@ -40,19 +39,17 @@ function AddPost({ userid, token, setPostAdded }) {
                     mode: 'cors',
                     credentials : "include",
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        "Authorization": `Bearer ${token}`,
                     },
                     body: formData
                 }).then((response) => {
                     return response.json();
                 }).then((data) => {
-                    console.log(data)
                     setMessage(data.status);
                     setTimeout(() => {
                         setMessage('');
                     }, 3000)
                 }).catch(error => {
-                    console.log(error)
                     setError(error.message)
                     setMessage(error.message)
                     setTimeout(() => {
@@ -64,7 +61,6 @@ function AddPost({ userid, token, setPostAdded }) {
                 })
             }
         }).catch(error => {
-            console.log(error)
             setError(error.msg)
         }).finally(() => {
             setLoading(false);

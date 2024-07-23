@@ -20,7 +20,7 @@ function UpdateComment({ token, userid }) {
             secret_token: token,
         }), {
             headers: {
-                Authorization: `Bearer ${token}`,
+                'Authorization': `Bearer ${token}`,
             }
         }).then((response) => {
             return response.json();
@@ -43,7 +43,7 @@ function UpdateComment({ token, userid }) {
             credentials : "include",
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
+                'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify({
                 text: commentText
@@ -74,17 +74,15 @@ function UpdateComment({ token, userid }) {
                 mode: 'cors',
                 credentials : "include",
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: formData
             }).then((response) => {
                 return response.json();
             }).then((data) => {
-                console.log(data);
                 setStatus(data.status || data.message);
                 setError(data.error);
             }).catch(error => {
-                console.log(error)
                 setError(error.msg)
                 setStatus(error.msg)
             }).finally(() => {

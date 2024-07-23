@@ -20,7 +20,7 @@ function UpdatePost({ token, userid }) {
             secret_token: token,
         }), {
             headers: {
-                Authorization: `Bearer ${token}`,
+                'Authorization': `Bearer ${token}`,
             }
         }).then((response) => {
             return response.json();
@@ -40,10 +40,10 @@ function UpdatePost({ token, userid }) {
         }), {
             method: 'PUT',
             mode: 'cors',
-            credentials : "include",
+            credentials : 'include',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
+                'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify({
                 text: postText
@@ -72,19 +72,17 @@ function UpdatePost({ token, userid }) {
             }), {
                 method: 'PUT',
                 mode: 'cors',
-                credentials : "include",
+                credentials : 'include',
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: formData
             }).then((response) => {
                 return response.json();
             }).then((data) => {
-                console.log(data);
                 setStatus(data.status || data.message);
                 setError(data.error);
             }).catch(error => {
-                console.log(error);
                 setError(error.msg)
                 setStatus(error.msg)
             }).finally(() => {

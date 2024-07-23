@@ -28,7 +28,6 @@ function LoginAsGuest({setToken, setUserid, setUsername, setProfilePicture}) {
         }).then((response) => {
             return response.json();
         }).then((data) => {
-            console.log(data);
             if (data.user && data.token) {
                 setErrorMessage("");
                 localStorage.setItem("token", data.token);
