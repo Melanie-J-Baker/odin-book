@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../pages/Loading';
 import LikeUsers from '../components/LikeUsers';
+import DeleteComment from '../components/DeleteComment';
 import '../styles/Comment.css';
 
 function Comment({ userid, token, commentid, commentImage, commentText, commentUsername, commentUserImage, commentUserId, commentTimestamp, commentLikes, setCommentLiked, setCommentDeleted }) {
@@ -10,9 +11,9 @@ function Comment({ userid, token, commentid, commentImage, commentText, commentU
     const component = "comment";
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState();
-    const [error, setError] = useState();
     const [likeError, setLikeError] = useState('');
     const [likeUsersShowing, setLikeUsersShowing] = useState(false);
+    const [deleteCommentShowing, setDeleteCommentShowing] = useState(false);
 
     const likeComment = (id) => {
         setLoading(true);
@@ -41,42 +42,19 @@ function Comment({ userid, token, commentid, commentImage, commentText, commentU
         }).finally(() => setLoading(false));
     }
 
-    const deleteComment = (commentid) => {
-        setLoading(true);
-        fetch(`${import.meta.env.VITE_API}/odin-book/comments/${commentid}/?` + new URLSearchParams({
-            secret_token: token,
-        }), {
-            method: 'DELETE',
-            mode: 'cors',
-            headers: {
-                "Authorization": `Bearer ${token}`,
-            },
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            setMessage(data.message);
-            setTimeout(() => {
-                setMessage("");
-            }, 4000)
-            setCommentDeleted({ deleted: true });
-        }).catch((error) => {
-            setError(error.msg)
-        }).finally(() => setLoading(false))
-    }
-
     const showLikeUsers = () => {
-        setLikeUsersShowing(true);
+        likeUsersShowing === true ? setLikeUsersShowing(false) : setLikeUsersShowing(true);
     }
 
-    const hideLikeUsers = () => {
-        setLikeUsersShowing(false);
+    const showDeleteComment = () => {
+        deleteCommentShowing === false ? setDeleteCommentShowing(true) : setDeleteCommentShowing(false);
     }
     
     if (likeError) return <p className='error'>Error liking comment {likeError}</p>
-    if (error) return <p className='error'>A network error was encountered. {error}</p>
     if (loading) return <Loading/>
     return (
         <div className='comment' id={commentid}>
+            {deleteCommentShowing && (<DeleteComment commentid={commentid} token={token} setCommentDeleted={setCommentDeleted} setDeleteCommentShowing={setDeleteCommentShowing} />)}
             <div className="commentUserDetails">
                 <img src={commentUserImage} alt='Profile Image' className='commentProfileImage' />
                 <div className='commentUsername'>{commentUsername}</div>
@@ -91,17 +69,17 @@ function Comment({ userid, token, commentid, commentImage, commentText, commentU
                     <div className="likes">
                         {commentLikes.includes(userid) ? (<div className='commentLiked' id={commentid} onClick={(event) => likeComment(event.target.id)}></div>) : (<div className='likeBtnComment' id={commentid} onClick={(event) => likeComment(event.target.id)}></div>)}
                         {commentLikes.length === 1 ? (
-                            <div className='commentLikes' onClick={showLikeUsers}>1 like</div>
+                            <div className='commentLikes' onClick={() => showLikeUsers()}>1 like</div>
                         ) : (
-                            <div className='commentLikes' onClick={showLikeUsers}>{commentLikes.length} likes</div>
+                            <div className='commentLikes' onClick={() => showLikeUsers()}>{commentLikes.length} likes</div>
                         )}
                     </div>
-                    {likeUsersShowing && (<LikeUsers component={component} id={commentid} token={token} hideLikeUsers={hideLikeUsers} />)}
+                    {likeUsersShowing && (<LikeUsers component={component} id={commentid} token={token} showLikeUsers={showLikeUsers} />)}
                     <div className='commentMessage'>{message}</div>  
                     {commentUserId == userid ? (
                         <div className='commentOptions'>
                             <div id={commentid} className='updateComment' onClick={(e) => navigate(`/odin-book/comments/${e.target.id}/update`)}></div>
-                            <div id={commentid} className='deleteComment' onClick={(e) => deleteComment(e.target.id)}></div>
+                            <div id={commentid} className='deleteComment' onClick={() => showDeleteComment()}></div>
                         </div>
                     ) : (
                         <div className='commentOptions'></div>

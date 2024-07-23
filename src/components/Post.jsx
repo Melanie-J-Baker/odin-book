@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Comments from '../components/Comments';
 import LikeUsers from '../components/LikeUsers';
+import DeletePost from '../components/DeletePost';
 import Loading from '../pages/Loading';
 import '../styles/Post.css';
 
@@ -12,6 +13,7 @@ function Post({ userid, token, postid, postUserId, postUsername, postTimestamp, 
     const [message, setMessage] = useState('');
     const [error, setError] = useState(null);
     const [likeUsersShowing, setLikeUsersShowing] = useState(false);
+    const [deletePostShowing, setDeletePostShowing] = useState(false); 
     const component = "post";
 
     const likePost = (id) => {
@@ -41,41 +43,19 @@ function Post({ userid, token, postid, postUserId, postUsername, postTimestamp, 
         }).finally(() => setLoading(false))
     }
 
-    const deletePost = (postid) => {
-        setLoading(true);
-        fetch(`${import.meta.env.VITE_API}/odin-book/posts/${postid}/?` + new URLSearchParams({
-            secret_token: token,
-        }), {
-            method: 'DELETE',
-            mode: 'cors',
-            headers: {
-                "Authorization": `Bearer ${token}`,
-            },
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            setPostDeleted({ deleted: true });
-            setMessage(data.message);
-            setTimeout(() => {
-                setMessage("");
-            }, 4000)
-        }).catch((error) => {
-            setError(error.msg)
-        }).finally(() => setLoading(false))
+    const showDeletePost = () => {
+        deletePostShowing === false ? setDeletePostShowing(true) : setDeletePostShowing(false);
     }
 
     const showLikeUsers = () => {
-        setLikeUsersShowing(true);
-    }
-
-    const hideLikeUsers = () => {
-        setLikeUsersShowing(false);
+        likeUsersShowing === true ? setLikeUsersShowing(false) : setLikeUsersShowing(true);
     }
 
     if (error) return <p className="error">A network error was encountered. {error}</p>
     if (loading) return <Loading />
     return (
         <div className='post'>
+            {deletePostShowing && (<DeletePost postid={postid} token={token} setPostDeleted={setPostDeleted} setDeletePostShowing={setDeletePostShowing} />)}
             <div className='postUserDetails'>
                 <div className='userDetails'>
                     <img src={postUserImage} alt='Profile Image' className='postProfileImage' />
@@ -87,7 +67,7 @@ function Post({ userid, token, postid, postUserId, postUsername, postTimestamp, 
                 {postUserId == userid ? (
                     <div className='postOptions'>
                         <div id={postid} className='updatePost' onClick={(e) => navigate(`/odin-book/posts/${e.target.id}/update`)}></div>
-                        <div id={postid} className='deletePost' onClick={(e) => deletePost(e.target.id)}></div>
+                        <div id={postid} className='deletePost' onClick={() => showDeletePost()}></div>
                     </div>
                 ) : <div className='postOptions'></div>}
             </div>
@@ -98,12 +78,12 @@ function Post({ userid, token, postid, postUserId, postUsername, postTimestamp, 
                     <div className="likes">
                         {postLikes && !postLikes.includes(userid) ? (<div className='likeBtnPost' id={postid} onClick={(event) => likePost(event.target.id)}></div>) : (<div className='postLiked' id={postid} onClick={(event) => likePost(event.target.id)}></div>)}
                         {postLikes.length === 1 ? (
-                            <div className="postLikes" onClick={showLikeUsers}>1 like</div>
+                            <div className="postLikes" onClick={() => showLikeUsers()}>1 like</div>
                         ) : (
-                            <div className="postLikes" onClick={showLikeUsers}>{postLikes.length} likes</div>
+                            <div className="postLikes" onClick={() => showLikeUsers()}>{postLikes.length} likes</div>
                         )}
                     </div>
-                    {likeUsersShowing && (<LikeUsers component={component} id={postid} token={token} hideLikeUsers={hideLikeUsers} />)}
+                    {likeUsersShowing && (<LikeUsers component={component} id={postid} token={token} showLikeUsers={showLikeUsers} />)}
                     {message && (<div className='postMessage'>{message}</div>)}
                 </div>
             </div>

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Loading from '../pages/Loading';
 import '../styles/LikeUsers.css';
 
-function LikeUsers({ component, id, token, hideLikeUsers }) {
+function LikeUsers({ component, id, token, showLikeUsers }) {
     const [users, setUsers] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
@@ -45,7 +45,7 @@ function LikeUsers({ component, id, token, hideLikeUsers }) {
     if (error) return <div className='error'>A network error was encountered. {error}</div>
     return !loading ? (
         <div className='likeUsers'>
-            <div className='close' onClick={hideLikeUsers}>x</div>
+            <div className='close' onClick={showLikeUsers}>x</div>
             {users.length !== 0 ? users.map((user) => {
                 return (
                     <div key={user._id} className='likeUser'>
@@ -64,7 +64,7 @@ LikeUsers.propTypes = {
     component: PropTypes.string,
     id: PropTypes.string,
     token: PropTypes.string,
-    hideLikeUsers: PropTypes.func,
+    showLikeUsers: PropTypes.func,
 }
 
 export default LikeUsers;
