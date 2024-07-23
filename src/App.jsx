@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useIdleTimer } from "react-idle-timer";
 import Welcome from './pages/Welcome';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -36,6 +37,22 @@ function App() {
   const [deleted, setDeleted] = useState('');
   const [accepted, setAccepted] = useState('');
   const [data, setData] = useState('');
+
+  const handleOnUserIdle = () => {
+    localStorage.clear();
+    setUsername(null);
+    setUserid(null);
+    setToken(null);
+    setProfilePicture(null);
+  }
+
+  const IDLE_TIME = 30 * 60 * 1000; // 30 mins in ms
+  const GENERAL_DEBOUNCE_TIME = 500; // in ms
+  useIdleTimer({
+    timeout: IDLE_TIME,
+    onIdle: handleOnUserIdle,
+    debounce: GENERAL_DEBOUNCE_TIME,
+  });
 
   useEffect(() => {
     localStorage.setItem('token', token);
