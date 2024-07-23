@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useIdleTimer } from "react-idle-timer";
 import Welcome from './pages/Welcome';
+import ErrorPage from './pages/ErrorPage';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import PersonalProfile from './pages/PersonalProfile';
@@ -121,6 +122,7 @@ function App() {
         <Route path="/odin-book/users/:userid/feed" element={<Feed token={token} userid={userid} />} />
         <Route path="/odin-book/posts/:postid/update" element={<UpdatePost token={token} userid={userid} />} />
         <Route path="/odin-book/comments/:commentid/update" element={<UpdateComment token={token} userid={userid} />} />
+        <Route path="*" element={<ErrorPage/>} />
       </Routes>
     </Router>
   )
