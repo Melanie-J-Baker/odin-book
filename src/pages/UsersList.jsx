@@ -3,9 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import '../styles/UsersList.css';
 import Loading from './Loading';
-import FollowRequests from '../components/FollowRequests';
+import FriendRequests from '../components/FriendRequests';
 
-function UsersList({ token, userid, sendFollowRequest, users, setUsers, error, setError, requestsLoading, requestDetails, setDeleted, setAccepted}) {
+function UsersList({ token, userid, sendFriendRequest, users, setUsers, error, setError, requestsLoading, requestDetails, setDeleted, setAccepted}) {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [requestSent, setRequestSent] = useState();
@@ -27,7 +27,7 @@ function UsersList({ token, userid, sendFollowRequest, users, setUsers, error, s
     }, [setError, setUsers, token, userid, requestSent])
 
     const handleClick = (id) => {
-        sendFollowRequest(id);
+        sendFriendRequest(id);
         setRequestSent(id);
     }
 
@@ -35,15 +35,15 @@ function UsersList({ token, userid, sendFollowRequest, users, setUsers, error, s
     if (loading) return <Loading/>
     return (
         <div className="usersList">
-            <FollowRequests token={token} userid={userid} requestsLoading={requestsLoading} requestDetails={requestDetails} setDeleted={setDeleted} setAccepted={setAccepted}/>
-            <div className="usersListHeading">Follow new users</div>
+            <FriendRequests token={token} userid={userid} requestsLoading={requestsLoading} requestDetails={requestDetails} setDeleted={setDeleted} setAccepted={setAccepted}/>
+            <div className="usersListHeading">Add new friends</div>
             {users.length ? users.map((user) => {
                 return (
                     <div key={user._id} className='user'>
                         <img src={user.profile_image} alt="User profile image" className='userImage'/>
                         <div className='username'>{user.username}</div>
                         <Link id='seeProfileBtn' to={`/odin-book/users/${user._id}/profile`}>See profile</Link>
-                        {user.requests.includes(userid) || requestSent === user._id ? (<div className='addFollowBtn'>Request sent!</div>) : (<div id={user._id} className='addFollowBtn' onClick={(event) => handleClick(event.target.id)}>Send follow request</div>)}
+                        {user.requests.includes(userid) || requestSent === user._id ? (<div className='addFriendBtn'>Request sent!</div>) : (<div id={user._id} className='addFriendBtn' onClick={(event) => handleClick(event.target.id)}>Send friend request</div>)}
                     </div>
                 )
             }) : (
@@ -57,7 +57,7 @@ function UsersList({ token, userid, sendFollowRequest, users, setUsers, error, s
 UsersList.propTypes = {
     token: PropTypes.string,
     userid: PropTypes.string,
-    sendFollowRequest: PropTypes.func,
+    sendFriendRequest: PropTypes.func,
     users: PropTypes.array,
     setUsers: PropTypes.func,
     error: PropTypes.string,

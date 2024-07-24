@@ -9,7 +9,7 @@ The following requirements are a very global list of features the app was requir
 
 - Users must sign in to see anything except the sign-in page.
 - Users should be able to sign in using your chosen authentication method.
-- Users can send follow requests to other users.
+- Users can send friend requests to other users.
 - Users can create posts (begin with text only).
 - Users can like posts.
 - Users can comment on posts.
@@ -17,7 +17,7 @@ The following requirements are a very global list of features the app was requir
 - There should be an index page for posts, which shows all the recent posts from the current user and users they are following.
 - Users can create a profile with a profile picture.
 - A user’s profile page should contain their profile information, profile photo, and posts.
-- There should be an index page for users, which shows all users and buttons for sending follow requests to users the user is not already following or have a pending request.
+- There should be an index page for users, which shows all users and buttons for sending friend requests to users the user is not already following or have a pending request.
 
 Extra credit:
 

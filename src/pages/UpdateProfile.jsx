@@ -113,12 +113,16 @@ function UpdateProfile({ token, userid, setUsername, setProfilePicture }) {
             <h2 className="updateProfileHeading">Update your details</h2>
             <form encType="multipart/form-data" className="updateProfileInputs">
                 {profileImage && (<img src={profileImage} alt="Current profile image" className="currentProfileImage" />)}
+                <label htmlFor="updateProfileUsername" className="updateProfileLabel">Username</label>
                 <input id="updateProfileUsername" autoComplete="username" name="username" className="updateProfileInput" type="text" placeholder="Enter new username" defaultValue={usernameInput} onChange={(event) => setUsernameInput(event.target.value)} />
+                <label htmlFor="updateProfileFirstName" className="updateProfileLabel">First name</label>
                 <input id="updateProfileFirstName" autoComplete="name" name="first_name" className="updateProfileInput" type="text" placeholder="Enter new first name" defaultValue={firstName} onChange={(event) => setFirstName(event.target.value)} />
+                <label htmlFor="updateProfileLastName" className="updateProfileLabel">Last name</label>
                 <input id="updateProfileLastName" autoComplete="name" name="last_name" className="updateProfileInput" type="text" placeholder="Enter new last name" defaultValue={lastName} onChange={(event) => setLastName(event.target.value)} />
+                <label htmlFor="updateProfileEmail" className="updateProfileLabel">Email</label>
                 <input id="updateProfileEmail" autoComplete="email" name="email" className="updateProfileInput" type="email" placeholder="Enter new email address" defaultValue={email} onChange={(event) => setEmail(event.target.value)} />
                 <div className="fileInputDiv">
-                    <label htmlFor="profileImage" className="fileInputLabel">Upload profile image:</label>
+                    <label htmlFor="profileImage" className="fileInputLabel">Profile image: </label>
                     <input type="file" id="profileImage" name="profileImage" onChange={handleSelectFile} multiple={false}></input>
                 </div>
                 <button type="button" className="updateProfileBtn" onClick={submitUpdateProfile}>Update Profile</button>

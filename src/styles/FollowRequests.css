@@ -1,7 +1,7 @@
-.followRequests {
+.friendRequests {
     display: flex;
     flex-direction: column;
-    background-color: var(--dark-grey);
+    background-color: var(--darkest-blue);
     padding: 10px;
     align-items: center;
 }

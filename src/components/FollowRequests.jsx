@@ -1,17 +1,17 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/FollowRequests.css';
+import '../styles/FriendRequests.css';
 import Loading from '../pages/Loading';
 
-function FollowRequests({ token, userid, requestsLoading, requestDetails, setDeleted, setAccepted }) {
+function FriendRequests({ token, userid, requestsLoading, requestDetails, setDeleted, setAccepted }) {
     const navigate = useNavigate();
     const[error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
     const acceptRequest = (requestUserId) => {
         setLoading(true);
-        fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/addfollow/?` + new URLSearchParams({
+        fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/addfriend/?` + new URLSearchParams({
             secret_token: token,
         }), {
             method: 'PUT',
@@ -57,8 +57,8 @@ function FollowRequests({ token, userid, requestsLoading, requestDetails, setDel
     if (error) return <div className='error'>A network error was encountered. {error}</div>
     if (loading || requestsLoading) return <Loading />
     return (
-        <div className='followRequests'>
-            {requestDetails.length ? <div className='requestsHeading'>Follow requests</div> : <div className='requestsHeading'>No follow requests</div>}
+        <div className='friendRequests'>
+            {requestDetails.length ? <div className='requestsHeading'>Friend requests</div> : <div className='requestsHeading'>No friend requests</div>}
             {requestDetails.map((user) => {
                 return (
                     <div key={user._id} className='request'>
@@ -78,7 +78,7 @@ function FollowRequests({ token, userid, requestsLoading, requestDetails, setDel
     )
 }
 
-FollowRequests.propTypes = {
+FriendRequests.propTypes = {
     token: PropTypes.string,
     userid: PropTypes.string,
     requestsLoading: PropTypes.bool,
@@ -87,4 +87,4 @@ FollowRequests.propTypes = {
     setAccepted: PropTypes.func,
 }
 
-export default FollowRequests;
+export default FriendRequests;

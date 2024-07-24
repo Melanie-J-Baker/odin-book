@@ -9,12 +9,27 @@
     overflow: auto;
 }
 
+.likeUsersTopDiv {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    background-color: var(--darkest-blue);
+}
+
+.likeUsersTitle {
+    padding-left: 10px;
+    color: var(--light);
+}
+
 .close {
     text-align: end;
-    padding-right: 5px;
+    padding-right: 10px;
     cursor: pointer;
-    color: black;
+    color: var(--light);
     font-weight: 700;
+    font-size: 1.1rem;
 }
 
 .likeUser {

@@ -16,6 +16,7 @@ import UsersList from './pages/UsersList';
 import Profile from './pages/Profile';
 import UpdatePost from './pages/UpdatePost';
 import UpdateComment from './pages/UpdateComment';
+import ScrollToTop from "./components/ScrollToTop";
 import './styles/App.css';
 
 function App() {
@@ -50,7 +51,7 @@ function App() {
     }
   }
 
-  const IDLE_TIME = 1 * 60 * 1000; // 30 mins in ms
+  const IDLE_TIME = 30 * 60 * 1000; // 30 mins in ms
   const GENERAL_DEBOUNCE_TIME = 500; // in ms
   useIdleTimer({
     timeout: IDLE_TIME,
@@ -85,8 +86,8 @@ function App() {
     }
   }, [token, userid, deleted, accepted])
 
-  const sendFollowRequest = (newUserId) => {
-    fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/followrequest/?` + new URLSearchParams({
+  const sendFriendRequest = (newUserId) => {
+    fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/friendrequest/?` + new URLSearchParams({
         secret_token: token,
     }), {
         method: 'PUT',
@@ -96,7 +97,7 @@ function App() {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            toFollow: newUserId
+            toFriend: newUserId
         })
     }).then((response) => {
         return response.json();
@@ -110,10 +111,11 @@ function App() {
   return (
     <Router>
       <Nav userid={userid} username={username} profilePicture={profilePicture} token={token} setToken={setToken} setUserid={setUserid} setProfilePicture={setProfilePicture} setUsername={setUsername} requestDetails={requestDetails} />
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Welcome userid={userid} />} />
         <Route path="/odin-book" element={<Welcome userid={userid} setToken={setToken} setUserid={setUserid} setUsername={setUsername} setProfilePicture={setProfilePicture}/>} />
-        <Route path="/odin-book/users/:userid/addfollows" element={<UsersList token={token} userid={userid} sendFollowRequest={sendFollowRequest} users={users} setUsers={setUsers} error={error} setError={setError} requestsLoading={requestsLoading} requestDetails={requestDetails} setDeleted={setDeleted} setAccepted={setAccepted} data={data} />}/>
+        <Route path="/odin-book/users/:userid/addfriends" element={<UsersList token={token} userid={userid} sendFriendRequest={sendFriendRequest} users={users} setUsers={setUsers} error={error} setError={setError} requestsLoading={requestsLoading} requestDetails={requestDetails} setDeleted={setDeleted} setAccepted={setAccepted} data={data} />}/>
         <Route path="/odin-book/users/login" element={<Login setToken={setToken} setUserid={setUserid} setUsername={setUsername} setProfilePicture={setProfilePicture} />} />
         <Route path="/odin-book/users/signup" element={<Signup />} />
         <Route path="/odin-book/users/logout" element={<Logout/>} />
@@ -121,7 +123,7 @@ function App() {
         <Route path="/odin-book/users/:userid/updateprofile" element={<UpdateProfile token={token} userid={userid} setUsername={setUsername} setProfilePicture={setProfilePicture} />} />
         <Route path="/odin-book/users/:userid/deleteaccount" element={<DeleteAccount token={token} userid={userid} setUsername={setUsername} setToken={setToken} setProfilePicture={setProfilePicture} setUserid={setUserid}/>} />
         <Route path="/odin-book/users/:userid/changepassword" element={<ChangePassword token={token} userid={userid} />} />
-        <Route path="/odin-book/users/:userid/profile" element={<Profile token={token} currentuserid={userid} sendFollowRequest={sendFollowRequest} setUsers={setUsers} requestDetails={requestDetails}/>} />
+        <Route path="/odin-book/users/:userid/profile" element={<Profile token={token} currentuserid={userid} sendFriendRequest={sendFriendRequest} setUsers={setUsers} requestDetails={requestDetails}/>} />
         <Route path="/odin-book/users/:userid/feed" element={<Feed token={token} userid={userid} />} />
         <Route path="/odin-book/posts/:postid/update" element={<UpdatePost token={token} userid={userid} />} />
         <Route path="/odin-book/comments/:commentid/update" element={<UpdateComment token={token} userid={userid} />} />

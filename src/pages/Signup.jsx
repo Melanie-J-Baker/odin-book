@@ -10,7 +10,6 @@ function Signup() {
     const [email, setEmail] = useState('');
     const [passwordInput, setPasswordInput] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [profileImage, setProfileImage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [formSubmit, setFormSubmit] = useState(false);
     const [data, setData] = useState('');
@@ -49,15 +48,15 @@ function Signup() {
     if (loading) return <Loading/>
     return !formSubmit && !data ? (
         <div className="signup">
-            <div className="signupHeading">Enter your details</div>
+            <div className="signupHeading">Create an account</div>
             <div className="signupInputs">
+                <div className="signupInputsHeading">Please enter your details</div>
                 <input id="signupUsername" autoComplete="username" name="username" className="signupInput" type="text" placeholder="Enter your username" value={usernameInput} onChange={(event) => setUsernameInput(event.target.value)} />
                 <input id="signupFirstName" autoComplete="name" name="first_name" className="signupInput" type="text" placeholder="Enter your first name" value={firstName} onChange={(event) => setFirstName(event.target.value)} />
                 <input id="signupLastName" autoComplete="name" name="last_name" className="signupInput" type="text" placeholder="Enter your last name" value={lastName} onChange={(event) => setLastName(event.target.value)} />
                 <input id="email" autoComplete="email" name="email" className="signupInput" type="email" placeholder="Enter your email address" value={email} onChange={(event) => setEmail(event.target.value)} />
                 <input id="signupPassword" autoComplete="new-password" name="password" className="signupInput" type="password" placeholder="Enter your password" value={passwordInput} onChange={(event) => setPasswordInput(event.target.value)} />
                 <input id="signupConfirmPassword" autoComplete="new-password" name="password_confirm" className="signupInput" type="password" placeholder="Re-enter your password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} />
-                <input id="profileImage" name="profile_image" className="signupInput" type="image" value={profileImage} onChange={(event) => setProfileImage(event.target.value)} />
                 <button type="button" className="signupBtn" onClick={submitSignup}>Sign up</button>
                 <Link id="cancelSignup" className="cancelSignup link" to={'/odin-book'}>Cancel</Link>
             </div>

@@ -14,7 +14,7 @@ function PersonalProfile({ token, userid}) {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [profilePicture, setProfilePicture] = useState('');
-    const [following, setFollowing] = useState([]);
+    const [friends, setFriends] = useState([]);
     const [posts, setPosts] = useState([]);
     const [error, setError] = useState(null);
     const [postLiked, setPostLiked] = useState(false);
@@ -35,7 +35,7 @@ function PersonalProfile({ token, userid}) {
             setFirstName(data.user.first_name);
             setLastName(data.user.last_name);
             setEmail(data.user.email);
-            setFollowing(data.user.following);
+            setFriends(data.user.friends);
             setPosts(data.posts)
             setProfilePicture(data.user.profile_image);
         }).catch(error => {
@@ -62,25 +62,25 @@ function PersonalProfile({ token, userid}) {
                     <Link className='profileLink allConvos link' id='goToFeed' to={`/odin-book/users/${userid}/feed`}>See Feed</Link> 
                 </>
             )}
-            <div className="followingContainer">
-                <p className='followingHeading'>Following:</p>
-                {following.length ? (
-                    <div className='following'>
-                        {following.map((followedUser) => {
+            <div className="friendsContainer">
+                <p className='friendsHeading'>Friends:</p>
+                {friends.length ? (
+                    <div className='friends'>
+                        {friends.map((friend) => {
                             return (
-                                <div key={followedUser._id} className='followedUser' id={followedUser._id}>
-                                    <img src={followedUser.profile_image} alt="followedUser" width="75px" height="75px" className="followedUserImage" />
-                                    <div className='followedUsername'>{followedUser.username}</div>
-                                    <div className='seeProfileBtn' onClick={() => navigate(`/odin-book/users/${followedUser._id}/profile`)}>See profile</div>
+                                <div key={friend._id} className='friend' id={friend._id}>
+                                    <img src={friend.profile_image} alt="friend" width="75px" height="75px" className="friendImage" />
+                                    <div className='friendUsername'>{friend.username}</div>
+                                    <div className='seeProfileBtn' onClick={() => navigate(`/odin-book/users/${friend._id}/profile`)}>See profile</div>
                                 </div>
                             )   
                         })}
                     </div>
                 ) : (
-                    <div className='noFollows'>No friends yet!</div>
+                    <div className='noFriends'>No friends yet!</div>
                 )}
-                <div className="addFollows">
-                    <Link className='profileLink link' id='addFollows' to={`/odin-book/users/${userid}/addfollows`}>Follow new users</Link>
+                <div className="addFriends">
+                    <Link className='profileLink link' id='addFriends' to={`/odin-book/users/${userid}/addfriends`}>Add new friends</Link>
                 </div>
             </div>
             <AddPost userid={userid} token={token} setPostAdded={setPostAdded}/>

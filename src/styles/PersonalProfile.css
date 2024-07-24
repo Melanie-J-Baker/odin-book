@@ -40,11 +40,11 @@
     cursor: pointer;
 }
 
-.addFollows {
+.addFriends {
     margin: 20px;
 }
 
-.followingContainer {
+.friendsContainer {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -54,12 +54,12 @@
     background-color: var(--dark-grey);
 }
 
-.followingHeading {
+.friendsHeading {
     font-size: 1.2rem;
     font-weight: 600;
 }
 
-.following {
+.friends {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -70,13 +70,13 @@
     border: 1px solid var(--light-blue);
 }
 
-.followedUser {
+.friend {
     margin-left: 10px;
     text-align: center;
     padding: 10px;
 }
 
-#addFollows {
+#addFriends {
     margin: 20px;
 }
 

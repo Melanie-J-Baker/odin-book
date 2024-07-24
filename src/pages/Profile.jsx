@@ -5,7 +5,7 @@ import Loading from "./Loading";
 import { PropTypes } from 'prop-types';
 import Post from '../components/Post';
 
-function Profile({ token, currentuserid, sendFollowRequest, setUsers }) {
+function Profile({ token, currentuserid, sendFriendRequest, setUsers }) {
     const { userid } = useParams();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
@@ -13,12 +13,12 @@ function Profile({ token, currentuserid, sendFollowRequest, setUsers }) {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
-    const [following, setFollowing] = useState([]);
+    const [friends, setFriends] = useState([]);
     const [requests, setRequests] = useState([]);
     const [profileImage, setProfileImage] = useState(''); 
     const [posts, setPosts] = useState([]);
     const [error, setError] = useState(null);
-    const [currentlyFollowing, setCurrentlyFollowing] = useState(false);
+    const [currentlyFriends, setCurrentlyFriends] = useState(false);
     const [requestSent, setRequestSent] = useState();
 
     useEffect(() => {
@@ -37,7 +37,7 @@ function Profile({ token, currentuserid, sendFollowRequest, setUsers }) {
             setLastName(data.user.last_name);
             setEmail(data.user.email);
             setRequests(data.user.requests);
-            setFollowing(data.user.following);
+            setFriends(data.user.friends);
             setProfileImage(data.user.profile_image);
             setPosts(data.posts)
         }).catch(error => {
@@ -56,10 +56,10 @@ function Profile({ token, currentuserid, sendFollowRequest, setUsers }) {
         }).then((response) => {
             return response.json();
         }).then((data) => {
-            if (data.user.following.some(user => user._id === userid)) {
-                setCurrentlyFollowing(true);
+            if (data.user.friends.some(user => user._id === userid)) {
+                setCurrentlyFriends(true);
             } else {
-                setCurrentlyFollowing(false);
+                setCurrentlyFriends(false);
             }
         }).catch(error => {
             setError(error)
@@ -68,7 +68,7 @@ function Profile({ token, currentuserid, sendFollowRequest, setUsers }) {
 
     const removeFriend = (id) => {
         setLoading(true);
-        fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/addfollow/?` + new URLSearchParams({
+        fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/addfriend/?` + new URLSearchParams({
             secret_token: token,
         }), {
             method: 'PUT',
@@ -78,19 +78,19 @@ function Profile({ token, currentuserid, sendFollowRequest, setUsers }) {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                toFollow: id
+                toFriend: id
             })
         }).then((response) => {
             return response.json();
         }).then((data) => {
-            setUsers(data.notFollowing);
+            setUsers(data.notFriends);
         }).catch((error) => {
             setError(error.msg)
         }).finally(() => setLoading(false));
     }
 
     const handleClick = (id) => {
-        sendFollowRequest(id);
+        sendFriendRequest(id);
         setRequestSent(true);
     }
 
@@ -104,28 +104,28 @@ function Profile({ token, currentuserid, sendFollowRequest, setUsers }) {
                 <p className='profileDetail'>Name: {firstName} {lastName}</p>
                 <p className='profileDetail'>Email: {email}</p>
             </div>
-            {!currentlyFollowing && !requests.includes(currentuserid) && !requestSent ? (
-                <div id={userid} className='addFollowBtn' onClick={(event) => handleClick(event.target.id)}>Send Follow Request</div>
-            ) : !currentlyFollowing && requests.includes(currentuserid) || requestSent ? (
-                <div id={userid} className='addFollowBtn'>Request sent!</div>
+            {!currentlyFriends && !requests.includes(currentuserid) && !requestSent ? (
+                <div id={userid} className='addFriendBtn' onClick={(event) => handleClick(event.target.id)}>Send Friend Request</div>
+            ) : !currentlyFriends && requests.includes(currentuserid) || requestSent ? (
+                <div id={userid} className='addFriendBtn'>Request sent!</div>
             ) : (
-                <div id={userid} className='addFollowBtn' onClick={(event) => removeFriend(event.target.id)}>Unfollow</div>
+                <div id={userid} className='addFriendBtn' onClick={(event) => removeFriend(event.target.id)}>Unfriend</div>
             )}
-            <div className="followingContainer">
-                <p className='followingHeading'>Following:</p>
-                {following.length ? (
-                    <div className='following'>
-                        {following.map((followedUser) => {
+            <div className="friendsContainer">
+                <p className='friendsHeading'>Friends:</p>
+                {friends.length ? (
+                    <div className='friends'>
+                        {friends.map((friend) => {
                             return (
-                                <div key={followedUser._id} className='followedUser' id={followedUser._id}>
-                                    <img src={followedUser.profile_image} alt="followedUser" width="75px" height="75px" className="followedUserImage" />
-                                    <div className='followedUsername'>{followedUser.username}</div>
-                                    <div className='seeProfileBtn' onClick={() => navigate(`/odin-book/users/${followedUser._id}/userprofile`)}>See profile</div>
+                                <div key={friend._id} className='friend' id={friend._id}>
+                                    <img src={friend.profile_image} alt="friend" width="75px" height="75px" className="friendImage" />
+                                    <div className='friendUsername'>{friend.username}</div>
+                                    <div className='seeProfileBtn' onClick={() => navigate(`/odin-book/users/${friend._id}/userprofile`)}>See profile</div>
                                 </div>
                             )
                         })}
                     </div>
-                ) : (<div className='noFollows'>No follows yet!</div>)}
+                ) : (<div className='noFriends'>No friends yet!</div>)}
             </div>
             {posts.length ? (
                 <div className='posts'>
@@ -148,7 +148,7 @@ function Profile({ token, currentuserid, sendFollowRequest, setUsers }) {
 Profile.propTypes = {
     token: PropTypes.string,
     currentuserid: PropTypes.string,
-    sendFollowRequest: PropTypes.func,
+    sendFriendRequest: PropTypes.func,
     setUsers: PropTypes.func,
     requestDetails: PropTypes.array,
 }

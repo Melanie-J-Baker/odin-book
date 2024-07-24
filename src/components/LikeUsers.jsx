@@ -45,7 +45,10 @@ function LikeUsers({ component, id, token, showLikeUsers }) {
     if (error) return <div className='error'>A network error was encountered. {error}</div>
     return !loading ? (
         <div className='likeUsers'>
-            <div className='close' onClick={showLikeUsers}>x</div>
+            <div className='likeUsersTopDiv'>
+                <div className='likeUsersTitle'>Users who liked this</div>
+                <div className='close' onClick={showLikeUsers}>x</div>
+            </div>
             {users.length !== 0 ? users.map((user) => {
                 return (
                     <div key={user._id} className='likeUser'>

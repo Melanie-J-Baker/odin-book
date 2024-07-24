@@ -38,11 +38,11 @@
 }
 
 #seeProfileBtn, 
-.addFollowBtn {
+.addFriendBtn {
     width: 200px;
 }
 
-.addFollowBtn, 
+.addFriendBtn, 
 #seeProfileBtn, 
 .goBack {
     text-decoration: none;
@@ -55,7 +55,7 @@
     text-align: center;
 }
 
-.addFollowBtn:hover,
+.addFriendBtn:hover,
 #seeProfileBtn:hover,
 .goBack:hover {
     color: var(--light-blue);

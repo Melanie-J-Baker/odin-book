@@ -33,8 +33,8 @@ function Nav ({ userid, username, profilePicture, token, setToken, setUserid, se
         {userid && currentRoute !== 'odin-book/users/logout' && (<li>
           <Link className='link' onClick={() => setCurrentRoute(`odin-book/users/${userid}/feed`)} to={`odin-book/users/${userid}/feed`}>Feed</Link>
         </li>)}
-        {userid && currentRoute !== 'odin-book/users/:userid/addfollows' && (<li className="followNavDiv">
-          <Link className='link' id="follow" onClick={() => setCurrentRoute(`odin-book/users/${userid}/addfollows`)} to={`odin-book/users/${userid}/addfollows`}>Follow</Link>
+        {userid && currentRoute !== 'odin-book/users/:userid/addfriends' && (<li className="addFriendsNavDiv">
+          <Link className='link' onClick={() => setCurrentRoute(`odin-book/users/${userid}/addfriends`)} to={`odin-book/users/${userid}/addfriends`}>Add Friends</Link>
           <div className='requestNotification'>{requestDetails.length}</div>
         </li>)}
       </ul>
