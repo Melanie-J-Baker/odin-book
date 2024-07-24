@@ -30,7 +30,7 @@ function UpdatePost({ token, userid }) {
         }).catch(error => {
             setError(error.msg)
         }).finally(() => setLoading(false));
-    })
+    }, [postid, token])
 
     const updatePost = (e) => {
         e.preventDefault();
@@ -103,7 +103,7 @@ function UpdatePost({ token, userid }) {
             {currentPostImage && (<img src={currentPostImage} alt="Post image" className='updatePostImage' />)}
             <form encType="multipart/form-data" className='updatePostForm'>
                 <div className='updatePostHeading'>Update post</div>
-                <textarea className="updatePostText" defaultValue={postText} name="text" id="text" rows="3" cols="30" onChange={(event) => setPostText(event.target.value)}></textarea>
+                <textarea className="updatePostText" defaultValue={postText} name="text" id="text" rows="5" cols="50" onChange={(event) => setPostText(event.target.value)}></textarea>
                 <input type="file" id="postImage" className="postImageInput"  name="postImage" onChange={handleSelectFile} multiple={false}></input>
                 <button type="button" className="updatePostSubmit" onClick={(e) => updatePost(e)}>Update Post</button>
                 <div className='back link' onClick={() => navigate(-1)}>Cancel</div>

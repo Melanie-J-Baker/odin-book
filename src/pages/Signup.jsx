@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import '../styles/Signup.css';
 import Loading from "./Loading";
@@ -14,6 +14,10 @@ function Signup() {
     const [formSubmit, setFormSubmit] = useState(false);
     const [data, setData] = useState('');
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
  
     const submitSignup = () => {
         setLoading(true);
@@ -70,7 +74,7 @@ function Signup() {
         </div>        
     ) : (
         <div className="accountCreated">
-                <h1 className="accountCreatedHeading">Account created for {data.user.username}!</h1>
+            <h1 className="accountCreatedHeading">Account created for {data.user.username}!</h1>
             <Link id="toLogin" className="toLogin link" to={'/odin-book/users/login'}>Please log in</Link>
         </div >)
 }

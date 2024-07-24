@@ -194,11 +194,19 @@
     .postUsername {
         font-size: 1.3rem;
     }
+
+    .postImage {
+        width: 80%;
+    }
 }
 
 @media only screen and (min-width: 980px) {
     .postText {
         padding: 35px;
         font-size: 1.2rem;
+    }
+
+    .postImage {
+        width: 70%;
     }
 }

@@ -18,6 +18,8 @@
 
 .profileDetail {
     font-size: 1rem;
+    text-align: center;
+    width: 100%;
 }
 
 .profileDetails {
@@ -25,6 +27,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
 .profileLink {

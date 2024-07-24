@@ -30,7 +30,7 @@ function UpdateComment({ token, userid }) {
         }).catch(error => {
             setError(error.msg)
         }).finally(() => setLoading(false));
-    })
+    }, [commentid, token])
 
     const updateComment = (e) => {
         e.preventDefault();
@@ -102,7 +102,7 @@ function UpdateComment({ token, userid }) {
         <form encType="multipart/form-data" className='updateCommentForm'>
             <div className='updateCommentHeading'>Update comment</div>
             {commentImage && (<img src={commentImage} alt="Comment image" className='updateCommentImage' />)}
-            <textarea className="updateCommentText" defaultValue={commentText} name="text" id="text" rows="3" cols="30" onChange={(event) => setCommentText(event.target.value)}></textarea>
+            <textarea className="updateCommentText" defaultValue={commentText} name="text" id="text" rows="5" cols="50" onChange={(event) => setCommentText(event.target.value)}></textarea>
             <input type="file" id="commentImage" className="commentImageInput" name="commentImage" onChange={handleSelectFile} multiple={false}></input>
             <button type="button" className="updateCommentSubmit" onClick={(e) => updateComment(e)}>Update Comment</button>
             <div className='back link' onClick={() => navigate(-1)}>Cancel</div>

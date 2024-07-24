@@ -47,11 +47,13 @@ function PersonalProfile({ token, userid}) {
     if (loading) return <Loading/>
     return userid ? (
         <div className='profilePage'>
-            <h1 className='profileHeading'>{username}</h1>
-            {profilePicture && (<img className='profileImageLarge' src={profilePicture} alt="Profile picture" />)}
-            <div className='profileDetails'>
-                <p className='profileDetail'>Name: {firstName} {lastName}</p>
-                <p className='profileDetail'>Email: {email}</p>
+            <div className='profileDetailsMain'>
+                <h1 className='profileHeading'>{username}</h1>
+                {profilePicture && (<img className='profileImageLarge' src={profilePicture} alt="Profile picture" />)}
+                <div className='profileDetails'>
+                    <p className='profileDetail'>Name: {firstName} {lastName}</p>
+                    <p className='profileDetail'>Email: {email}</p>
+                </div>
             </div>
             {userid && (
                 <>
