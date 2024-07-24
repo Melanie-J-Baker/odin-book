@@ -35,7 +35,7 @@ function Feed({ token, userid }) {
         <div className="feed">
             <AddPost userid={userid} token={token} setPostAdded={setPostAdded} />
             <h2 className="feedHeading">Feed</h2>
-            {feedPosts.length ? feedPosts.map((post) => {
+            {feedPosts ? feedPosts.map((post) => {
                 return (
                     <Post className="post" key={post._id} userid={userid} token={token} postid={post._id} postUserId={post.user._id} postUsername={post.user.username} postTimestamp={post.timestamp_formatted} postText={post.text} postUserImage={post.user.profile_image} postImage={post.post_image} postLikes={post.likes} setPostLiked={setPostLiked} setPostDeleted={setPostDeleted}/>
                 )

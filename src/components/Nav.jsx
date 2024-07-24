@@ -18,7 +18,7 @@ function Nav ({ userid, username, profilePicture, token, setToken, setUserid, se
   return (
     <nav>
       <ul className='mainMenu'>
-        {currentRoute !== 'odin-book' && (<li>
+        {currentRoute !== '/' && currentRoute !== '/odin-book' && (<li>
           <Link className="link" onClick={() => setCurrentRoute('odin-book')} to="/odin-book">Home</Link>
         </li>)}
         {!userid && currentRoute !== 'odin-book/users/login' && (<li>
