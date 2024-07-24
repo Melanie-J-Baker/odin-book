@@ -2,6 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useNavigate } from 'react-router-dom';
 import Loading from './Loading';
+import LoggedOut from './LoggedOut';
 import '../styles/DeleteAccount.css';
 
 function DeleteAccount({ token, userid, setUsername, setToken, setProfilePicture, setUserid }) {
@@ -42,6 +43,7 @@ function DeleteAccount({ token, userid, setUsername, setToken, setProfilePicture
         });
     }
 
+    if (!token) return <LoggedOut/>
     if (error) return <p className='error'>A network error was encountered. {error}</p>
     if (loading) return <Loading />
     if (data) return <div>{data}</div>

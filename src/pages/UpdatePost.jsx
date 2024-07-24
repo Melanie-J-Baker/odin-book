@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import '../styles/UpdatePost.css';
+import LoggedOut from './LoggedOut';
 import Loading from './Loading';
 
 function UpdatePost({ token, userid }) {
@@ -95,7 +96,8 @@ function UpdatePost({ token, userid }) {
     const handleSelectFile = (e) => {
         setFile(e.target.files[0]);
     }
-    
+
+    if (!token) return <LoggedOut/>
     if (error) return <div className="error">A network error was encountered. {error}</div>
     if (loading) return <Loading />
     return !formSubmit ? (

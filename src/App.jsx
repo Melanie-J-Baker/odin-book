@@ -51,7 +51,7 @@ function App() {
     }
   }
 
-  const IDLE_TIME = 30 * 60 * 1000; // 30 mins in ms
+  const IDLE_TIME = 1 * 60 * 1000; // 30 mins in ms
   const GENERAL_DEBOUNCE_TIME = 500; // in ms
   useIdleTimer({
     timeout: IDLE_TIME,

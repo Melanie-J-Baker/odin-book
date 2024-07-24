@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import '../styles/UpdateComment.css';
 import Loading from './Loading';
+import LoggedOut from './LoggedOut';
 
 function UpdateComment({ token, userid }) {
     const { commentid } = useParams();
@@ -95,7 +96,8 @@ function UpdateComment({ token, userid }) {
     const handleSelectFile = (e) => {
         setFile(e.target.files[0]);
     }
-    
+
+    if (!token) return <LoggedOut/>
     if (error) return <div className="error">A network error was encountered. {error}</div>
     if (loading) return <Loading />
     return !formSubmit ? (

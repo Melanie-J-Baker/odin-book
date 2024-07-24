@@ -1,8 +1,9 @@
 .comment {
     background-color: var(--light-grey);
-    margin: 10px;
+    margin: 10px 0px;
     padding: 10px;
     position: relative;
+    width: 80%;
 }
 
 .commentUserDetails {
@@ -139,6 +140,14 @@
 
 .deleteComment:hover {
     background-image: url("../assets/icons/deleteblue.svg");
+}
+
+.deleteCommentConfirm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
 }
 
 .error {

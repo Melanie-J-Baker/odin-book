@@ -4,6 +4,7 @@ import '../styles/Profile.css';
 import Loading from "./Loading";
 import { PropTypes } from 'prop-types';
 import Post from '../components/Post';
+import LoggedOut from './LoggedOut';
 
 function Profile({ token, currentuserid, sendFriendRequest, setUsers }) {
     const { userid } = useParams();
@@ -94,6 +95,7 @@ function Profile({ token, currentuserid, sendFriendRequest, setUsers }) {
         setRequestSent(true);
     }
 
+    if (!token) return <LoggedOut/>
     if (error) return <p className='error'>A network error was encountered. {error}</p>
     if (loading) return <Loading/>
     return username ? (

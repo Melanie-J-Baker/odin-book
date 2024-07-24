@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import '../styles/UpdateProfile.css';
 import PropTypes from 'prop-types';
+import LoggedOut from "./LoggedOut";
 import Loading from "./Loading";
 
 function UpdateProfile({ token, userid, setUsername, setProfilePicture }) {
@@ -106,6 +107,7 @@ function UpdateProfile({ token, userid, setUsername, setProfilePicture }) {
         setFile(e.target.files[0])
     }
 
+    if (!token) return <LoggedOut/>
     if (error) return <div className="error">A netork error was encountered. {error}</div>
     if (loading) return <Loading/>
     return !formSubmit ? (

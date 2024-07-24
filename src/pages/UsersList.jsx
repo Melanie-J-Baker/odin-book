@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import '../styles/UsersList.css';
+import LoggedOut from './LoggedOut';
 import Loading from './Loading';
 import FriendRequests from '../components/FriendRequests';
 
@@ -31,6 +32,7 @@ function UsersList({ token, userid, sendFriendRequest, users, setUsers, error, s
         setRequestSent(id);
     }
 
+    if (!token) return <LoggedOut/>
     if (error) return <p>A network error was encountered. {error}</p>
     if (loading) return <Loading/>
     return (

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Loading from './Loading';
 import Post from '../components/Post';
 import AddPost from '../components/AddPost';
+import LoggedOut from './LoggedOut';
 import '../styles/Feed.css';
 
 function Feed({ token, userid }) {
@@ -29,6 +30,7 @@ function Feed({ token, userid }) {
         }).finally(() => setLoading(false));
     }, [token, userid, postLiked, postDeleted, postAdded])
 
+    if (!token) return <LoggedOut/>
     if (error) return <p className="error">A network error was encountered. {error}</p>
     if (loading) return <Loading/> 
     return (

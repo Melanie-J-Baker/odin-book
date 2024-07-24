@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import '../styles/ChangePassword.css';
 import PropTypes from 'prop-types';
 import Loading from './Loading';
+import LoggedOut from './LoggedOut';
 
 function ChangePassword({ token, userid }) {
     const [currentPassword, setCurrentPassword] = useState('');
@@ -43,6 +44,7 @@ function ChangePassword({ token, userid }) {
         })
     }
 
+    if (!token) return <LoggedOut/>
     if (error) return <div className='error'>A network error was encountered. {error}</div>
     if (loading) return <Loading/>
     return !formSubmit ? (

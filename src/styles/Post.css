@@ -154,11 +154,12 @@
     background-image: url("../assets/icons/deleteselected.svg");
 }
 
-.deleteConfirmation {
+.deletePostConfirm {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    z-index: 1;
 }
 
 .deleteConfirmationText {

@@ -5,6 +5,7 @@ import { PropTypes } from 'prop-types';
 import Post from '../components/Post';
 import AddPost from '../components/AddPost';
 import '../styles/PersonalProfile.css';
+import LoggedOut from './LoggedOut';
 
 function PersonalProfile({ token, userid}) {
     const navigate = useNavigate();
@@ -41,8 +42,9 @@ function PersonalProfile({ token, userid}) {
         }).catch(error => {
             setError(error.msg)
         }).finally(() => setLoading(false));
-    },[token, userid, postLiked, postDeleted, postAdded])
-
+    }, [token, userid, postLiked, postDeleted, postAdded])
+    
+    if (!token) return <LoggedOut/>
     if (error) return <p className='error'>A network error was encountered. {error}</p>
     if (loading) return <Loading/>
     return userid ? (
