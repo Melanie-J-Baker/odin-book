@@ -105,7 +105,7 @@ function UpdateComment({ token, userid }) {
             <div className='updateCommentHeading'>Update comment</div>
             {commentImage && (<img src={commentImage} alt="Comment image" className='updateCommentImage' />)}
             <textarea className="updateCommentText" defaultValue={commentText} name="text" id="text" rows="5" cols="50" onChange={(event) => setCommentText(event.target.value)}></textarea>
-            <input type="file" id="commentImage" className="commentImageInput" name="commentImage" onChange={handleSelectFile} multiple={false}></input>
+            <input type="file" accept=".jpg, .png, .gif, .svg, .webp" id="commentImage" className="commentImageInput" name="commentImage" onChange={handleSelectFile} multiple={false}></input>
             <button type="button" className="updateCommentSubmit" onClick={(e) => updateComment(e)}>Update Comment</button>
             <div className='back link' onClick={() => navigate(-1)}>Cancel</div>
         </form>

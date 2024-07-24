@@ -81,7 +81,7 @@ function AddPost({ userid, token, setPostAdded }) {
             <div className='addPostHeading'>Create a new post</div>
             <textarea className="addPostText" value={text} placeholder="Write your post here" name="text" id="text" rows="3" cols="30" onChange={(event) => setText(event.target.value)}></textarea>
             <div className="addPostBtns">
-                <input type="file" id="postImage" name="postImage" onChange={handleSelectFile} multiple={false}></input>
+                <input type="file" accept=".jpg, .png, .gif, .svg, .webp" id="postImage" name="postImage" onChange={handleSelectFile} multiple={false}></input>
                 <button type="submit" className="createPost">Post</button>
             </div>
             <div className='message'>{message}</div>

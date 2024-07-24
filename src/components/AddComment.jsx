@@ -83,7 +83,7 @@ function AddComment({ userid, token, postid, setCommentAdded }) {
                 <textarea className="addCommentText" value={text} placeholder="Write your comment here" name="text" id="text" rows="2" cols="30" onChange={(event) => setText(event.target.value)}></textarea>
                 <button type="submit" className="addCommentBtn">Comment</button>
             </div>    
-                <input type="file" id="commentImage" name="commentImage" onChange={handleSelectFile} multiple={false}></input>
+                <input type="file" accept=".jpg, .png, .gif, .svg, .webp" id="commentImage" name="commentImage" onChange={handleSelectFile} multiple={false}></input>
             <div className='message'>{message}</div>
         </form>
     )

@@ -125,7 +125,7 @@ function UpdateProfile({ token, userid, setUsername, setProfilePicture }) {
                 <input id="updateProfileEmail" autoComplete="email" name="email" className="updateProfileInput" type="email" placeholder="Enter new email address" defaultValue={email} onChange={(event) => setEmail(event.target.value)} />
                 <div className="fileInputDiv">
                     <label htmlFor="profileImage" className="fileInputLabel">Profile image: </label>
-                    <input type="file" id="profileImage" name="profileImage" onChange={handleSelectFile} multiple={false}></input>
+                    <input type="file" accept=".jpg, .png, .gif, .svg, .webp" id="profileImage" name="profileImage" onChange={handleSelectFile} multiple={false}></input>
                 </div>
                 <button type="button" className="updateProfileBtn" onClick={submitUpdateProfile}>Update Profile</button>
                 <Link id="changePassword" className="changePasswordBtn link" to={`/odin-book/users/${userid}/changepassword`}>Change Password</Link>

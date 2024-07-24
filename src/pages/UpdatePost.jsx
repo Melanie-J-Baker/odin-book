@@ -106,7 +106,7 @@ function UpdatePost({ token, userid }) {
             <form encType="multipart/form-data" className='updatePostForm'>
                 <div className='updatePostHeading'>Update post</div>
                 <textarea className="updatePostText" defaultValue={postText} name="text" id="text" rows="5" cols="50" onChange={(event) => setPostText(event.target.value)}></textarea>
-                <input type="file" id="postImage" className="postImageInput"  name="postImage" onChange={handleSelectFile} multiple={false}></input>
+                <input type="file" accept=".jpg, .png, .gif, .svg, .webp" id="postImage" className="postImageInput"  name="postImage" onChange={handleSelectFile} multiple={false}></input>
                 <button type="button" className="updatePostSubmit" onClick={(e) => updatePost(e)}>Update Post</button>
                 <div className='back link' onClick={() => navigate(-1)}>Cancel</div>
             </form>
