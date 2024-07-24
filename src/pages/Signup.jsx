@@ -50,12 +50,18 @@ function Signup() {
         <div className="signup">
             <div className="signupHeading">Create an account</div>
             <div className="signupInputs">
-                <div className="signupInputsHeading">Please enter your details</div>
+                <label htmlFor="signupUsername" className="signupLabel">Username</label>
                 <input id="signupUsername" autoComplete="username" name="username" className="signupInput" type="text" placeholder="Enter your username" value={usernameInput} onChange={(event) => setUsernameInput(event.target.value)} />
+                <label htmlFor="signupFirstName" className="signupLabel">First name</label>
                 <input id="signupFirstName" autoComplete="name" name="first_name" className="signupInput" type="text" placeholder="Enter your first name" value={firstName} onChange={(event) => setFirstName(event.target.value)} />
+                <label htmlFor="signupLastName" className="signupLabel">Last name</label>
                 <input id="signupLastName" autoComplete="name" name="last_name" className="signupInput" type="text" placeholder="Enter your last name" value={lastName} onChange={(event) => setLastName(event.target.value)} />
-                <input id="email" autoComplete="email" name="email" className="signupInput" type="email" placeholder="Enter your email address" value={email} onChange={(event) => setEmail(event.target.value)} />
+                <label htmlFor="signupEmail" className="signupLabel">Email</label>
+                <input id="signupEmail" autoComplete="email" name="email" className="signupInput" type="email" placeholder="Enter your email address" value={email} onChange={(event) => setEmail(event.target.value)} />
+                <label htmlFor="signupPassword" className="signupLabel">Password</label>
+                <div className="signupLabel signupPasswordText">Must exceed 8 characters, 1 uppercase, 1 lowercase and 1 number</div>
                 <input id="signupPassword" autoComplete="new-password" name="password" className="signupInput" type="password" placeholder="Enter your password" value={passwordInput} onChange={(event) => setPasswordInput(event.target.value)} />
+                <label htmlFor="signupConfirmPassword" className="signupLabel">Confirm password</label>
                 <input id="signupConfirmPassword" autoComplete="new-password" name="password_confirm" className="signupInput" type="password" placeholder="Re-enter your password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} />
                 <button type="button" className="signupBtn" onClick={submitSignup}>Sign up</button>
                 <Link id="cancelSignup" className="cancelSignup link" to={'/odin-book'}>Cancel</Link>

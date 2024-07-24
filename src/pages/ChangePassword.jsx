@@ -49,9 +49,12 @@ function ChangePassword({ token, userid }) {
         <div className='changePassword'>
             <h1 className="changePasswordHeading">Change password</h1>
             <div className="changePasswordInputs">
-                <input id="currentPassword" autoComplete='current-password' name="currentPassword" className="changePasswordInput" type="password" placeholder="Enter current password" value={currentPassword} onChange={(event) => setCurrentPassword(event.target.value)} />
-                <input id="newPassword" autoComplete="new-password" name="password" className="changePasswordInput" type="password" placeholder="Enter new password" value={newPassword} onChange={(event) => setNewPassword(event.target.value)} />
-                <input id="confirmPassword" autoComplete="new-password" name="password_confirm" className="changePasswordInput" type="password" placeholder="Re-enter new password" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} />
+                <label htmlFor='currentPassword' className='changePasswordLabel'>Current password</label>
+                <input id='currentPassword' autoComplete='current-password' name='currentPassword' className='changePasswordInput' type='password' placeholder='Enter current password' value={currentPassword} onChange={(event) => setCurrentPassword(event.target.value)} />
+                <label htmlFor='newPassword' className='changePasswordLabel'>New Password</label>
+                <div className='changePasswordLabel changePasswordText'>Must exceed 8 characters, 1 uppercase, 1 lowercase and 1 number</div>
+                <input id='newPassword' autoComplete='new-password' name='password' className='changePasswordInput' type='password' placeholder='Enter new password' value={newPassword} onChange={(event) => setNewPassword(event.target.value)} />
+                <input id='confirmPassword' autoComplete='new-password' name='password_confirm' className='changePasswordInput' type='password' placeholder='Re-enter new password' value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} />
                 <button type="button" className="changePasswordBtn" onClick={handleChangePassword}>Change Password</button>
             </div>
         </div>

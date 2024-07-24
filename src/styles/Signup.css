@@ -8,8 +8,9 @@
 }
 
 .signupHeading {
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-weight: 500;
+    padding: 20px 0;
 }
 
 .signupInputs {
@@ -18,15 +19,24 @@
     align-items: center;
 }
 
+.signupLabel {
+    color: var(--light);
+}
+
+.signupPasswordText {
+    font-size: 0.8rem;
+    font-style: italic;
+}
+
 .signupInput {
     margin: 10px;
     width: 300px;
     padding: 10px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
 }
 
 .signupBtn {
-    margin: 10px;
+    margin: 40px 10px;
     width: 300px;
 }
 
@@ -46,7 +56,7 @@
 }
 
 @media only screen and (min-width: 768px) {
-    .signUp, 
+    .signup, 
     .accountCreated, 
     .error {
         margin-top: 160px;
