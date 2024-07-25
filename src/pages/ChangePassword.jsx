@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Loading from './Loading';
 import LoggedOut from './LoggedOut';
 
-function ChangePassword({ token, userid }) {
+const ChangePassword = ({ token, userid }) => {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -27,21 +27,15 @@ function ChangePassword({ token, userid }) {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
             },
-            body: JSON.stringify({
-                currentPassword: currentPassword,
-                newPassword: newPassword,
-                confirmPassword: confirmPassword
-            })
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            setResponseStatus(data.message);
-        }).catch(error => {
-            setError(error.msg)
-        }).finally(() => {
-            setLoading(false);
-            setFormSubmit(true);
+            body: JSON.stringify({ currentPassword, newPassword, confirmPassword })
         })
+            .then(response => response.json())
+            .then(data => setResponseStatus(data.message))
+            .catch(error => setError(error.msg))
+            .finally(() => {
+                setLoading(false);
+                setFormSubmit(true);
+            })
     }
 
     if (!token) return <LoggedOut/>

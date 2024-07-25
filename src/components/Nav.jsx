@@ -3,7 +3,7 @@ import { useLocation, Link } from 'react-router-dom';
 import { PropTypes } from "prop-types";
 import '../styles/Nav.css';
 
-function Nav ({ userid, username, profilePicture, token, setToken, setUserid, setProfilePicture, setUsername, requestDetails, clearLocalStorage }) {
+const Nav = ({ userid, username, profilePicture, token, setToken, setUserid, setProfilePicture, setUsername, requestDetails, clearLocalStorage }) => {
   const location = useLocation();
   const [currentRoute, setCurrentRoute] = useState(location.pathname);
   

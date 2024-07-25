@@ -33,20 +33,18 @@ function Signup() {
                 username: usernameInput,
                 first_name: firstName,
                 last_name: lastName,
-                email: email,
+                email,
                 password: passwordInput,
                 password_confirm: confirmPassword,
             })
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            setData(data);
-        }).catch(error => {
-            setErrorMessage(error.msg)
-        }).finally(() => {
-            setLoading(false);
-            setFormSubmit(true);
         })
+            .then(response => response.json())
+            .then(data => setData(data))
+            .catch(error => setErrorMessage(error.msg))
+            .finally(() => {
+                setLoading(false);
+                setFormSubmit(true);
+            })
     };
 
     if (loading) return <Loading/>

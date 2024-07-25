@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import '../styles/AddPost.css';
 import Loading from '../pages/Loading';
 
-function AddPost({ userid, token, setPostAdded }) {
+const AddPost = ({ userid, token, setPostAdded }) => {
     const [text, setText] = useState('');
     const [loading, setLoading] = useState(false);
     const [file, setFile] = useState('');
@@ -22,57 +22,50 @@ function AddPost({ userid, token, setPostAdded }) {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`,
             },
-            body: JSON.stringify({
-                user: userid,
-                text: text,
+            body: JSON.stringify({ user: userid, text })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (file !== '') {
+                    const formData = new FormData();
+                    formData.append("postImage", file);
+                    return fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/posts/${data.post._id}/uploadimage/?` + new URLSearchParams({
+                        secret_token: token,
+                    }), {
+                        method: 'PUT',
+                        mode: 'cors',
+                        credentials : "include",
+                        headers: {
+                            "Authorization": `Bearer ${token}`,
+                        },
+                        body: formData
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            setMessage(data.status);
+                            setTimeout(() => setMessage(''), 3000);
+                        })
+                        .catch(error => {
+                            setError(error.message)
+                            setMessage(error.message)
+                            setTimeout(() => {
+                                setMessage('');
+                                setError('');
+                            }, 3000)
+                        })
+                        .finally(() => setLoading(false))
+                }
             })
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            if (file !== '') {
-                const formData = new FormData();
-                formData.append("postImage", file);
-                return fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/posts/${data.post._id}/uploadimage/?` + new URLSearchParams({
-                    secret_token: token,
-                }), {
-                    method: 'PUT',
-                    mode: 'cors',
-                    credentials : "include",
-                    headers: {
-                        "Authorization": `Bearer ${token}`,
-                    },
-                    body: formData
-                }).then((response) => {
-                    return response.json();
-                }).then((data) => {
-                    setMessage(data.status);
-                    setTimeout(() => {
-                        setMessage('');
-                    }, 3000)
-                }).catch(error => {
-                    setError(error.message)
-                    setMessage(error.message)
-                    setTimeout(() => {
-                        setMessage('');
-                        setError('');
-                    }, 3000)
-                }).finally(() => {
-                    setLoading(false);
-                })
-            }
-        }).catch(error => {
-            setError(error.msg)
-        }).finally(() => {
-            setLoading(false);
-            setPostAdded({ added: true });
-            setText('');
-            setFile('');
-        });
+            .catch(error => setError(error.msg))
+            .finally(() => {
+                setLoading(false);
+                setPostAdded({ added: true });
+                setText('');
+                setFile('');
+            });
     }
 
-    const handleSelectFile = (e) => {
-        setFile(e.target.files[0]);
-    }
+    const handleSelectFile = (e) => setFile(e.target.files[0]);
 
     if (error) return <div className='error'>A network error was encountered. {error}</div>
     if (loading) return <Loading/>

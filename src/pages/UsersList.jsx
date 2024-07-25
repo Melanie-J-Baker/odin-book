@@ -6,7 +6,7 @@ import LoggedOut from './LoggedOut';
 import Loading from './Loading';
 import FriendRequests from '../components/FriendRequests';
 
-function UsersList({ token, userid, sendFriendRequest, users, setUsers, error, setError, requestsLoading, requestDetails, setDeleted, setAccepted}) {
+const UsersList = ({ token, userid, sendFriendRequest, users, setUsers, error, setError, requestsLoading, requestDetails, setDeleted, setAccepted}) => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [requestSent, setRequestSent] = useState();
@@ -18,13 +18,11 @@ function UsersList({ token, userid, sendFriendRequest, users, setUsers, error, s
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            setUsers(data.users);
-        }).catch(error => {
-            setError(error.msg)
-        }).finally(() => setLoading(false));
+        })
+            .then(response => response.json())
+            .then(data => setUsers(data.users))
+            .catch(error => setError(error.msg))
+            .finally(() => setLoading(false));
     }, [setError, setUsers, token, userid, requestSent])
 
     const handleClick = (id) => {

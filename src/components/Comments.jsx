@@ -5,7 +5,7 @@ import AddComment from '../components/AddComment';
 import Comment from '../components/Comment';
 import '../styles/Comments.css';
 
-function Comments({ userid, postid, token }) {
+const Comments = ({ userid, postid, token }) => {
     const [loading, setLoading] = useState(true);
     const [comments, setComments] = useState([]);
     const [error, setError] = useState(null);
@@ -20,13 +20,11 @@ function Comments({ userid, postid, token }) {
             headers: {
                 "Authorization": `Bearer ${token}`,
             }
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            setComments(data);
-        }).catch(error => {
-            setError(error)
-        }).finally(() => setLoading(false));
+        })
+            .then(response => response.json())
+            .then(data => setComments(data))
+            .catch(error => setError(error))
+            .finally(() => setLoading(false));
     }, [postid, token, commentAdded, commentLiked, commentDeleted]);
 
     if (error) return <p className='error'>A network error was encountered. {error}</p>

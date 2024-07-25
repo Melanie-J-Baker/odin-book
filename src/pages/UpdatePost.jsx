@@ -5,7 +5,7 @@ import '../styles/UpdatePost.css';
 import LoggedOut from './LoggedOut';
 import Loading from './Loading';
 
-function UpdatePost({ token, userid }) {
+const UpdatePost = ({ token, userid }) => {
     const { postid } = useParams();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
@@ -23,14 +23,14 @@ function UpdatePost({ token, userid }) {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            setPostText(data.text);
-            setCurrentPostImage(data.post_image);
-        }).catch(error => {
-            setError(error.msg)
-        }).finally(() => setLoading(false));
+        })
+            .then(response => response.json())
+            .then(data => {
+                setPostText(data.text);
+                setCurrentPostImage(data.post_image);
+            })
+            .catch(error => setError(error.msg))
+            .finally(() => setLoading(false))
     }, [postid, token])
 
     const updatePost = (e) => {
@@ -46,56 +46,54 @@ function UpdatePost({ token, userid }) {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
             },
-            body: JSON.stringify({
-                text: postText
-            })
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            setStatus(data.status);
-            if (file == '') {
-                navigate(-1)
-            }
-        }).catch(error => {
-            setError(error.msg)
-            setStatus(error.msg)
-        }).finally(() => {
-            setLoading(false);
-            setFormSubmit(true);
+            body: JSON.stringify({ text: postText })
         })
-        if (file !== '') {
-            setFormSubmit(false);
-            const formData = new FormData();
-            formData.append("postImage", file);
-            setLoading(true);
-            fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/posts/${postid}/uploadimage/?` + new URLSearchParams({
-                secret_token: token,
-            }), {
-                method: 'PUT',
-                mode: 'cors',
-                credentials : 'include',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: formData
-            }).then((response) => {
-                return response.json();
-            }).then((data) => {
-                setStatus(data.status || data.message);
-                setError(data.error);
-            }).catch(error => {
+            .then(response => response.json())
+            .then(data => {
+                setStatus(data.status);
+                file == '' && navigate(-1);
+            })
+            .catch(error => {
                 setError(error.msg)
                 setStatus(error.msg)
-            }).finally(() => {
+            })
+            .finally(() => {
                 setLoading(false);
                 setFormSubmit(true);
             })
-        }
+            if (file !== '') {
+                setFormSubmit(false);
+                const formData = new FormData();
+                formData.append("postImage", file);
+                setLoading(true);
+                fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/posts/${postid}/uploadimage/?` + new URLSearchParams({
+                    secret_token: token,
+                }), {
+                    method: 'PUT',
+                    mode: 'cors',
+                    credentials : 'include',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        setStatus(data.status || data.message);
+                        setError(data.error);
+                    })
+                    .catch(error => {
+                        setError(error.msg)
+                        setStatus(error.msg)
+                    })
+                    .finally(() => {
+                        setLoading(false);
+                        setFormSubmit(true);
+                    })
+            }
     }
 
-    const handleSelectFile = (e) => {
-        setFile(e.target.files[0]);
-    }
+    const handleSelectFile = (e) => setFile(e.target.files[0]);
 
     if (!token) return <LoggedOut/>
     if (error) return <div className="error">A network error was encountered. {error}</div>

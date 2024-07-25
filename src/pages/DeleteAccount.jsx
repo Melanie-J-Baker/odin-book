@@ -5,7 +5,7 @@ import Loading from './Loading';
 import LoggedOut from './LoggedOut';
 import '../styles/DeleteAccount.css';
 
-function DeleteAccount({ token, userid, setUsername, setToken, setProfilePicture, setUserid, clearLocalStorage }) {
+const DeleteAccount = ({ token, userid, setUsername, setToken, setProfilePicture, setUserid, clearLocalStorage }) => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -21,26 +21,24 @@ function DeleteAccount({ token, userid, setUsername, setToken, setProfilePicture
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            setData(data.message);
-            setTimeout(() => {
-                navigate('/odin-book');
-            }, 5000)
-            if (data.user) {
-                clearLocalStorage()
-                setUsername('')
-                setToken('')
-                setProfilePicture('')
-                setUserid('')
-            }
-        }).catch(error => {
-            setError(error.msg)
-        }).finally(() => {
-            setLoading(false)
-            setFormSubmit(true);
-        });
+        })
+            .then(response => response.json())
+            .then(data => {
+                setData(data.message);
+                setTimeout(() => navigate('/odin-book'), 5000)
+                if (data.user) {
+                    clearLocalStorage()
+                    setUsername('')
+                    setToken('')
+                    setProfilePicture('')
+                    setUserid('')
+                }
+            })
+            .catch(error => setError(error.msg))
+            .finally(() => {
+                setLoading(false)
+                setFormSubmit(true);
+            });
     }
 
     if (!token) return <LoggedOut/>

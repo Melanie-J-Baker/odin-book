@@ -34,7 +34,7 @@ const clearLocalStorage = () => {
   LOCAL_STORAGE_KEYS.forEach(key => localStorage.removeItem(key));
 };
 
-function App() {
+const  App = () => {
   const [username, setUsername] = useState(getLocalStorageItem('username'))
   const [profilePicture, setProfilePicture] = useState(getLocalStorageItem('profilePicture'));
   const [token, setToken] = useState(getLocalStorageItem('token'));
@@ -114,13 +114,13 @@ function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Welcome userid={userid} />} />
-        <Route path="/odin-book" element={<Welcome userid={userid} setToken={setToken} setUserid={setUserid} setUsername={setUsername} setProfilePicture={setProfilePicture}/>} />
+        <Route path="/odin-book" element={<Welcome userid={userid} setToken={setToken} setUserid={setUserid} setUsername={setUsername} setProfilePicture={setProfilePicture} setLocalStorageItems={setLocalStorageItems} />} />
         <Route path="/odin-book/users/:userid/addfriends" element={<UsersList token={token} userid={userid} sendFriendRequest={sendFriendRequest} users={users} setUsers={setUsers} error={error} setError={setError} requestsLoading={requestsLoading} requestDetails={requestDetails} setDeleted={setDeleted} setAccepted={setAccepted} data={data} />}/>
-        <Route path="/odin-book/users/login" element={<Login setToken={setToken} setUserid={setUserid} setUsername={setUsername} setProfilePicture={setProfilePicture} />} />
+        <Route path="/odin-book/users/login" element={<Login setToken={setToken} setUserid={setUserid} setUsername={setUsername} setProfilePicture={setProfilePicture} setLocalStorageItems={setLocalStorageItems} />} />
         <Route path="/odin-book/users/signup" element={<Signup />} />
         <Route path="/odin-book/users/logout" element={<Logout clearLocalStorage={clearLocalStorage} />} />
         <Route path="/odin-book/users/:userid" element={<PersonalProfile token={token} userid={userid} />} />
-        <Route path="/odin-book/users/:userid/updateprofile" element={<UpdateProfile token={token} userid={userid} setUsername={setUsername} setProfilePicture={setProfilePicture} />} />
+        <Route path="/odin-book/users/:userid/updateprofile" element={<UpdateProfile token={token} userid={userid} setUsername={setUsername} setProfilePicture={setProfilePicture} setLocalStorageItems={setLocalStorageItems} />} />
         <Route path="/odin-book/users/:userid/deleteaccount" element={<DeleteAccount token={token} userid={userid} setUsername={setUsername} setToken={setToken} setProfilePicture={setProfilePicture} setUserid={setUserid} clearLocalStorage={clearLocalStorage} />} />
         <Route path="/odin-book/users/:userid/changepassword" element={<ChangePassword token={token} userid={userid} />} />
         <Route path="/odin-book/users/:userid/profile" element={<Profile token={token} currentuserid={userid} sendFriendRequest={sendFriendRequest} setUsers={setUsers} requestDetails={requestDetails}/>} />

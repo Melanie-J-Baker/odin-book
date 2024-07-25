@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import Loading from '../pages/Loading';
 import '../styles/DeleteComment.css';
 
-function DeleteComment({commentid, token, setCommentDeleted, setDeleteCommentShowing}) {
+const DeleteComment = ({ commentid, token, setCommentDeleted, setDeleteCommentShowing }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [data, setData] = useState('');
     const [formSubmit, setFormSubmit] = useState(false);
-
 
     const deleteComment = (commentid) => {
         setLoading(true);
@@ -20,18 +19,18 @@ function DeleteComment({commentid, token, setCommentDeleted, setDeleteCommentSho
             headers: {
                 "Authorization": `Bearer ${token}`,
             },
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            setData(data.message);
-            setCommentDeleted({ deleted: true });
-        }).catch((error) => {
-            setError(error.msg)
-        }).finally(() => {
-            setLoading(false);
-            setFormSubmit(true);
         })
-    }
+            .then(response => response.json())
+            .then(data => {
+                setData(data.message);
+                setCommentDeleted({ deleted: true });
+            })
+            .catch(error => setError(error.msg))
+            .finally(() => {
+                setLoading(false);
+                setFormSubmit(true);
+            })
+        }
 
     if (error) return <p className='error'>A network error was encountered. {error}</p>
     if (loading) return <Loading />

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Loading from '../pages/Loading';
 import '../styles/DeletePost.css';
 
-function DeletePost({postid, token, setPostDeleted, setDeletePostShowing}) {
+const DeletePost= ({ postid, token, setPostDeleted, setDeletePostShowing }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [data, setData] = useState('');
@@ -19,17 +19,17 @@ function DeletePost({postid, token, setPostDeleted, setDeletePostShowing}) {
             headers: {
                 "Authorization": `Bearer ${token}`,
             },
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            setData(data);
-            setPostDeleted({ deleted: true });
-        }).catch((error) => {
-            setError(error.msg)
-        }).finally(() => {
-            setLoading(false);
-            setFormSubmit(true);
         })
+            .then(response => response.json())
+            .then(data => {
+                setData(data);
+                setPostDeleted({ deleted: true });
+            })
+            .catch(error => setError(error.msg))
+            .finally(() => {
+                setLoading(false);
+                setFormSubmit(true);
+            })
     }
 
     if (error) return <p className='error'>A network error was encountered. {error}</p>

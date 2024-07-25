@@ -6,7 +6,7 @@ import AddPost from '../components/AddPost';
 import LoggedOut from './LoggedOut';
 import '../styles/Feed.css';
 
-function Feed({ token, userid }) {
+const Feed = ({ token, userid }) => {
     const [loading, setLoading] = useState(true);
     const [feedPosts, setFeedPosts] = useState();
     const [error, setError] = useState(null);
@@ -21,13 +21,11 @@ function Feed({ token, userid }) {
             headers: {
                 "Authorization": `Bearer ${token}`,
             }
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            setFeedPosts(data.feedPosts)
-        }).catch(error => {
-            setError(error.msg)
-        }).finally(() => setLoading(false));
+        })
+            .then(response => response.json())
+            .then(data => setFeedPosts(data.feedPosts))
+            .catch(error => setError(error.msg))
+            .finally(() => setLoading(false));
     }, [token, userid, postLiked, postDeleted, postAdded])
 
     if (!token) return <LoggedOut/>

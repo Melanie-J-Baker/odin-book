@@ -7,7 +7,7 @@ import AddPost from '../components/AddPost';
 import '../styles/PersonalProfile.css';
 import LoggedOut from './LoggedOut';
 
-function PersonalProfile({ token, userid}) {
+const PersonalProfile = ({ token, userid}) => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [username, setUsername] = useState('');
@@ -29,19 +29,19 @@ function PersonalProfile({ token, userid}) {
             headers: {
               'Authorization': `Bearer ${token}`,
             }
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            setUsername(data.user.username)
-            setFirstName(data.user.first_name);
-            setLastName(data.user.last_name);
-            setEmail(data.user.email);
-            setFriends(data.user.friends);
-            setPosts(data.posts)
-            setProfilePicture(data.user.profile_image);
-        }).catch(error => {
-            setError(error.msg)
-        }).finally(() => setLoading(false));
+        })
+            .then(response => response.json())
+            .then(data => {
+                setUsername(data.user.username)
+                setFirstName(data.user.first_name);
+                setLastName(data.user.last_name);
+                setEmail(data.user.email);
+                setFriends(data.user.friends);
+                setPosts(data.posts)
+                setProfilePicture(data.user.profile_image);
+            })
+            .catch(error => setError(error.msg))
+            .finally(() => setLoading(false));
     }, [token, userid, postLiked, postDeleted, postAdded])
     
     if (!token) return <LoggedOut/>

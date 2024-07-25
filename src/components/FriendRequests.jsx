@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/FriendRequests.css';
 import Loading from '../pages/Loading';
 
-function FriendRequests({ token, userid, requestsLoading, requestDetails, setDeleted, setAccepted }) {
+const FriendRequests= ({ token, userid, requestsLoading, requestDetails, setDeleted, setAccepted }) => {
     const navigate = useNavigate();
     const[error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -20,16 +20,12 @@ function FriendRequests({ token, userid, requestsLoading, requestDetails, setDel
                 "Authorization": `Bearer ${token}`,
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-                requestUserId: requestUserId
-            })
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            setAccepted(data.user);
-        }).catch((error) => {
-            setError(error.msg)
-        }).finally(() => setLoading(false));
+            body: JSON.stringify({ requestUserId })
+        })
+            .then(response => response.json())
+            .then(data => setAccepted(data.user))
+            .catch(error => setError(error.msg))
+            .finally(() => setLoading(false));
     }
 
     const deleteRequest = (requestUserId) => {
@@ -43,17 +39,14 @@ function FriendRequests({ token, userid, requestsLoading, requestDetails, setDel
                 "Authorization": `Bearer ${token}`,
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-                remove: requestUserId
-            })
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            setDeleted(data.user);
-        }).catch((error) => {
-            setError(error.msg)
-        }).finally(() => setLoading(false));
+            body: JSON.stringify({ remove: requestUserId })
+        })
+            .then(response => response.json())
+            .then(data => setDeleted(data.user))
+            .catch(error => setError(error.msg))
+            .finally(() => setLoading(false));
     }
+    
     if (error) return <div className='error'>A network error was encountered. {error}</div>
     if (loading || requestsLoading) return <Loading />
     return (

@@ -6,7 +6,7 @@ import { PropTypes } from 'prop-types';
 import Post from '../components/Post';
 import LoggedOut from './LoggedOut';
 
-function Profile({ token, currentuserid, sendFriendRequest, setUsers }) {
+const Profile = ({ token, currentuserid, sendFriendRequest, setUsers }) => {
     const { userid } = useParams();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
@@ -30,20 +30,20 @@ function Profile({ token, currentuserid, sendFriendRequest, setUsers }) {
             headers: {
                 "Authorization": `Bearer ${token}`,
             }   
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            setUsername(data.user.username);
-            setFirstName(data.user.first_name);
-            setLastName(data.user.last_name);
-            setEmail(data.user.email);
-            setRequests(data.user.requests);
-            setFriends(data.user.friends);
-            setProfileImage(data.user.profile_image);
-            setPosts(data.posts)
-        }).catch(error => {
-            setError(error)
-        }).finally(() => setLoading(false));
+        })
+            .then(response => response.json())
+            .then(data => {
+                setUsername(data.user.username);
+                setFirstName(data.user.first_name);
+                setLastName(data.user.last_name);
+                setEmail(data.user.email);
+                setRequests(data.user.requests);
+                setFriends(data.user.friends);
+                setProfileImage(data.user.profile_image);
+                setPosts(data.posts)
+            })
+            .catch(error => setError(error))
+            .finally(() => setLoading(false));
     }, [token, userid])
 
     useEffect(() => {
@@ -54,17 +54,11 @@ function Profile({ token, currentuserid, sendFriendRequest, setUsers }) {
             headers: {
                 "Authorization": `Bearer ${token}`,
             }
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            if (data.user.friends.some(user => user._id === userid)) {
-                setCurrentlyFriends(true);
-            } else {
-                setCurrentlyFriends(false);
-            }
-        }).catch(error => {
-            setError(error)
-        }).finally(() => setLoading(false));
+        })
+            .then(response => response.json())
+            .then(data => data.user.friends.some(user => user._id === userid) ? setCurrentlyFriends(true) : setCurrentlyFriends(false))
+            .catch(error => setError(error))
+            .finally(() => setLoading(false));
     }, [token, currentuserid, userid])
 
     const removeFriend = (id) => {
@@ -78,16 +72,12 @@ function Profile({ token, currentuserid, sendFriendRequest, setUsers }) {
                 "Authorization": `Bearer ${token}`,
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-                toFriend: id
-            })
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            setUsers(data.notFriends);
-        }).catch((error) => {
-            setError(error.msg)
-        }).finally(() => setLoading(false));
+            body: JSON.stringify({ toFriend: id })
+        })
+            .then(response => response.json())
+            .then(data => setUsers(data.notFriends))
+            .catch((error) => setError(error.msg))
+            .finally(() => setLoading(false));
     }
 
     const handleClick = (id) => {

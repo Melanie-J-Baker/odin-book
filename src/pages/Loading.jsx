@@ -1,6 +1,6 @@
 import '../styles/Loading.css'
 
-function Loading() {
+const Loading = () => {
     return (
         <div id="loading">
             <div className="loadingText">Loading...</div>

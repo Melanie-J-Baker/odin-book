@@ -7,7 +7,7 @@ import DeletePost from '../components/DeletePost';
 import Loading from '../pages/Loading';
 import '../styles/Post.css';
 
-function Post({ userid, token, postid, postUserId, postUsername, postTimestamp, postText, postUserImage, postImage, postLikes, setPostLiked, setPostDeleted }) {
+const Post = ({ userid, token, postid, postUserId, postUsername, postTimestamp, postText, postUserImage, postImage, postLikes, setPostLiked, setPostDeleted }) => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
@@ -27,29 +27,21 @@ function Post({ userid, token, postid, postUserId, postUsername, postTimestamp, 
                 "Authorization": `Bearer ${token}`,
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-                likes: userid
+            body: JSON.stringify({ likes: userid })
+        })
+            .then(response => response.json())
+            .then(data => {
+                setMessage(data.message);
+                setPostLiked({ liked: true });
+                setTimeout(() => setMessage(""), 2000)
             })
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            setMessage(data.message);
-            setPostLiked({ liked: true });
-            setTimeout(() => {
-                setMessage("");
-            }, 2000)
-        }).catch((error) => {
-            setError(error.msg)
-        }).finally(() => setLoading(false))
+            .catch(error => setError(error.msg))
+            .finally(() => setLoading(false))
     }
 
-    const showDeletePost = () => {
-        deletePostShowing === false ? setDeletePostShowing(true) : setDeletePostShowing(false);
-    }
+    const showDeletePost = () => deletePostShowing === false ? setDeletePostShowing(true) : setDeletePostShowing(false);
 
-    const showLikeUsers = () => {
-        likeUsersShowing === true ? setLikeUsersShowing(false) : setLikeUsersShowing(true);
-    }
+    const showLikeUsers = () => likeUsersShowing === true ? setLikeUsersShowing(false) : setLikeUsersShowing(true);
 
     if (error) return <p className="error">A network error was encountered. {error}</p>
     if (loading) return <Loading />

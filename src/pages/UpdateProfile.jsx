@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import LoggedOut from "./LoggedOut";
 import Loading from "./Loading";
 
-function UpdateProfile({ token, userid, setUsername, setProfilePicture }) {
+const UpdateProfile = ({ token, userid, setUsername, setProfilePicture, setLocalStorageItems }) => {
     const navigate = useNavigate();
     const [error, setError] = useState('');
     const [usernameInput, setUsernameInput] = useState('');
@@ -26,17 +26,17 @@ function UpdateProfile({ token, userid, setUsername, setProfilePicture }) {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            setUsernameInput(data.user.username);
-            setFirstName(data.user.first_name);
-            setLastName(data.user.last_name);
-            setEmail(data.user.email);
-            setProfileImage(data.user.profile_image);
-        }).catch(error => {
-            setError(error.msg)
-        }).finally(() => setLoading(false));
+        })
+            .then(response => response.json())
+            .then((data) => {
+                setUsernameInput(data.user.username);
+                setFirstName(data.user.first_name);
+                setLastName(data.user.last_name);
+                setEmail(data.user.email);
+                setProfileImage(data.user.profile_image);
+            })
+            .catch(error => setError(error.msg))
+            .finally(() => setLoading(false));
     },[token, userid])
  
     const submitUpdateProfile = () => {
@@ -55,57 +55,53 @@ function UpdateProfile({ token, userid, setUsername, setProfilePicture }) {
                 username: usernameInput,
                 first_name: firstName,
                 last_name: lastName,
-                email: email
+                email
             })
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            setStatus(data.status);
-            localStorage.setItem('username', data.user.username);
-            setUsername(data.user.username);
-            if (file == '') {
-                navigate(`/odin-book/users/${data.user._id}/`)
-            }
-        }).catch(error => {
-            setErrorMessage(error.msg);
-        }).finally(() => {
-            setLoading(false);
-            setFormSubmit(true);
         })
-        if (file !== '') {
-            setFormSubmit(false);
-            const formData = new FormData();
-            formData.append('profileImage', file);
-            setLoading(true);
-            fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/newprofileimage/?` + new URLSearchParams({
-                secret_token: token,
-            }), {
-                method: 'PUT',
-                mode: 'cors',
-                credentials : 'include',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: formData
-            }).then((response) => {
-                return response.json();
-            }).then((data) => {
-                setErrorMessage(data.message);
-                setStatus(data.message);
-                localStorage.setItem('profilePicture', data.user.profile_image)
-                setProfilePicture(data.user.profile_image);
-            }).catch(error => {
-                setErrorMessage(error.message)
-            }).finally(() => {
+            .then(response => response.json())
+            .then(data => {
+                setStatus(data.status);
+                setLocalStorageItems(['username', data.user.username]);
+                setUsername(data.user.username);
+                file == '' && navigate(`/odin-book/users/${data.user._id}/`)
+            })
+            .catch(error => setErrorMessage(error.msg))
+            .finally(() => {
                 setLoading(false);
                 setFormSubmit(true);
             })
-        }
+            if (file !== '') {
+                setFormSubmit(false);
+                const formData = new FormData();
+                formData.append('profileImage', file);
+                setLoading(true);
+                fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/newprofileimage/?` + new URLSearchParams({
+                    secret_token: token,
+                }), {
+                    method: 'PUT',
+                    mode: 'cors',
+                    credentials : 'include',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then((data) => {
+                        setErrorMessage(data.message);
+                        setStatus(data.message);
+                        setLocalStorageItems(['profilePicture', data.user.profile_image]);
+                        setProfilePicture(data.user.profile_image);
+                    })
+                    .catch(error => setErrorMessage(error.message))
+                    .finally(() => {
+                        setLoading(false);
+                        setFormSubmit(true);
+                    })
+            }
     };
 
-    const handleSelectFile = (e) => {
-        setFile(e.target.files[0])
-    }
+    const handleSelectFile = (e) => setFile(e.target.files[0]);
 
     if (!token) return <LoggedOut/>
     if (error) return <div className="error">A netork error was encountered. {error}</div>
@@ -151,6 +147,7 @@ UpdateProfile.propTypes = {
     userid: PropTypes.string,
     setUsername: PropTypes.func,
     setProfilePicture: PropTypes.func,
+    setLocalStorageItems: PropTypes.func,
 }
 
 export default UpdateProfile;

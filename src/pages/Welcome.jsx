@@ -5,7 +5,7 @@ import '../styles/Welcome.css';
 import Loading from "./Loading";
 import LoginAsGuest from "./LoginAsGuest";
 
-function Welcome({userid, setToken, setUserid, setUsername, setProfilePicture}) {
+const Welcome = ({ userid, setToken, setUserid, setUsername, setProfilePicture, setLocalStorageItems }) => {
   const [loading, setLoading] = useState(true);
   const [userCount, setUserCount] = useState(0);
   const [postCount, setPostCount] = useState(0);
@@ -14,15 +14,14 @@ function Welcome({userid, setToken, setUserid, setUsername, setProfilePicture}) 
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API}/odin-book`)
-      .then((response) => {
-        return response.json();
-      }).then((data) => {
+      .then(response => response.json())
+      .then(data => {
         setUserCount(data.numberOfUsers);
         setPostCount(data.numberOfPosts);
         setCommentCount(data.numberOfComments);
-      }).catch(error => {
-        setError(error.msg)
-      }).finally(() => setLoading(false));
+      })
+      .catch(error => setError(error.msg))
+      .finally(() => setLoading(false));
   }, [])
 
   if (error) return <div className='error'>A network error was encountered. {error}</div>
@@ -40,7 +39,7 @@ function Welcome({userid, setToken, setUserid, setUsername, setProfilePicture}) 
           <Link id='signupBtn' className="welcomeBtn link" to={'/odin-book/users/signup'}>Sign up</Link>
           <Link id='loginBtn' className="welcomeBtn link" to={'/odin-book/users/login'}>Log in</Link>
         </div>
-        <LoginAsGuest setToken={setToken} setUserid={setUserid} setUsername={setUsername} setProfilePicture={setProfilePicture} />
+        <LoginAsGuest setToken={setToken} setUserid={setUserid} setUsername={setUsername} setProfilePicture={setProfilePicture} setLocalStorageItems={setLocalStorageItems} />
       </div>)}
     </div>
   )
@@ -52,6 +51,7 @@ Welcome.propTypes = {
   setUserid: PropTypes.func, 
   setUsername: PropTypes.func,
   setProfilePicture: PropTypes.func,
+  setLocalStorageItems: PropTypes.func,
 }
 
 export default Welcome;

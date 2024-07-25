@@ -6,7 +6,7 @@ import LikeUsers from '../components/LikeUsers';
 import DeleteComment from '../components/DeleteComment';
 import '../styles/Comment.css';
 
-function Comment({ userid, token, commentid, commentImage, commentText, commentUsername, commentUserImage, commentUserId, commentTimestamp, commentLikes, setCommentLiked, setCommentDeleted }) {
+const Comment = ({ userid, token, commentid, commentImage, commentText, commentUsername, commentUserImage, commentUserId, commentTimestamp, commentLikes, setCommentLiked, setCommentDeleted }) => {
     const navigate = useNavigate();
     const component = "comment";
     const [loading, setLoading] = useState(false);
@@ -26,29 +26,21 @@ function Comment({ userid, token, commentid, commentImage, commentText, commentU
                 "Authorization": `Bearer ${token}`,
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-                liked: userid
+            body: JSON.stringify({ liked: userid })
+        })
+            .then(response => response.json())
+            .then(data => {
+                setMessage(data.message);
+                setCommentLiked({ liked: true })
+                setTimeout(() => setMessage(""), 2000);
             })
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            setMessage(data.message);
-            setCommentLiked({ liked: true })
-            setTimeout(() => {
-                setMessage("");
-            }, 2000)
-        }).catch((error) => {
-            setLikeError(error.msg)
-        }).finally(() => setLoading(false));
+            .catch(error => setLikeError(error.msg))
+            .finally(() => setLoading(false));
     }
 
-    const showLikeUsers = () => {
-        likeUsersShowing === true ? setLikeUsersShowing(false) : setLikeUsersShowing(true);
-    }
+    const showLikeUsers = () => likeUsersShowing === true ? setLikeUsersShowing(false) : setLikeUsersShowing(true);
 
-    const showDeleteComment = () => {
-        deleteCommentShowing === false ? setDeleteCommentShowing(true) : setDeleteCommentShowing(false);
-    }
+    const showDeleteComment = () => deleteCommentShowing === false ? setDeleteCommentShowing(true) : setDeleteCommentShowing(false);
     
     if (likeError) return <p className='error'>Error liking comment {likeError}</p>
     if (loading) return <Loading/>

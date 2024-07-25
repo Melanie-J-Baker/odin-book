@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
 import Loading from './Loading';
 
-function LoginAsGuest({setToken, setUserid, setUsername, setProfilePicture}) {
+const LoginAsGuest = ({ setToken, setUserid, setUsername, setProfilePicture, setLocalStorageItems }) => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -25,31 +25,31 @@ function LoginAsGuest({setToken, setUserid, setUsername, setProfilePicture}) {
                 username: username.toString(),
                 password: password.toString(),
             }),
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            if (data.user && data.token) {
-                setErrorMessage("");
-                localStorage.setItem("token", data.token);
-                localStorage.setItem("userid", data.user._id);
-                localStorage.setItem("username", data.user.username);
-                localStorage.setItem("profilePicture", data.user.profile_image);
-                setToken(data.token);
-                setUserid(data.user._id);
-                setUsername(data.user.username);
-                setProfilePicture(data.user.profile_image);
-                setTimeout(() => {
-                    navigate(`/odin-book/users/${data.user._id}/feed`)
-                }, 2000)
-            } else {
-                setErrorMessage("Problem logging in. Please try again.") 
-            }
-        }).catch(error => {
-            setErrorMessage(error.msg)
-        }).finally(() => {
-            setLoading(false);
-            setFormSubmitted(true);
         })
+            .then(response => response.json())
+            .then(data => {
+                if (data.user && data.token) {
+                    setErrorMessage("");
+                    setLocalStorageItems([
+                        ['token', data.token],
+                        ['userid', data.user.userid],
+                        ['username', data.user.username],
+                        ['profilePicture', data.user.profile_image]
+                    ])
+                    setToken(data.token);
+                    setUserid(data.user._id);
+                    setUsername(data.user.username);
+                    setProfilePicture(data.user.profile_image);
+                    setTimeout(() => navigate(`/odin-book/users/${data.user._id}/feed`), 2000)
+                } else {
+                    setErrorMessage("Problem logging in. Please try again.") 
+                }
+            })
+            .catch(error => setErrorMessage(error.msg))
+            .finally(() => {
+                setLoading(false);
+                setFormSubmitted(true);
+            })
     };
 
     if (errorMessage) return (
@@ -72,6 +72,7 @@ LoginAsGuest.propTypes = {
     setUserid: PropTypes.func,
     setUsername: PropTypes.func,
     setProfilePicture: PropTypes.func,
+    setLocalStorageItems: PropTypes.func,
 }
 
 export default LoginAsGuest;

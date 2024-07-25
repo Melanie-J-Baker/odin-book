@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Loading from '../pages/Loading';
 import '../styles/LikeUsers.css';
 
-function LikeUsers({ component, id, token, showLikeUsers }) {
+const LikeUsers = ({ component, id, token, showLikeUsers }) => {
     const [users, setUsers] = useState([]);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(true);
@@ -17,13 +17,11 @@ function LikeUsers({ component, id, token, showLikeUsers }) {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                 }
-            }).then((response) => {
-                return response.json();
-            }).then((data) => {
-                setUsers(data.likes)
-            }).catch((error) => {
-                setError(error.msg);
-            }).finally(() => setLoading(false));
+            })
+                .then(response => response.json())
+                .then(data => setUsers(data.likes))
+                .catch(error => setError(error.msg))
+                .finally(() => setLoading(false));
         } else if (component == "comment") {
             fetch(`${import.meta.env.VITE_API}/odin-book/comments/${id}/likes?` + new URLSearchParams({
                 secret_token: token,
@@ -32,13 +30,11 @@ function LikeUsers({ component, id, token, showLikeUsers }) {
                 headers: {
                     "Authorization": `Bearer ${token}`,
                 }
-            }).then((response) => {
-                return response.json();
-            }).then((data) => {
-                setUsers(data.likes)
-            }).catch((error) => {
-                setError(error.msg);
-            }).finally(() => setLoading(false));
+            })
+                .then(response => response.json())
+                .then(data => setUsers(data.likes))
+                .catch(error => setError(error.msg))
+                .finally(() => setLoading(false));
         }
     }, [component, id, token])
 
