@@ -5,47 +5,55 @@ import Loading from './Loading';
 import LoggedOut from './LoggedOut';
 import '../styles/DeleteAccount.css';
 
-const DeleteAccount = ({ token, userid, setUsername, setToken, setProfilePicture, setUserid, clearLocalStorage }) => {
+const DeleteAccount = ({
+    token,
+    userid,
+    setUsername,
+    setToken,
+    setProfilePicture,
+    setUserid,
+    clearLocalStorage
+}) => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [data, setData] = useState('');
-    const [formSubmit, setFormSubmit] = useState(false);
+    const [message, setMessage] = useState('');
+    const [isSubmitted, setIsSubmitted] = useState(false);
 
     const handleDeleteAccount = () => {
         setLoading(true);
-        fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/?` + new URLSearchParams({
-            secret_token: token,
-        }), {
+        fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/?${new URLSearchParams({ secret_token: token })}`, {
             method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
+            headers: { 'Authorization': `Bearer ${token}` }
         })
             .then(response => response.json())
             .then(data => {
-                setData(data.message);
-                setTimeout(() => navigate('/odin-book'), 5000)
+                setMessage(data.message);
                 if (data.user) {
-                    clearLocalStorage()
-                    setUsername('')
-                    setToken('')
-                    setProfilePicture('')
-                    setUserid('')
+                    clearLocalStorage();
+                    setUsername('');
+                    setToken('');
+                    setProfilePicture('');
+                    setUserid('');
+                    setTimeout(() => navigate('/odin-book'), 5000);
                 }
             })
-            .catch(error => setError(error.msg))
+            .catch(error => setError(error.message || 'An error occurred'))
             .finally(() => {
                 setLoading(false)
-                setFormSubmit(true);
+                setIsSubmitted(true);
             });
     }
 
+    if (loading) return <Loading />
     if (!token) return <LoggedOut/>
     if (error) return <p className='error'>A network error was encountered. {error}</p>
-    if (loading) return <Loading />
-    if (data) return <div>{data}</div>
-    return !formSubmit ? (
+    return isSubmitted ? (
+        <div className='deleteAccount'>
+            <div className='accountDeleted'>Account deleted. {message}</div>
+            <Link className="goHome link" to='/odin-book'>Home</Link>
+        </div>
+    ) : (
         <div className='deleteAccount'>
             <div className='deleteAccountText'>Are you sure you want to delete this account?</div>
             <div className='deleteAccountBtns'>
@@ -53,22 +61,17 @@ const DeleteAccount = ({ token, userid, setUsername, setToken, setProfilePicture
                 <div className='cancelBtn' onClick={() => navigate(-1)}>Cancel</div>
             </div>
         </div>
-    ) : (
-        <div className='deleteAccount'>
-            <div className='accountDeleted'>Account deleted{data}</div>
-            <Link className="goHome link" to={'/odin-book'}>Home</Link>
-        </div>
     )
 }
 
 DeleteAccount.propTypes = {
-    token: PropTypes.string,
-    userid: PropTypes.string,
-    setUsername: PropTypes.func,
-    setToken: PropTypes.func,
-    setProfilePicture: PropTypes.func,
-    setUserid: PropTypes.func,
-    clearLocalStorage: PropTypes.func,
+    token: PropTypes.string.isRequired,
+    userid: PropTypes.string.isRequired,
+    setUsername: PropTypes.func.isRequired,
+    setToken: PropTypes.func.isRequired,
+    setProfilePicture: PropTypes.func.isRequired,
+    setUserid: PropTypes.func.isRequired,
+    clearLocalStorage: PropTypes.func.isRequired,
 }
 
 export default DeleteAccount;

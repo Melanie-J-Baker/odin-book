@@ -7,31 +7,31 @@ import '../styles/Logout.css';
 const Logout = ({clearLocalStorage}) => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [data, setData] = useState('');
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API}/odin-book/users/logout`, { mode: 'cors', method: 'POST', credentials: "include" })
             .then(response => response.json())
             .then(data => {
-                setData(data.message);
+                setMessage(data.message);
                 clearLocalStorage();
             })
-            .catch(error => setError(error.msg))
+            .catch(error => setError(error.message || 'An error occurred'))
             .finally(() => setLoading(false));
     }, [clearLocalStorage])
     
-    if (error) return <p className='error'>A network error was encountered. {error}</p>
     if (loading) return <Loading/>
+    if (error) return <p className='error'>A network error was encountered. {error}</p>
     return (
         <div className="loggedOut" >
-            <div className="loggedOutText">{data}</div>
+            <div className="loggedOutText">{message}</div>
             <Link className="homeLink link" to="/odin-book">Home</Link>
         </div >
     )
 }
 
 Logout.propTypes = {
-  clearLocalStorage: PropTypes.func,
+  clearLocalStorage: PropTypes.func.isRequired,
 }
 
 export default Logout;

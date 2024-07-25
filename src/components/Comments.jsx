@@ -11,44 +11,60 @@ const Comments = ({ userid, postid, token }) => {
     const [error, setError] = useState(null);
     const [commentAdded, setCommentAdded] = useState({ added: false });
     const [commentLiked, setCommentLiked] = useState({ liked: false });
-    const [commentDeleted, setCommentDeleted] = useState({deleted: false});
+    const [commentDeleted, setCommentDeleted] = useState({ deleted: false });
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API}/odin-book/posts/${postid}/comments/?` + new URLSearchParams({
-            secret_token: token,
-        }), {
-            headers: {
-                "Authorization": `Bearer ${token}`,
-            }
+        fetch(`${import.meta.env.VITE_API}/odin-book/posts/${postid}/comments/?${new URLSearchParams({ secret_token: token })}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
         })
             .then(response => response.json())
             .then(data => setComments(data))
-            .catch(error => setError(error))
+            .catch(error => setError(error.message || 'An error occurred'))
             .finally(() => setLoading(false));
     }, [postid, token, commentAdded, commentLiked, commentDeleted]);
 
+    if (loading) return <Loading />
     if (error) return <p className='error'>A network error was encountered. {error}</p>
-    if (loading) return <Loading/>
-    return comments.length != 0 ? (
+    return (
         <div className='comments'>
-            <div className='commentsHeading'>Comments</div>
-            {comments.map((comment) => (
-                <Comment key={comment._id} userid={userid} token={token} commentid={comment._id} commentImage={comment.comment_image} commentText={comment.text} commentUsername={comment.user.username} commentUserImage={comment.user.profile_image} commentUserId={comment.user._id} commentTimestamp={comment.timestamp_formatted} commentLikes={comment.likes} setCommentLiked={setCommentLiked} setCommentDeleted={setCommentDeleted}/>
-            ))}
-            <AddComment userid={userid} token={token} postid={postid} setCommentAdded={setCommentAdded} />
+            {comments.length ? (
+                <>
+                    <div className='commentsHeading'>Comments</div>
+                    {comments.map((comment) => (
+                        <Comment
+                            key={comment._id}
+                            userid={userid}
+                            token={token}
+                            commentid={comment._id}
+                            commentImage={comment.comment_image}
+                            commentText={comment.text}
+                            commentUsername={comment.user.username}
+                            commentUserImage={comment.user.profile_image}
+                            commentUserId={comment.user._id}
+                            commentTimestamp={comment.timestamp_formatted}
+                            commentLikes={comment.likes}
+                            setCommentLiked={setCommentLiked}
+                            setCommentDeleted={setCommentDeleted}
+                        />
+                    ))}
+                </>
+            ) : (
+                <div className='noComments'>No comments</div>
+            )}
+            <AddComment
+                userid={userid}
+                token={token}
+                postid={postid}
+                setCommentAdded={setCommentAdded}
+            />
         </div>
-    ) : (
-        <>
-            <div className='noComments'>No comments</div>
-            <AddComment userid={userid} token={token} postid={postid} setCommentAdded={setCommentAdded} />
-        </>
-    )
-}
+    );
+};
 
 Comments.propTypes = {
-    userid: PropTypes.string,
-    token: PropTypes.string,
-    postid: PropTypes.string,
+    userid: PropTypes.string.isRequired,
+    token: PropTypes.string.isRequired,
+    postid: PropTypes.string.isRequired,
 }
 
 export default Comments;

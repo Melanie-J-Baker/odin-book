@@ -17,9 +17,7 @@ const UpdatePost = ({ token, userid }) => {
     const [file, setFile] = useState('');
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API}/odin-book/posts/${postid}/?` + new URLSearchParams({
-            secret_token: token,
-        }), {
+        fetch(`${import.meta.env.VITE_API}/odin-book/posts/${postid}/?${new URLSearchParams({ secret_token: token })}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
@@ -29,16 +27,14 @@ const UpdatePost = ({ token, userid }) => {
                 setPostText(data.text);
                 setCurrentPostImage(data.post_image);
             })
-            .catch(error => setError(error.msg))
+            .catch(error => setError(error.message || 'An error occurred'))
             .finally(() => setLoading(false))
     }, [postid, token])
 
     const updatePost = (e) => {
         e.preventDefault();
         setLoading(true);
-        fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/posts/${postid}/?` + new URLSearchParams({
-            secret_token: token,
-        }), {
+        fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/posts/${postid}/?${new URLSearchParams({ secret_token: token })}`, {
             method: 'PUT',
             mode: 'cors',
             credentials : 'include',
@@ -54,57 +50,73 @@ const UpdatePost = ({ token, userid }) => {
                 file == '' && navigate(-1);
             })
             .catch(error => {
-                setError(error.msg)
-                setStatus(error.msg)
+                setError(error.message || 'An error occurred')
+                setStatus(error.message || 'An error occurred')
             })
             .finally(() => {
                 setLoading(false);
                 setFormSubmit(true);
             })
-            if (file !== '') {
-                setFormSubmit(false);
-                const formData = new FormData();
-                formData.append("postImage", file);
-                setLoading(true);
-                fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/posts/${postid}/uploadimage/?` + new URLSearchParams({
-                    secret_token: token,
-                }), {
-                    method: 'PUT',
-                    mode: 'cors',
-                    credentials : 'include',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                    },
-                    body: formData
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        setStatus(data.status || data.message);
-                        setError(data.error);
-                    })
-                    .catch(error => {
-                        setError(error.msg)
-                        setStatus(error.msg)
-                    })
-                    .finally(() => {
-                        setLoading(false);
-                        setFormSubmit(true);
-                    })
+            if (file) {
+                handleFileUpload();
             }
+    }
+
+    const handleFileUpload = () => {
+        setFormSubmit(false);
+        const formData = new FormData();
+        formData.append("postImage", file);
+        setLoading(true);
+        fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/posts/${postid}/uploadimage/?${new URLSearchParams({ secret_token: token })}`, {
+            method: 'PUT',
+            mode: 'cors',
+            credentials : 'include',
+            headers: { 'Authorization': `Bearer ${token}` },
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                setStatus(data.status || data.message);
+                setError(data.error);
+            })
+            .catch(error => {
+                setError(error.message || 'An error occurred')
+                setStatus(error.message || 'An error occurred')
+            })
+            .finally(() => {
+                setLoading(false);
+                setFormSubmit(true);
+            })
     }
 
     const handleSelectFile = (e) => setFile(e.target.files[0]);
 
-    if (!token) return <LoggedOut/>
-    if (error) return <div className="error">A network error was encountered. {error}</div>
+    if (!token) return <LoggedOut />
     if (loading) return <Loading />
+    if (error) return <div className="error">A network error was encountered. {error}</div>
     return !formSubmit ? (
         <div className="updatePostDiv">
             {currentPostImage && (<img src={currentPostImage} alt="Post image" className='updatePostImage' />)}
             <form encType="multipart/form-data" className='updatePostForm'>
                 <div className='updatePostHeading'>Update post</div>
-                <textarea className="updatePostText" defaultValue={postText} name="text" id="text" rows="5" cols="50" onChange={(event) => setPostText(event.target.value)}></textarea>
-                <input type="file" accept=".jpg, .png, .gif, .svg, .webp" id="postImage" className="postImageInput"  name="postImage" onChange={handleSelectFile} multiple={false}></input>
+                <textarea
+                    className="updatePostText"
+                    defaultValue={postText}
+                    name="text"
+                    id="text"
+                    rows="5"
+                    cols="50"
+                    onChange={(event) => setPostText(event.target.value)}
+                ></textarea>
+                <input
+                    type="file"
+                    accept=".jpg, .png, .gif, .svg, .webp"
+                    id="postImage"
+                    className="postImageInput"
+                    name="postImage"
+                    onChange={handleSelectFile}
+                    multiple={false}
+                ></input>
                 <button type="button" className="updatePostSubmit" onClick={(e) => updatePost(e)}>Update Post</button>
                 <div className='back link' onClick={() => navigate(-1)}>Cancel</div>
             </form>
@@ -123,8 +135,8 @@ const UpdatePost = ({ token, userid }) => {
 }
 
 UpdatePost.propTypes = {
-    token: PropTypes.string,
-    userid: PropTypes.string,
+    token: PropTypes.string.isRequired,
+    userid: PropTypes.string.isRequired,
 }
 
 export default UpdatePost;

@@ -20,9 +20,7 @@ const UpdateProfile = ({ token, userid, setUsername, setProfilePicture, setLocal
     const [status, setStatus] = useState('');
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/?` + new URLSearchParams({
-            secret_token: token,
-        }), {
+        fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/?${new URLSearchParams({ secret_token: token})}`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
             }
@@ -35,15 +33,13 @@ const UpdateProfile = ({ token, userid, setUsername, setProfilePicture, setLocal
                 setEmail(data.user.email);
                 setProfileImage(data.user.profile_image);
             })
-            .catch(error => setError(error.msg))
+            .catch(error => setError(error.message || 'An error occurred'))
             .finally(() => setLoading(false));
     },[token, userid])
  
     const submitUpdateProfile = () => {
         setLoading(true);
-        fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/?` + new URLSearchParams({
-            secret_token: token,
-        }), {
+        fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/?${new URLSearchParams({ secret_token: token })}`, {
             method: 'PUT',
             mode: 'cors',
             credentials : 'include',
@@ -65,89 +61,136 @@ const UpdateProfile = ({ token, userid, setUsername, setProfilePicture, setLocal
                 setUsername(data.user.username);
                 file == '' && navigate(`/odin-book/users/${data.user._id}/`)
             })
-            .catch(error => setErrorMessage(error.msg))
+            .catch(error => setErrorMessage(error.message || 'An error occurred'))
             .finally(() => {
                 setLoading(false);
                 setFormSubmit(true);
             })
-            if (file !== '') {
-                setFormSubmit(false);
-                const formData = new FormData();
-                formData.append('profileImage', file);
-                setLoading(true);
-                fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/newprofileimage/?` + new URLSearchParams({
-                    secret_token: token,
-                }), {
-                    method: 'PUT',
-                    mode: 'cors',
-                    credentials : 'include',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                    },
-                    body: formData
-                })
-                    .then(response => response.json())
-                    .then((data) => {
-                        setErrorMessage(data.message);
-                        setStatus(data.message);
-                        setLocalStorageItems(['profilePicture', data.user.profile_image]);
-                        setProfilePicture(data.user.profile_image);
-                    })
-                    .catch(error => setErrorMessage(error.message))
-                    .finally(() => {
-                        setLoading(false);
-                        setFormSubmit(true);
-                    })
+            if (file) {
+                handleFileUpload();
             }
     };
+
+    const handleFileUpload = () => {
+        setFormSubmit(false);
+        const formData = new FormData();
+        formData.append('profileImage', file);
+        setLoading(true);
+        fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/newprofileimage/?${new URLSearchParams({ secret_token: token })}`, {
+            method: 'PUT',
+            mode: 'cors',
+            credentials : 'include',
+            headers: { 'Authorization': `Bearer ${token}` },
+            body: formData
+        })
+            .then(response => response.json())
+            .then((data) => {
+                setErrorMessage(data.message);
+                setStatus(data.message);
+                setLocalStorageItems(['profilePicture', data.user.profile_image]);
+                setProfilePicture(data.user.profile_image);
+            })
+            .catch(error => setErrorMessage(error.message  || 'An error occurred'))
+            .finally(() => {
+                setLoading(false);
+                setFormSubmit(true);
+            })
+    }
 
     const handleSelectFile = (e) => setFile(e.target.files[0]);
 
     if (!token) return <LoggedOut/>
-    if (error) return <div className="error">A netork error was encountered. {error}</div>
     if (loading) return <Loading/>
+    if (error) return <div className="error">A netork error was encountered. {error}</div>
     return !formSubmit ? (
         <div className="updateProfile">
             <h2 className="updateProfileHeading">Update your details</h2>
             <form encType="multipart/form-data" className="updateProfileInputs">
                 {profileImage && (<img src={profileImage} alt="Current profile image" className="currentProfileImage" />)}
                 <label htmlFor="updateProfileUsername" className="updateProfileLabel">Username</label>
-                <input id="updateProfileUsername" autoComplete="username" name="username" className="updateProfileInput" type="text" placeholder="Enter new username" defaultValue={usernameInput} onChange={(event) => setUsernameInput(event.target.value)} />
+                <input
+                    id="updateProfileUsername"
+                    autoComplete="username"
+                    name="username"
+                    className="updateProfileInput"
+                    type="text"
+                    placeholder="Enter new username"
+                    defaultValue={usernameInput}
+                    onChange={(event) => setUsernameInput(event.target.value)}
+                />
                 <label htmlFor="updateProfileFirstName" className="updateProfileLabel">First name</label>
-                <input id="updateProfileFirstName" autoComplete="name" name="first_name" className="updateProfileInput" type="text" placeholder="Enter new first name" defaultValue={firstName} onChange={(event) => setFirstName(event.target.value)} />
+                <input
+                    id="updateProfileFirstName"
+                    autoComplete="name"
+                    name="first_name"
+                    className="updateProfileInput"
+                    type="text"
+                    placeholder="Enter new first name"
+                    defaultValue={firstName}
+                    onChange={(event) => setFirstName(event.target.value)}
+                />
                 <label htmlFor="updateProfileLastName" className="updateProfileLabel">Last name</label>
-                <input id="updateProfileLastName" autoComplete="name" name="last_name" className="updateProfileInput" type="text" placeholder="Enter new last name" defaultValue={lastName} onChange={(event) => setLastName(event.target.value)} />
+                <input
+                    id="updateProfileLastName"
+                    autoComplete="name"
+                    name="last_name"
+                    className="updateProfileInput"
+                    type="text"
+                    placeholder="Enter new last name"
+                    defaultValue={lastName}
+                    onChange={(event) => setLastName(event.target.value)}
+                />
                 <label htmlFor="updateProfileEmail" className="updateProfileLabel">Email</label>
-                <input id="updateProfileEmail" autoComplete="email" name="email" className="updateProfileInput" type="email" placeholder="Enter new email address" defaultValue={email} onChange={(event) => setEmail(event.target.value)} />
+                <input
+                    id="updateProfileEmail"
+                    autoComplete="email"
+                    name="email"
+                    className="updateProfileInput"
+                    type="email"
+                    placeholder="Enter new email address"
+                    defaultValue={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                />
                 <div className="fileInputDiv">
                     <label htmlFor="profileImage" className="fileInputLabel">Profile image: </label>
-                    <input type="file" accept=".jpg, .png, .gif, .svg, .webp" id="profileImage" name="profileImage" onChange={handleSelectFile} multiple={false}></input>
+                    <input
+                        type="file"
+                        accept=".jpg, .png, .gif, .svg, .webp"
+                        id="profileImage"
+                        name="profileImage"
+                        onChange={handleSelectFile}
+                        multiple={false}
+                    ></input>
                 </div>
                 <button type="button" className="updateProfileBtn" onClick={submitUpdateProfile}>Update Profile</button>
                 <Link id="changePassword" className="changePasswordBtn link" to={`/odin-book/users/${userid}/changepassword`}>Change Password</Link>
                 <Link id="cancelUpdateProfile" className="cancelUpdateProfile link" to={`/odin-book/users/${userid}`}>Cancel</Link>
             </form>
             <div className="errorMsg">{errorMessage}</div>
-        </div>        
-    ) : formSubmit && !errorMessage && !error ? (
-        <div className="accountUpdated">
-                <div className="accountUpdatedHeading">{status}</div>
-            <Link id="backToProfile" className="backToProfile link" to={`/odin-book/users/${userid}`}>Back to profile</Link>
-        </div >
+        </div>
     ) : (
-        <> 
-            <div className="errorMessage">An error has occurred! {errorMessage} {error}</div>
-            <Link id="backToProfile" className="backToProfile link" to={`/odin-book/users/${userid}`}>Back to profile</Link>
-        </>
-    )
+        <div className="accountUpdated">
+            {status ? (
+                <>
+                    <div className="accountUpdatedHeading">{status}</div>
+                    <Link id="backToProfile" className="backToProfile link" to={`/odin-book/users/${userid}`}>Back to profile</Link>
+                </>
+            ) : (
+                <>
+                    <div className="errorMessage">An error has occurred! {errorMessage} {error}</div>
+                    <Link id="backToProfile" className="backToProfile link" to={`/odin-book/users/${userid}`}>Back to profile</Link>
+                </>
+            )}
+        </div >
+    );
 }
 
 UpdateProfile.propTypes = {
-    token: PropTypes.string,
-    userid: PropTypes.string,
-    setUsername: PropTypes.func,
-    setProfilePicture: PropTypes.func,
-    setLocalStorageItems: PropTypes.func,
+    token: PropTypes.string.isRequired,
+    userid: PropTypes.string.isRequired,
+    setUsername: PropTypes.func.isRequired,
+    setProfilePicture: PropTypes.func.isRequired,
+    setLocalStorageItems: PropTypes.func.isRequired,
 }
 
 export default UpdateProfile;

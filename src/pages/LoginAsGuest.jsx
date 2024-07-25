@@ -21,10 +21,7 @@ const LoginAsGuest = ({ setToken, setUserid, setUsername, setProfilePicture, set
                 "Accept": "application/x-www-form-urlencoded; charset=UTF-8",
                 "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
             },
-            body: new URLSearchParams({
-                username: username.toString(),
-                password: password.toString(),
-            }),
+            body: new URLSearchParams({ username, password }),
         })
             .then(response => response.json())
             .then(data => {
@@ -45,19 +42,19 @@ const LoginAsGuest = ({ setToken, setUserid, setUsername, setProfilePicture, set
                     setErrorMessage("Problem logging in. Please try again.") 
                 }
             })
-            .catch(error => setErrorMessage(error.msg))
+            .catch(error => setErrorMessage(error.message || 'An error occurred'))
             .finally(() => {
                 setLoading(false);
                 setFormSubmitted(true);
             })
     };
 
+    if (loading) return <Loading/>
     if (errorMessage) return (
         <div className="error">
             <div className="errorText">A network error was encountered. {errorMessage}</div>
         </div>
     )
-    if (loading) return <Loading/>
     return !formSubmitted ? (
         <button className="loginBtn" onClick={submitLogin}>Log in as Guest</button>
     ) : (
@@ -68,11 +65,11 @@ const LoginAsGuest = ({ setToken, setUserid, setUsername, setProfilePicture, set
 }
 
 LoginAsGuest.propTypes = {
-    setToken: PropTypes.func,
-    setUserid: PropTypes.func,
-    setUsername: PropTypes.func,
-    setProfilePicture: PropTypes.func,
-    setLocalStorageItems: PropTypes.func,
+    setToken: PropTypes.func.isRequired,
+    setUserid: PropTypes.func.isRequired,
+    setUsername: PropTypes.func.isRequired,
+    setProfilePicture: PropTypes.func.isRequired,
+    setLocalStorageItems: PropTypes.func.isRequired,
 }
 
 export default LoginAsGuest;

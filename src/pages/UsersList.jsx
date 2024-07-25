@@ -12,16 +12,12 @@ const UsersList = ({ token, userid, sendFriendRequest, users, setUsers, error, s
     const [requestSent, setRequestSent] = useState();
     
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/userslist/?` + new URLSearchParams({
-            secret_token: token,
-        }), {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
+        fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/userslist/?${new URLSearchParams({ secret_token: token })}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
         })
             .then(response => response.json())
             .then(data => setUsers(data.users))
-            .catch(error => setError(error.msg))
+            .catch(error => setError(error.message || 'An error occurred'))
             .finally(() => setLoading(false));
     }, [setError, setUsers, token, userid, requestSent])
 
@@ -30,23 +26,32 @@ const UsersList = ({ token, userid, sendFriendRequest, users, setUsers, error, s
         setRequestSent(id);
     }
 
+    if (loading) return <Loading/>
     if (!token) return <LoggedOut/>
     if (error) return <p>A network error was encountered. {error}</p>
-    if (loading) return <Loading/>
     return (
         <div className="usersList">
-            <FriendRequests token={token} userid={userid} requestsLoading={requestsLoading} requestDetails={requestDetails} setDeleted={setDeleted} setAccepted={setAccepted}/>
+            <FriendRequests
+                token={token}
+                userid={userid}
+                requestsLoading={requestsLoading}
+                requestDetails={requestDetails}
+                setDeleted={setDeleted}
+                setAccepted={setAccepted}
+            />
             <div className="usersListHeading">Add new friends</div>
-            {users.length ? users.map((user) => {
-                return (
+            {users.length ? (
+                users.map((user) => (
                     <div key={user._id} className='user'>
                         <img src={user.profile_image} alt="User profile image" className='userImage'/>
                         <div className='username'>{user.username}</div>
                         <Link id='seeProfileBtn' to={`/odin-book/users/${user._id}/profile`}>See profile</Link>
-                        {user.requests.includes(userid) || requestSent === user._id ? (<div className='addFriendBtn'>Request sent!</div>) : (<div id={user._id} className='addFriendBtn' onClick={(event) => handleClick(event.target.id)}>Send friend request</div>)}
+                        {user.requests.includes(userid) || requestSent === user._id ? (
+                            <div className='addFriendBtn'>Request sent!</div>) : (<div id={user._id} className='addFriendBtn' onClick={(event) => handleClick(event.target.id)}>Send friend request</div>
+                        )}
                     </div>
-                )
-            }) : (
+                ))
+            ) : (
                 <div className="noUsers">No new users available!</div>
             )}
             <div className='goBack' onClick={() => navigate(-1)}>Go back</div>
@@ -55,17 +60,21 @@ const UsersList = ({ token, userid, sendFriendRequest, users, setUsers, error, s
 }
 
 UsersList.propTypes = {
-    token: PropTypes.string,
-    userid: PropTypes.string,
-    sendFriendRequest: PropTypes.func,
-    users: PropTypes.array,
-    setUsers: PropTypes.func,
+    token: PropTypes.string.isRequired,
+    userid: PropTypes.string.isRequired,
+    sendFriendRequest: PropTypes.func.isRequired,
+    users: PropTypes.arrayOf(PropTypes.object).isRequired,
+    setUsers: PropTypes.func.isRequired,
     error: PropTypes.string,
-    setError: PropTypes.func,
-    requestsLoading: PropTypes.bool,
-    requestDetails: PropTypes.array,
-    setDeleted: PropTypes.func,
-    setAccepted: PropTypes.func,
+    setError: PropTypes.func.isRequired,
+    requestsLoading: PropTypes.bool.isRequired,
+    requestDetails: PropTypes.arrayOf(PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        profile_image: PropTypes.string,
+        username: PropTypes.string.isRequired,
+    })).isRequired,
+    setDeleted: PropTypes.func.isRequired,
+    setAccepted: PropTypes.func.isRequired,
 }
 
 export default UsersList;

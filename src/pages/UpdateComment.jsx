@@ -17,28 +17,22 @@ const UpdateComment = ({ token, userid }) => {
     const [file, setFile] = useState('');
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API}/odin-book/comments/${commentid}/?` + new URLSearchParams({
-            secret_token: token,
-        }), {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            }
+        fetch(`${import.meta.env.VITE_API}/odin-book/comments/${commentid}/?${new URLSearchParams({ secret_token: token })}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
         })
             .then(response => response.json())
             .then(data => {
                 setCommentText(data.text);
                 setCommentImage(data.comment_image);
             })
-            .catch(error => setError(error.msg))
+            .catch(error => setError(error.message || 'An error occurred'))
             .finally(() => setLoading(false));
     }, [commentid, token])
 
     const updateComment = (e) => {
         e.preventDefault();
         setLoading(true);
-        fetch(`${import.meta.env.VITE_API}/odin-book/comments/${commentid}/?` + new URLSearchParams({
-            secret_token: token,
-        }), {
+        fetch(`${import.meta.env.VITE_API}/odin-book/comments/${commentid}/?${new URLSearchParams({ secret_token: token })}`, {
             method: 'PUT',
             mode: 'cors',
             credentials : "include",
@@ -54,56 +48,72 @@ const UpdateComment = ({ token, userid }) => {
                 file == '' && navigate(-1);
             })
             .catch(error => {
-                setError(error.msg)
-                setStatus(error.msg)
+                setError(error.message || 'An error occurred')
+                setStatus(error.message || 'An error occurred')
             })
             .finally(() => {
                 setLoading(false);
                 setFormSubmit(true);
             })
-            if (file !== '') {
-                setFormSubmit(false);
-                const formData = new FormData();
-                formData.append("commentImage", file);
-                setLoading(true);
-                fetch(`${import.meta.env.VITE_API}/odin-book/comments/${commentid}/uploadimage/?` + new URLSearchParams({
-                    secret_token: token,
-                }), {
-                    method: 'PUT',
-                    mode: 'cors',
-                    credentials : "include",
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                    },
-                    body: formData
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        setStatus(data.status || data.message);
-                        setError(data.error);
-                    })
-                    .catch(error => {
-                        setError(error.msg)
-                        setStatus(error.msg)
-                    })
-                    .finally(() => {
-                        setLoading(false);
-                        setFormSubmit(true);
-                    })
+            if (file) {
+                handleFileUpload();
             }
+    }
+
+    const handleFileUpload = () => {
+        setFormSubmit(false);
+        const formData = new FormData();
+        formData.append("commentImage", file);
+        setLoading(true);
+        fetch(`${import.meta.env.VITE_API}/odin-book/comments/${commentid}/uploadimage/?${new URLSearchParams({ secret_token: token })}`, {
+            method: 'PUT',
+            mode: 'cors',
+            credentials : "include",
+            headers: { 'Authorization': `Bearer ${token}`},
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                setStatus(data.status || data.message);
+                setError(data.error);
+            })
+            .catch(error => {
+                setError(error.message || 'An error occurred')
+                setStatus(error.message || 'An error occurred')
+            })
+            .finally(() => {
+                setLoading(false);
+                setFormSubmit(true);
+            })
     }
 
     const handleSelectFile = (e) => setFile(e.target.files[0]);
 
+    if (loading) return <Loading />
     if (!token) return <LoggedOut/>
     if (error) return <div className="error">A network error was encountered. {error}</div>
-    if (loading) return <Loading />
     return !formSubmit ? (
         <form encType="multipart/form-data" className='updateCommentForm'>
             <div className='updateCommentHeading'>Update comment</div>
             {commentImage && (<img src={commentImage} alt="Comment image" className='updateCommentImage' />)}
-            <textarea className="updateCommentText" defaultValue={commentText} name="text" id="text" rows="5" cols="50" onChange={(event) => setCommentText(event.target.value)}></textarea>
-            <input type="file" accept=".jpg, .png, .gif, .svg, .webp" id="commentImage" className="commentImageInput" name="commentImage" onChange={handleSelectFile} multiple={false}></input>
+            <textarea
+                className="updateCommentText"
+                defaultValue={commentText}
+                name="text"
+                id="text"
+                rows="5"
+                cols="50"
+                onChange={(event) => setCommentText(event.target.value)}
+            ></textarea>
+            <input
+                type="file"
+                accept=".jpg, .png, .gif, .svg, .webp"
+                id="commentImage"
+                className="commentImageInput"
+                name="commentImage"
+                onChange={handleSelectFile}
+                multiple={false}
+            ></input>
             <button type="button" className="updateCommentSubmit" onClick={(e) => updateComment(e)}>Update Comment</button>
             <div className='back link' onClick={() => navigate(-1)}>Cancel</div>
         </form>
@@ -124,8 +134,8 @@ const UpdateComment = ({ token, userid }) => {
 }
 
 UpdateComment.propTypes = {
-    token: PropTypes.string,
-    userid: PropTypes.string,
+    token: PropTypes.string.isRequired,
+    userid: PropTypes.string.isRequired,
 }
 
 export default UpdateComment;

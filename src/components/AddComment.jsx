@@ -13,50 +13,47 @@ const AddComment = ({ userid, token, postid, setCommentAdded }) => {
     const addComment = (e) => {
         e.preventDefault();
         setLoading(true);
-        fetch(`${import.meta.env.VITE_API}/odin-book/posts/${postid}/comments?` + new URLSearchParams({
-            secret_token: token,
-        }), {
+        fetch(`${import.meta.env.VITE_API}/odin-book/posts/${postid}/comments?${new URLSearchParams({ secret_token: token })}`, {
             method: 'POST',
             mode: 'cors',
             headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
-            body: JSON.stringify({ post: postid, user: userid, text })
+            body: JSON.stringify({
+                post: postid,
+                user: userid,
+                text
+            })
         })
             .then(response => response.json())
             .then(data => {
-                if (file !== '') {
+                if (file) {
                     const formData = new FormData();
                     formData.append("commentImage", file);
-                    return fetch(`${import.meta.env.VITE_API}/odin-book/comments/${data.comment._id}/uploadimage/?` + new URLSearchParams({
-                        secret_token: token,
-                    }), {
+                    return fetch(`${import.meta.env.VITE_API}/odin-book/comments/${data.comment._id}/uploadimage/?${new URLSearchParams({ secret_token: token })}`, {
                         method: 'PUT',
                         mode: 'cors',
-                        credentials : "include",
-                        headers: {
-                            "Authorization": `Bearer ${token}`,
-                        },
+                        credentials : 'include',
+                        headers: { 'Authorization': `Bearer ${token}` },
                         body: formData
                     })
                         .then(response => response.json())
-                        .then(data => {
-                            setMessage(data.status);
-                            setTimeout(() => setMessage(''), 3000);
-                        })
+                        .then(data => setMessage(data.status))
                         .catch(error => {
-                            setError(error.message);
-                            setMessage(error.message);
+                            setError(error.message || 'An error occurred');
+                            setMessage(error.message || 'An error occurred');
+                        })
+                        .finally(() => {
+                            setLoading(false);
                             setTimeout(() => {
                                 setMessage('');
                                 setError('');
                             }, 3000)
                         })
-                        .finally(() => setLoading(false))
                 }
             })
-            .catch(error => setError(error.msg))
+            .catch(error => setError(error.message || 'An error occurred'))
             .finally(() => {
                 setLoading(false);
                 setCommentAdded({ added: true });
@@ -65,27 +62,44 @@ const AddComment = ({ userid, token, postid, setCommentAdded }) => {
             });
     }
 
-    const handleSelectFile = (e) => setFile(e.target.files[0]);
+    const handleFileChange = (e) => setFile(e.target.files[0]);
 
-    if (error) return <div className='error'>A network error was encountered. {error}</div>
     if (loading) return <Loading/>
+    if (error) return <div className='error'>A network error was encountered. {error}</div>
+    
     return (
-        <form encType='multipart/form-data' name='addCommentForm' className='addCommentForm' onSubmit={(e) => addComment(e)}>
+        <form encType='multipart/form-data' name='addCommentForm' className='addCommentForm' onSubmit={addComment}>
             <div className="commentFormDiv">
-                <textarea className="addCommentText" value={text} placeholder="Write your comment here" name="text" id="text" rows="2" cols="30" onChange={(event) => setText(event.target.value)}></textarea>
+                <textarea
+                    className="addCommentText"
+                    value={text}
+                    placeholder="Write your comment here"
+                    name="text"
+                    id="text"
+                    rows="2"
+                    cols="30"
+                    onChange={(e) => setText(e.target.value)}
+                />
                 <button type="submit" className="addCommentBtn">Comment</button>
             </div>    
-                <input type="file" accept=".jpg, .png, .gif, .svg, .webp" id="commentImage" name="commentImage" onChange={handleSelectFile} multiple={false}></input>
+            <input
+                type="file"
+                accept=".jpg, .png, .gif, .svg, .webp"
+                id="commentImage"
+                name="commentImage"
+                onChange={handleFileChange}
+                multiple={false}
+            />
             <div className='message'>{message}</div>
         </form>
     )
 }
 
 AddComment.propTypes = {
-    userid: PropTypes.string,
-    token: PropTypes.string,
-    postid: PropTypes.string,
-    setCommentAdded: PropTypes.func,
+    userid: PropTypes.string.isRequired,
+    token: PropTypes.string.isRequired,
+    postid: PropTypes.string.isRequired,
+    setCommentAdded: PropTypes.func.isRequired,
 }
 
 export default AddComment;

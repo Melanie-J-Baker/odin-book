@@ -76,36 +76,32 @@ const  App = () => {
   useEffect(() => {
     if (userid) {
       setRequestsLoading(true);
-      fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/?` + new URLSearchParams({
-          secret_token: token,
-      }), {
+      fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/?${new URLSearchParams({ secret_token: token})}`, {
           mode: 'cors',
           headers: {
-              "Authorization": `Bearer ${token}`,
+              'Authorization': `Bearer ${token}`,
           },
       })
         .then(response => response.json())
         .then(data => setRequestDetails(data.user.requests))
-        .catch(error => setError(error.msg))
+        .catch(error => setError(error.message || 'An error occurred'))
         .finally(() => setRequestsLoading(false));
     }
   }, [token, userid, deleted, accepted])
 
   const sendFriendRequest = (newUserId) => {
-    fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/friendrequest/?` + new URLSearchParams({
-        secret_token: token,
-    }), {
+    fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/friendrequest/?${new URLSearchParams({ secret_token: token })}`, {
         method: 'PUT',
         mode: 'cors',
         headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json",
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify({ toFriend: newUserId })
     })
       .then(response => response.json())
       .then(data => setData(data))
-      .catch(error => setError(error.msg))
+      .catch(error => setError(error.message || 'An error occurred'))
   }
 
   return (

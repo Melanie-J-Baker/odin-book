@@ -20,12 +20,12 @@ const Welcome = ({ userid, setToken, setUserid, setUsername, setProfilePicture, 
         setPostCount(data.numberOfPosts);
         setCommentCount(data.numberOfComments);
       })
-      .catch(error => setError(error.msg))
+      .catch(error => setError(error.message || 'An error occurred'))
       .finally(() => setLoading(false));
   }, [])
-
-  if (error) return <div className='error'>A network error was encountered. {error}</div>
+  
   if (loading) return <Loading/>
+  if (error) return <div className='error'>A network error was encountered. {error}</div>
   return (
     <div className='welcomePage'>
       <h1 className='welcomeHeading'>Welcome to Odin Book!</h1>
@@ -36,10 +36,16 @@ const Welcome = ({ userid, setToken, setUserid, setUsername, setProfilePicture, 
       </div>
       {!userid && (<div className='welcomeBtns'>
         <div>
-          <Link id='signupBtn' className="welcomeBtn link" to={'/odin-book/users/signup'}>Sign up</Link>
-          <Link id='loginBtn' className="welcomeBtn link" to={'/odin-book/users/login'}>Log in</Link>
+          <Link id='signupBtn' className="welcomeBtn link" to='/odin-book/users/signup'>Sign up</Link>
+          <Link id='loginBtn' className="welcomeBtn link" to='/odin-book/users/login'>Log in</Link>
         </div>
-        <LoginAsGuest setToken={setToken} setUserid={setUserid} setUsername={setUsername} setProfilePicture={setProfilePicture} setLocalStorageItems={setLocalStorageItems} />
+        <LoginAsGuest
+          setToken={setToken}
+          setUserid={setUserid}
+          setUsername={setUsername}
+          setProfilePicture={setProfilePicture}
+          setLocalStorageItems={setLocalStorageItems}
+        />
       </div>)}
     </div>
   )
@@ -47,11 +53,11 @@ const Welcome = ({ userid, setToken, setUserid, setUsername, setProfilePicture, 
 
 Welcome.propTypes = {
   userid: PropTypes.string,
-  setToken: PropTypes.func, 
-  setUserid: PropTypes.func, 
-  setUsername: PropTypes.func,
-  setProfilePicture: PropTypes.func,
-  setLocalStorageItems: PropTypes.func,
+  setToken: PropTypes.func.isRequired, 
+  setUserid: PropTypes.func.isRequired, 
+  setUsername: PropTypes.func.isRequired,
+  setProfilePicture: PropTypes.func.isRequired,
+  setLocalStorageItems: PropTypes.func.isRequired,
 }
 
 export default Welcome;

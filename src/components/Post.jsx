@@ -7,25 +7,35 @@ import DeletePost from '../components/DeletePost';
 import Loading from '../pages/Loading';
 import '../styles/Post.css';
 
-const Post = ({ userid, token, postid, postUserId, postUsername, postTimestamp, postText, postUserImage, postImage, postLikes, setPostLiked, setPostDeleted }) => {
+const Post = ({
+    userid,
+    token,
+    postid,
+    postUserId,
+    postUsername,
+    postTimestamp,
+    postText,
+    postUserImage,
+    postImage,
+    postLikes,
+    setPostLiked,
+    setPostDeleted
+}) => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
     const [error, setError] = useState(null);
     const [likeUsersShowing, setLikeUsersShowing] = useState(false);
     const [deletePostShowing, setDeletePostShowing] = useState(false); 
-    const component = "post";
 
-    const likePost = (id) => {
+    const handleLikePost = (id) => {
         setLoading(true);
-        fetch(`${import.meta.env.VITE_API}/odin-book/posts/${id}/like?` + new URLSearchParams({
-            secret_token: token,
-        }), {
+        fetch(`${import.meta.env.VITE_API}/odin-book/posts/${id}/like?${new URLSearchParams({ secret_token: token })}`, {
             method: 'PUT',
             mode: 'cors',
             headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ likes: userid })
         })
@@ -35,19 +45,26 @@ const Post = ({ userid, token, postid, postUserId, postUsername, postTimestamp, 
                 setPostLiked({ liked: true });
                 setTimeout(() => setMessage(""), 2000)
             })
-            .catch(error => setError(error.msg))
+            .catch(error => setError(error.message || 'An error occurred'))
             .finally(() => setLoading(false))
     }
 
-    const showDeletePost = () => deletePostShowing === false ? setDeletePostShowing(true) : setDeletePostShowing(false);
+    const toggleDeletePost = () => setDeletePostShowing(prev => !prev);
+    const toggleLikeUsers = () => setLikeUsersShowing(prev => !prev);
 
-    const showLikeUsers = () => likeUsersShowing === true ? setLikeUsersShowing(false) : setLikeUsersShowing(true);
-
-    if (error) return <p className="error">A network error was encountered. {error}</p>
     if (loading) return <Loading />
+    if (error) return <p className="error">A network error was encountered. {error}</p>
+    
     return (
         <div className='post'>
-            {deletePostShowing && (<DeletePost postid={postid} token={token} setPostDeleted={setPostDeleted} setDeletePostShowing={setDeletePostShowing} />)}
+            {deletePostShowing && (
+                <DeletePost
+                    postid={postid}
+                    token={token}
+                    setPostDeleted={setPostDeleted}
+                    setDeletePostShowing={setDeletePostShowing}
+                />
+            )}
             <div className='postUserDetails'>
                 <div className='userDetails'>
                     <img src={postUserImage} alt='Profile Image' className='postProfileImage' />
@@ -56,27 +73,51 @@ const Post = ({ userid, token, postid, postUserId, postUsername, postTimestamp, 
                         <div className='postTimestamp'>{postTimestamp}</div>
                     </div>
                 </div>
-                {postUserId == userid ? (
+                {postUserId === userid && (
                     <div className='postOptions'>
-                        <div id={postid} className='updatePost' onClick={(e) => navigate(`/odin-book/posts/${e.target.id}/update`)}></div>
-                        <div id={postid} className='deletePost' onClick={() => showDeletePost()}></div>
+                        <div
+                            id={postid}
+                            className='updatePost'
+                            onClick={(e) => navigate(`/odin-book/posts/${e.target.id}/update`)}
+                        ></div>
+                        <div
+                            id={postid}
+                            className='deletePost'
+                            onClick={() => toggleDeletePost()}
+                        ></div>
                     </div>
-                ) : <div className='postOptions'></div>}
+                )}
             </div>
             <div className="postDiv">
                 <div className="postText">{postText}</div>
-                {postImage && (<img src={postImage} alt="Post Image" className='postImage' />)}
+                {postImage && (
+                    <img src={postImage} alt="Post Image" className='postImage' />
+                )}
                 <div className="likesDiv" >
                     <div className="likes">
-                        {postLikes && !postLikes.includes(userid) ? (<div className='likeBtnPost' id={postid} onClick={(event) => likePost(event.target.id)}></div>) : (<div className='postLiked' id={postid} onClick={(event) => likePost(event.target.id)}></div>)}
-                        {postLikes.length === 1 ? (
-                            <div className="postLikes" onClick={() => showLikeUsers()}>1 like</div>
+                        {postLikes && !postLikes.includes(userid) ? (
+                            <div
+                                className='likeBtnPost'
+                                id={postid}
+                                onClick={(event) => handleLikePost(event.target.id)}
+                            />
                         ) : (
-                            <div className="postLikes" onClick={() => showLikeUsers()}>{postLikes.length} likes</div>
+                            <div
+                                className='postLiked'
+                                id={postid}
+                                onClick={(event) => handleLikePost(event.target.id)}
+                            ></div>
                         )}
+                        <div className="postLikes" onClick={toggleLikeUsers}>
+                            {postLikes.length} {postLikes.length === 1 ? 'like' : 'likes'}
+                        </div>
                     </div>
-                    {likeUsersShowing && (<LikeUsers component={component} id={postid} token={token} showLikeUsers={showLikeUsers} />)}
-                    {message && (<div className='postMessage'>{message}</div>)}
+                    {likeUsersShowing && (
+                        <LikeUsers
+                            component="post" id={postid} token={token} showLikeUsers={toggleLikeUsers}
+                        />
+                    )}
+                    {message && <div className='postMessage'>{message}</div>}
                 </div>
             </div>
             <Comments userid={userid} postid={postid} token={token} />
@@ -85,18 +126,18 @@ const Post = ({ userid, token, postid, postUserId, postUsername, postTimestamp, 
 }
 
 Post.propTypes = {
-    userid: PropTypes.string,
-    token: PropTypes.string,
-    postid: PropTypes.string,
-    postUserId: PropTypes.string,
-    postUsername: PropTypes.string,
-    postTimestamp: PropTypes.string,
-    postText: PropTypes.string,
-    postUserImage: PropTypes.string,
+    userid: PropTypes.string.isRequired,
+    token: PropTypes.string.isRequired,
+    postid: PropTypes.string.isRequired,
+    postUserId: PropTypes.string.isRequired,
+    postUsername: PropTypes.string.isRequired,
+    postTimestamp: PropTypes.string.isRequired,
+    postText: PropTypes.string.isRequired,
+    postUserImage: PropTypes.string.isRequired,
     postImage: PropTypes.string,
-    postLikes: PropTypes.array,
-    setPostLiked: PropTypes.func,
-    setPostDeleted: PropTypes.func,
+    postLikes: PropTypes.arrayOf(PropTypes.string).isRequired,
+    setPostLiked: PropTypes.func.isRequired,
+    setPostDeleted: PropTypes.func.isRequired,
 }
 
 export default Post;

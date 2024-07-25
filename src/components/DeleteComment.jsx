@@ -3,53 +3,50 @@ import PropTypes from 'prop-types';
 import Loading from '../pages/Loading';
 import '../styles/DeleteComment.css';
 
-const DeleteComment = ({ commentid, token, setCommentDeleted, setDeleteCommentShowing }) => {
+const DeleteComment = ({
+    commentid,
+    token,
+    setCommentDeleted,
+    setDeleteCommentShowing
+}) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [data, setData] = useState('');
-    const [formSubmit, setFormSubmit] = useState(false);
+    const [formSubmitted, setFormSubmitted] = useState(false);
 
-    const deleteComment = (commentid) => {
+    const handleDeleteComment = (commentid) => {
         setLoading(true);
-        fetch(`${import.meta.env.VITE_API}/odin-book/comments/${commentid}/?` + new URLSearchParams({
-            secret_token: token,
-        }), {
+        fetch(`${import.meta.env.VITE_API}/odin-book/comments/${commentid}/?${new URLSearchParams({ secret_token: token })}`, {
             method: 'DELETE',
             mode: 'cors',
-            headers: {
-                "Authorization": `Bearer ${token}`,
-            },
+            headers: { 'Authorization': `Bearer ${token}` },
         })
             .then(response => response.json())
-            .then(data => {
-                setData(data.message);
-                setCommentDeleted({ deleted: true });
-            })
-            .catch(error => setError(error.msg))
+            .then(() => setCommentDeleted({ deleted: true }))
+            .catch(error => setError(error.message || 'An error occurred'))
             .finally(() => {
                 setLoading(false);
-                setFormSubmit(true);
+                setFormSubmitted(true);
             })
-        }
+    }
 
-    if (error) return <p className='error'>A network error was encountered. {error}</p>
     if (loading) return <Loading />
-    return !formSubmit && !data && (
+    if (error) return <p className='error'>A network error was encountered. {error}</p>
+    return !formSubmitted ? (
         <div className='deleteCommentConfirm'>
             <div className='deleteCommentText'>Are you sure you want to delete this comment?</div>
             <div className='deleteCommentBtns'>
-                <div className='confirmBtn deleteCommentBtn' onClick={() => deleteComment(commentid)}>Confirm</div>
+                <div className='confirmBtn deleteCommentBtn' onClick={() => handleDeleteComment(commentid)}>Confirm</div>
                 <div className='cancelBtn deleteCommentBtn' onClick={() => setDeleteCommentShowing(false)}>Cancel</div>
             </div>
         </div>
-    )
-}
+    ) : null;
+};
 
 DeleteComment.propTypes = {
-    commentid: PropTypes.string,
-    token: PropTypes.string,
-    setCommentDeleted: PropTypes.func,
-    setDeleteCommentShowing: PropTypes.func,
+    commentid: PropTypes.string.isRequired,
+    token: PropTypes.string.isRequired,
+    setCommentDeleted: PropTypes.func.isRequired,
+    setDeleteCommentShowing: PropTypes.func.isRequired,
 }
 
 export default DeleteComment;

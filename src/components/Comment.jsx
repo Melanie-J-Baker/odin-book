@@ -6,9 +6,21 @@ import LikeUsers from '../components/LikeUsers';
 import DeleteComment from '../components/DeleteComment';
 import '../styles/Comment.css';
 
-const Comment = ({ userid, token, commentid, commentImage, commentText, commentUsername, commentUserImage, commentUserId, commentTimestamp, commentLikes, setCommentLiked, setCommentDeleted }) => {
+const Comment = ({
+    userid,
+    token,
+    commentid,
+    commentImage,
+    commentText,
+    commentUsername,
+    commentUserImage,
+    commentUserId,
+    commentTimestamp,
+    commentLikes,
+    setCommentLiked,
+    setCommentDeleted
+}) => {
     const navigate = useNavigate();
-    const component = "comment";
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState();
     const [likeError, setLikeError] = useState('');
@@ -17,14 +29,12 @@ const Comment = ({ userid, token, commentid, commentImage, commentText, commentU
 
     const likeComment = (id) => {
         setLoading(true);
-        fetch(`${import.meta.env.VITE_API}/odin-book/comments/${id}/like/?` + new URLSearchParams({
-            secret_token: token,
-        }), {
+        fetch(`${import.meta.env.VITE_API}/odin-book/comments/${id}/like/?${new URLSearchParams({ secret_token: token })}`, {
             method: 'PUT',
             mode: 'cors',
             headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ liked: userid })
         })
@@ -32,21 +42,28 @@ const Comment = ({ userid, token, commentid, commentImage, commentText, commentU
             .then(data => {
                 setMessage(data.message);
                 setCommentLiked({ liked: true })
-                setTimeout(() => setMessage(""), 2000);
+                setTimeout(() => setMessage(''), 2000);
             })
-            .catch(error => setLikeError(error.msg))
+            .catch(error => setLikeError(error.message || 'An error occurred'))
             .finally(() => setLoading(false));
     }
 
-    const showLikeUsers = () => likeUsersShowing === true ? setLikeUsersShowing(false) : setLikeUsersShowing(true);
-
-    const showDeleteComment = () => deleteCommentShowing === false ? setDeleteCommentShowing(true) : setDeleteCommentShowing(false);
+    const toggleLikeUsers = () => setLikeUsersShowing(prev => !prev);
+    const toggleDeleteComment = () => setDeleteCommentShowing(prev => !prev);
     
-    if (likeError) return <p className='error'>Error liking comment {likeError}</p>
     if (loading) return <Loading/>
+    if (likeError) return <p className='error'>Error liking comment {likeError}</p>
+    
     return (
         <div className='comment' id={commentid}>
-            {deleteCommentShowing && (<DeleteComment commentid={commentid} token={token} setCommentDeleted={setCommentDeleted} setDeleteCommentShowing={setDeleteCommentShowing} />)}
+            {deleteCommentShowing && (
+                <DeleteComment
+                    commentid={commentid}
+                    token={token}
+                    setCommentDeleted={setCommentDeleted}
+                    setDeleteCommentShowing={setDeleteCommentShowing}
+                />
+            )}
             <div className="commentUserDetails">
                 <img src={commentUserImage} alt='Profile Image' className='commentProfileImage' />
                 <div className='commentUsername'>{commentUsername}</div>
@@ -54,27 +71,42 @@ const Comment = ({ userid, token, commentid, commentImage, commentText, commentU
             </div>
             <div className="commentDiv">
                 <div className="commentImageTextDiv">
-                    {commentImage && (<img src={commentImage} alt="Comment image" className='commentImage' />)}
+                    {commentImage && <img src={commentImage} alt="Comment image" className='commentImage' />}
                     <div className="commentText">{commentText}</div>
                 </div>
                 <div className="commentLikesDiv">
                     <div className="likes">
-                        {commentLikes.includes(userid) ? (<div className='commentLiked' id={commentid} onClick={(event) => likeComment(event.target.id)}></div>) : (<div className='likeBtnComment' id={commentid} onClick={(event) => likeComment(event.target.id)}></div>)}
-                        {commentLikes.length === 1 ? (
-                            <div className='commentLikes' onClick={() => showLikeUsers()}>1 like</div>
-                        ) : (
-                            <div className='commentLikes' onClick={() => showLikeUsers()}>{commentLikes.length} likes</div>
-                        )}
-                    </div>
-                    {likeUsersShowing && (<LikeUsers component={component} id={commentid} token={token} showLikeUsers={showLikeUsers} />)}
-                    <div className='commentMessage'>{message}</div>  
-                    {commentUserId == userid ? (
-                        <div className='commentOptions'>
-                            <div id={commentid} className='updateComment' onClick={(e) => navigate(`/odin-book/comments/${e.target.id}/update`)}></div>
-                            <div id={commentid} className='deleteComment' onClick={() => showDeleteComment()}></div>
+                        <div
+                            className={commentLikes.includes(userid) ? 'commentLiked' : 'likeBtnComment'}
+                            id={commentid}
+                            onClick={() => likeComment(commentid)}
+                        />
+                        <div className='commentLikes' onClick={toggleLikeUsers}>
+                            {commentLikes.length} {commentLikes.length === 1 ? 'like' : 'likes'}
                         </div>
-                    ) : (
-                        <div className='commentOptions'></div>
+                    </div>
+                    {likeUsersShowing && (
+                        <LikeUsers
+                            component="comment"
+                            id={commentid}
+                            token={token}
+                            showLikeUsers={toggleLikeUsers}
+                        />
+                    )}
+                    <div className='commentMessage'>{message}</div>  
+                    {commentUserId === userid && (
+                        <div className='commentOptions'>
+                            <div
+                                id={commentid}
+                                className='updateComment'
+                                onClick={() => navigate(`/odin-book/comments/${commentid}/update`)}
+                            />
+                            <div
+                                id={commentid}
+                                className='deleteComment'
+                                onClick={() => toggleDeleteComment()}
+                            />
+                        </div>
                     )}
                 </div>
             </div>
@@ -83,18 +115,18 @@ const Comment = ({ userid, token, commentid, commentImage, commentText, commentU
 }
 
 Comment.propTypes = {
-    userid: PropTypes.string,
-    token: PropTypes.string,
-    commentid: PropTypes.string,
+    userid: PropTypes.string.isRequired,
+    token: PropTypes.string.isRequired,
+    commentid: PropTypes.string.isRequired,
     commentImage: PropTypes.string,
-    commentText: PropTypes.string,
-    commentUsername: PropTypes.string,
-    commentUserImage: PropTypes.string,
-    commentUserId: PropTypes.string,
-    commentTimestamp: PropTypes.string,
-    commentLikes: PropTypes.array,
-    setCommentLiked: PropTypes.func,
-    setCommentDeleted: PropTypes.func,
+    commentText: PropTypes.string.isRequired,
+    commentUsername: PropTypes.string.isRequired,
+    commentUserImage: PropTypes.string.isRequired,
+    commentUserId: PropTypes.string.isRequired,
+    commentTimestamp: PropTypes.string.isRequired,
+    commentLikes: PropTypes.arrayOf(PropTypes.string).isRequired,
+    setCommentLiked: PropTypes.func.isRequired,
+    setCommentDeleted: PropTypes.func.isRequired,
 }
 
 export default Comment;

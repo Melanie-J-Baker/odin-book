@@ -10,12 +10,7 @@ import LoggedOut from './LoggedOut';
 const PersonalProfile = ({ token, userid}) => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
-    const [username, setUsername] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [profilePicture, setProfilePicture] = useState('');
-    const [friends, setFriends] = useState([]);
+    const [user, setUser] = useState({});
     const [posts, setPosts] = useState([]);
     const [error, setError] = useState(null);
     const [postLiked, setPostLiked] = useState(false);
@@ -23,38 +18,31 @@ const PersonalProfile = ({ token, userid}) => {
     const [postAdded, setPostAdded] = useState(false);
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/?` + new URLSearchParams({
-            secret_token: token,
-        }), {
+        fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/?${new URLSearchParams({ secret_token: token })}`, {
             headers: {
               'Authorization': `Bearer ${token}`,
             }
         })
             .then(response => response.json())
             .then(data => {
-                setUsername(data.user.username)
-                setFirstName(data.user.first_name);
-                setLastName(data.user.last_name);
-                setEmail(data.user.email);
-                setFriends(data.user.friends);
+                setUser(data.user);
                 setPosts(data.posts)
-                setProfilePicture(data.user.profile_image);
             })
-            .catch(error => setError(error.msg))
+            .catch(error => setError(error.message || 'An error occurred'))
             .finally(() => setLoading(false));
     }, [token, userid, postLiked, postDeleted, postAdded])
     
     if (!token) return <LoggedOut/>
-    if (error) return <p className='error'>A network error was encountered. {error}</p>
     if (loading) return <Loading/>
-    return userid ? (
+    if (error) return <p className='error'>A network error was encountered. {error}</p>
+    return user._id ? (
         <div className='profilePage'>
             <div className='profileDetailsMain'>
-                <h1 className='profileHeading'>{username}</h1>
-                {profilePicture && (<img className='profileImageLarge' src={profilePicture} alt="Profile picture" />)}
+                <h1 className='profileHeading'>{user.username}</h1>
+                {user.profile_image && (<img className='profileImageLarge' src={user.profile_image} alt="Profile picture" />)}
                 <div className='profileDetails'>
-                    <p className='profileDetail'>Name: {firstName} {lastName}</p>
-                    <p className='profileDetail'>Email: {email}</p>
+                    <p className='profileDetail'>Name: {user.first_name} {user.last_name}</p>
+                    <p className='profileDetail'>Email: {user.email}</p>
                 </div>
             </div>
             {userid && (
@@ -68,17 +56,22 @@ const PersonalProfile = ({ token, userid}) => {
             )}
             <div className="friendsContainer">
                 <p className='friendsHeading'>Friends:</p>
-                {friends.length ? (
+                {user.friends.length ? (
                     <div className='friends'>
-                        {friends.map((friend) => {
-                            return (
-                                <div key={friend._id} className='friend' id={friend._id}>
-                                    <img src={friend.profile_image} alt="friend" width="75px" height="75px" className="friendImage" />
-                                    <div className='friendUsername'>{friend.username}</div>
-                                    <div className='seeProfileBtn' onClick={() => navigate(`/odin-book/users/${friend._id}/profile`)}>See profile</div>
-                                </div>
+                        {user.friends.map((friend) => (
+                            <div key={friend._id} className='friend' id={friend._id}>
+                                <img
+                                    src={friend.profile_image}
+                                    alt="friend"
+                                    width="75px"
+                                    height="75px"
+                                    className="friendImage"
+                                />
+                                <div className='friendUsername'>{friend.username}</div>
+                                <div className='seeProfileBtn' onClick={() => navigate(`/odin-book/users/${friend._id}/profile`)}>See profile</div>
+                            </div>
                             )   
-                        })}
+                        )}
                     </div>
                 ) : (
                     <div className='noFriends'>No friends yet!</div>
@@ -92,7 +85,21 @@ const PersonalProfile = ({ token, userid}) => {
                 <div className='posts'>
                     {posts.map((post) => {
                         return (
-                            <Post key={post._id} userid={userid} token={token} postid={post._id} postUserId={userid} postUsername={username} postTimestamp={post.timestamp_formatted} postText={post.text} postUserImage={profilePicture} postImage={post.post_image} postLikes={post.likes} setPostLiked={setPostLiked} setPostDeleted={setPostDeleted}/>
+                            <Post
+                                key={post._id}
+                                userid={userid}
+                                token={token}
+                                postid={post._id}
+                                postUserId={userid}
+                                postUsername={user.username}
+                                postTimestamp={post.timestamp_formatted}
+                                postText={post.text}
+                                postUserImage={user.profile_image}
+                                postImage={post.post_image}
+                                postLikes={post.likes}
+                                setPostLiked={setPostLiked}
+                                setPostDeleted={setPostDeleted}
+                            />
                         )
                     })}
                 </div>
@@ -102,15 +109,15 @@ const PersonalProfile = ({ token, userid}) => {
         </div>
     ) : (
         <>
-            <div className="noUser">Error - user not found</div>
+            <div className="noUser">Error - User not found</div>
             <div className='profileLink' onClick={() => navigate('/odin-book')}>Go to home</div>
         </>
     )
 }
 
 PersonalProfile.propTypes = {
-    token: PropTypes.string,
-    userid: PropTypes.string,
+    token: PropTypes.string.isRequired,
+    userid: PropTypes.string.isRequired,
 }
 
 export default PersonalProfile;
