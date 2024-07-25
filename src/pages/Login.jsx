@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
 import Loading from './Loading';
 import '../styles/Login.css';
+import LoginAsGuest from "./LoginAsGuest";
 
 const Login = ({setToken, setUserid, setUsername, setProfilePicture, setLocalStorageItems}) => {
     const navigate = useNavigate();
@@ -66,6 +67,7 @@ const Login = ({setToken, setUserid, setUsername, setProfilePicture, setLocalSto
             <input autoComplete="username" id="loginUsername" name="username" className="loginInput" type="text" placeholder="Enter your username" value={usernameInput} onChange={(event) => setUsernameInput(event.target.value)} />
             <input autoComplete="current-password" id="loginPassword" name="password" className="loginInput" type="password" placeholder="Enter your password" value={password} onChange={(event) => setPassword(event.target.value)} />
             <button className="loginBtn" onClick={submitLogin}>Log in</button>
+            <LoginAsGuest setToken={setToken} setUserid={setUserid} setUsername={setUsername} setProfilePicture={setProfilePicture} setLocalStorageItems={setLocalStorageItems} />
             <p className="errorMessage">{errorMessage}</p>
             <Link id="cancelSignup" className="cancelSignup link" to={'/odin-book'}>Cancel</Link>
         </div>
