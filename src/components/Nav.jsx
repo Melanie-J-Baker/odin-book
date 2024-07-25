@@ -3,12 +3,12 @@ import { useLocation, Link } from 'react-router-dom';
 import { PropTypes } from "prop-types";
 import '../styles/Nav.css';
 
-function Nav ({ userid, username, profilePicture, token, setToken, setUserid, setProfilePicture, setUsername, requestDetails }) {
+function Nav ({ userid, username, profilePicture, token, setToken, setUserid, setProfilePicture, setUsername, requestDetails, clearLocalStorage }) {
   const location = useLocation();
   const [currentRoute, setCurrentRoute] = useState(location.pathname);
   
   const handleLogout = () => {
-    localStorage.clear();
+    clearLocalStorage();
     setToken(null);
     setUserid(null);
     setProfilePicture(null);
@@ -57,6 +57,7 @@ Nav.propTypes = {
   setProfilePicture: PropTypes.func,
   setUsername: PropTypes.func,
   requestDetails: PropTypes.array,
+  clearLocalStorage: PropTypes.func,
 }
 
 export default Nav;

@@ -5,7 +5,7 @@ import Loading from './Loading';
 import LoggedOut from './LoggedOut';
 import '../styles/DeleteAccount.css';
 
-function DeleteAccount({ token, userid, setUsername, setToken, setProfilePicture, setUserid }) {
+function DeleteAccount({ token, userid, setUsername, setToken, setProfilePicture, setUserid, clearLocalStorage }) {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -29,7 +29,7 @@ function DeleteAccount({ token, userid, setUsername, setToken, setProfilePicture
                 navigate('/odin-book');
             }, 5000)
             if (data.user) {
-                localStorage.clear()
+                clearLocalStorage()
                 setUsername('')
                 setToken('')
                 setProfilePicture('')
@@ -69,7 +69,8 @@ DeleteAccount.propTypes = {
     setUsername: PropTypes.func,
     setToken: PropTypes.func,
     setProfilePicture: PropTypes.func,
-    setUserid: PropTypes.func 
+    setUserid: PropTypes.func,
+    clearLocalStorage: PropTypes.func,
 }
 
 export default DeleteAccount;

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
+import { PropTypes } from "prop-types";
 import { Link } from 'react-router-dom';
 import Loading from './Loading';
 import '../styles/Logout.css';
 
-function Logout() {
+function Logout({clearLocalStorage}) {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState('');
@@ -14,7 +15,7 @@ function Logout() {
                 return response.json();
             }).then((data) => {
                 setData(data.message);
-                localStorage.clear();
+                clearLocalStorage();
             }).catch(error => {
                 setError(error.msg)
             }).finally(() => setLoading(false));
@@ -28,6 +29,10 @@ function Logout() {
             <Link className="homeLink link" to="/odin-book">Home</Link>
         </div >
     )
+}
+
+Logout.propTypes = {
+  clearLocalStorage: PropTypes.func,
 }
 
 export default Logout;

@@ -19,19 +19,26 @@ import UpdateComment from './pages/UpdateComment';
 import ScrollToTop from "./components/ScrollToTop";
 import './styles/App.css';
 
-function App() {
-  const checkLocalStorage = (itemName) => {
-    if (localStorage.getItem(itemName) === 'null') {
-      return null;
-    } else {
-      localStorage.getItem(itemName);
-    }
-  }
+const LOCAL_STORAGE_KEYS = ['username', 'profilePicture', 'token', 'userid'];
 
-  const [username, setUsername] = useState(checkLocalStorage('username'))
-  const [profilePicture, setProfilePicture] = useState(checkLocalStorage('profilePicture'));
-  const [token, setToken] = useState(checkLocalStorage('token'));
-  const [userid, setUserid] = useState(checkLocalStorage('userid'));
+const getLocalStorageItem = (itemName) => {
+  const item = localStorage.getItem(itemName);
+  return item === 'null' ? null : item;
+};
+
+const setLocalStorageItems = (items) => {
+  items.forEach(([key, value]) => localStorage.setItem(key, value));
+};
+
+const clearLocalStorage = () => {
+  LOCAL_STORAGE_KEYS.forEach(key => localStorage.removeItem(key));
+};
+
+function App() {
+  const [username, setUsername] = useState(getLocalStorageItem('username'))
+  const [profilePicture, setProfilePicture] = useState(getLocalStorageItem('profilePicture'));
+  const [token, setToken] = useState(getLocalStorageItem('token'));
+  const [userid, setUserid] = useState(getLocalStorageItem('userid'));
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
   const [requestsLoading, setRequestsLoading] = useState(false);
@@ -40,31 +47,31 @@ function App() {
   const [accepted, setAccepted] = useState('');
   const [data, setData] = useState('');
 
+  useEffect(() => {
+    setLocalStorageItems([
+      ['token', token],
+      ['userid', userid],
+      ['username', username],
+      ['profilePicture', profilePicture]
+    ])
+  }, [token, userid, profilePicture, username]);
+
   const handleOnUserIdle = () => {
     if (localStorage.getItem('token')) {
-      localStorage.clear();
+      clearLocalStorage();
       setUsername(null);
       setUserid(null);
       setToken(null);
       setProfilePicture(null);
-      localStorage.getItem('token') === null && window.location.reload();
+      window.location.reload();
     }
   }
 
-  const IDLE_TIME = 1 * 60 * 1000; // 30 mins in ms
-  const GENERAL_DEBOUNCE_TIME = 500; // in ms
   useIdleTimer({
-    timeout: IDLE_TIME,
+    timeout: 30 * 60 * 1000, // 30 mins in ms
     onIdle: handleOnUserIdle,
-    debounce: GENERAL_DEBOUNCE_TIME,
+    debounce: 500, // in ms
   });
-
-  useEffect(() => {
-    localStorage.setItem('token', token);
-    localStorage.setItem('userid', userid);
-    localStorage.setItem('username', username);
-    localStorage.setItem('profilePicture', profilePicture);
-  }, [token, userid, profilePicture, username]);
 
   useEffect(() => {
     if (userid) {
@@ -76,13 +83,11 @@ function App() {
           headers: {
               "Authorization": `Bearer ${token}`,
           },
-      }).then((response) => {
-          return response.json();
-      }).then((data) => {
-          setRequestDetails(data.user.requests);
-      }).catch((error) => {
-          setError(error.msg);
-      }).finally(() => setRequestsLoading(false));
+      })
+        .then(response => response.json())
+        .then(data => setRequestDetails(data.user.requests))
+        .catch(error => setError(error.msg))
+        .finally(() => setRequestsLoading(false));
     }
   }, [token, userid, deleted, accepted])
 
@@ -96,21 +101,16 @@ function App() {
             "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-            toFriend: newUserId
-        })
-    }).then((response) => {
-        return response.json();
-    }).then((data) => {
-      setData(data)
-    }).catch((error) => {
-      setError(error.msg)
+        body: JSON.stringify({ toFriend: newUserId })
     })
+      .then(response => response.json())
+      .then(data => setData(data))
+      .catch(error => setError(error.msg))
   }
 
   return (
     <Router>
-      <Nav userid={userid} username={username} profilePicture={profilePicture} token={token} setToken={setToken} setUserid={setUserid} setProfilePicture={setProfilePicture} setUsername={setUsername} requestDetails={requestDetails} />
+      <Nav userid={userid} username={username} profilePicture={profilePicture} token={token} setToken={setToken} setUserid={setUserid} setProfilePicture={setProfilePicture} setUsername={setUsername} requestDetails={requestDetails} clearLocalStorage={clearLocalStorage} />
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Welcome userid={userid} />} />
@@ -118,10 +118,10 @@ function App() {
         <Route path="/odin-book/users/:userid/addfriends" element={<UsersList token={token} userid={userid} sendFriendRequest={sendFriendRequest} users={users} setUsers={setUsers} error={error} setError={setError} requestsLoading={requestsLoading} requestDetails={requestDetails} setDeleted={setDeleted} setAccepted={setAccepted} data={data} />}/>
         <Route path="/odin-book/users/login" element={<Login setToken={setToken} setUserid={setUserid} setUsername={setUsername} setProfilePicture={setProfilePicture} />} />
         <Route path="/odin-book/users/signup" element={<Signup />} />
-        <Route path="/odin-book/users/logout" element={<Logout/>} />
+        <Route path="/odin-book/users/logout" element={<Logout clearLocalStorage={clearLocalStorage} />} />
         <Route path="/odin-book/users/:userid" element={<PersonalProfile token={token} userid={userid} />} />
         <Route path="/odin-book/users/:userid/updateprofile" element={<UpdateProfile token={token} userid={userid} setUsername={setUsername} setProfilePicture={setProfilePicture} />} />
-        <Route path="/odin-book/users/:userid/deleteaccount" element={<DeleteAccount token={token} userid={userid} setUsername={setUsername} setToken={setToken} setProfilePicture={setProfilePicture} setUserid={setUserid}/>} />
+        <Route path="/odin-book/users/:userid/deleteaccount" element={<DeleteAccount token={token} userid={userid} setUsername={setUsername} setToken={setToken} setProfilePicture={setProfilePicture} setUserid={setUserid} clearLocalStorage={clearLocalStorage} />} />
         <Route path="/odin-book/users/:userid/changepassword" element={<ChangePassword token={token} userid={userid} />} />
         <Route path="/odin-book/users/:userid/profile" element={<Profile token={token} currentuserid={userid} sendFriendRequest={sendFriendRequest} setUsers={setUsers} requestDetails={requestDetails}/>} />
         <Route path="/odin-book/users/:userid/feed" element={<Feed token={token} userid={userid} />} />
