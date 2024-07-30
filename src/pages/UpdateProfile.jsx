@@ -186,8 +186,8 @@ const UpdateProfile = ({ token, userid, setUsername, setProfilePicture, setLocal
 }
 
 UpdateProfile.propTypes = {
-    token: PropTypes.string.isRequired,
-    userid: PropTypes.string.isRequired,
+    token: PropTypes.string,
+    userid: PropTypes.string,
     setUsername: PropTypes.func.isRequired,
     setProfilePicture: PropTypes.func.isRequired,
     setLocalStorageItems: PropTypes.func.isRequired,

@@ -134,8 +134,8 @@ const UpdateComment = ({ token, userid }) => {
 }
 
 UpdateComment.propTypes = {
-    token: PropTypes.string.isRequired,
-    userid: PropTypes.string.isRequired,
+    token: PropTypes.string,
+    userid: PropTypes.string,
 }
 
 export default UpdateComment;

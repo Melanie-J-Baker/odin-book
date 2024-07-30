@@ -93,8 +93,8 @@ const ChangePassword = ({ token, userid }) => {
 }
 
 ChangePassword.propTypes = {
-    token: PropTypes.string.isRequired,
-    userid: PropTypes.string.isRequired,
+    token: PropTypes.string,
+    userid: PropTypes.string,
 }
 
 export default ChangePassword;

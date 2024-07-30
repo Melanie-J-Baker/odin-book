@@ -53,11 +53,11 @@ const Welcome = ({ userid, setToken, setUserid, setUsername, setProfilePicture, 
 
 Welcome.propTypes = {
   userid: PropTypes.string,
-  setToken: PropTypes.func.isRequired, 
-  setUserid: PropTypes.func.isRequired, 
-  setUsername: PropTypes.func.isRequired,
-  setProfilePicture: PropTypes.func.isRequired,
-  setLocalStorageItems: PropTypes.func.isRequired,
+  setToken: PropTypes.func, 
+  setUserid: PropTypes.func, 
+  setUsername: PropTypes.func,
+  setProfilePicture: PropTypes.func,
+  setLocalStorageItems: PropTypes.func,
 }
 
 export default Welcome;

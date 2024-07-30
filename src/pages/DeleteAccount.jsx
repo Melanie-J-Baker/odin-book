@@ -65,8 +65,8 @@ const DeleteAccount = ({
 }
 
 DeleteAccount.propTypes = {
-    token: PropTypes.string.isRequired,
-    userid: PropTypes.string.isRequired,
+    token: PropTypes.string,
+    userid: PropTypes.string,
     setUsername: PropTypes.func.isRequired,
     setToken: PropTypes.func.isRequired,
     setProfilePicture: PropTypes.func.isRequired,

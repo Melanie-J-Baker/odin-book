@@ -116,8 +116,8 @@ const PersonalProfile = ({ token, userid}) => {
 }
 
 PersonalProfile.propTypes = {
-    token: PropTypes.string.isRequired,
-    userid: PropTypes.string.isRequired,
+    token: PropTypes.string,
+    userid: PropTypes.string,
 }
 
 export default PersonalProfile;

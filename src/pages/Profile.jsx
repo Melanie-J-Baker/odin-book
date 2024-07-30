@@ -132,8 +132,8 @@ const Profile = ({ token, currentuserid, sendFriendRequest, setUsers }) => {
 }
 
 Profile.propTypes = {
-    token: PropTypes.string.isRequired,
-    currentuserid: PropTypes.string.isRequired,
+    token: PropTypes.string,
+    currentuserid: PropTypes.string,
     sendFriendRequest: PropTypes.func.isRequired,
     setUsers: PropTypes.func.isRequired,
 }

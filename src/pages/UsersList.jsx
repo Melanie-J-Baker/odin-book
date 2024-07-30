@@ -60,8 +60,8 @@ const UsersList = ({ token, userid, sendFriendRequest, users, setUsers, error, s
 }
 
 UsersList.propTypes = {
-    token: PropTypes.string.isRequired,
-    userid: PropTypes.string.isRequired,
+    token: PropTypes.string,
+    userid: PropTypes.string,
     sendFriendRequest: PropTypes.func.isRequired,
     users: PropTypes.arrayOf(PropTypes.object).isRequired,
     setUsers: PropTypes.func.isRequired,
