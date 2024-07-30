@@ -1,7 +1,7 @@
 .friendRequests {
     display: flex;
     flex-direction: column;
-    background-color: var(--darkest-blue);
+    background-color: var(--darkest-accent);
     padding: 10px;
     align-items: center;
 }

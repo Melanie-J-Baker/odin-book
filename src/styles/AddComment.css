@@ -36,7 +36,7 @@ input::file-selector-button {
 }
 
 input::file-selector-button:hover {
-    border-color: var(--light-blue);
+    border-color: var(--light-accent);
 }
 
 .error {

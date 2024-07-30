@@ -1,7 +1,7 @@
 .deletePostConfirm {
     width: 100%;
     position: absolute;
-    background-color: var(--light-blue);
+    background-color: var(--light-accent);
     padding: 30px;
     top: 0;
 }

@@ -49,7 +49,7 @@ li {
 
 .logout {
     text-decoration: none;
-    background-color: var(--bright-blue);
+    background-color: var(--bright-accent);
     border: 1px solid transparent;
     color: var(--light);
     font-size: 1rem;
@@ -62,8 +62,8 @@ li {
 }
 
 .logout:hover {
-    background-color: var(--dark-blue);
-    border-color: var(--light-blue);
+    background-color: var(--dark-accent);
+    border-color: var(--light-accent);
 }
 
 .addFriendsNavDiv {

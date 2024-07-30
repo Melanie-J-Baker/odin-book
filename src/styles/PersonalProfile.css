@@ -11,7 +11,7 @@
 }
 
 .profileDetailsMain {
-    background-color: var(--darkest-blue);
+    background-color: var(--darkest-accent);
     width: 100%;
     margin-bottom: 20px;
     display: flex;
@@ -41,14 +41,14 @@
 .profileLink {
     font-size: 1.2rem;
     font-weight: 500;
-    color: var(--light-blue);
+    color: var(--light-accent);
     text-decoration: inherit;
     padding: 10px;
     text-align: center;
 }
 
 .profileLink:hover {
-    color: var(--bright-blue);
+    color: var(--bright-accent);
     cursor: pointer;
 }
 
@@ -79,7 +79,7 @@
     align-items: center;
     width: 100%;
     font-size: 0.9rem;
-    border: 1px solid var(--light-blue);
+    border: 1px solid var(--light-accent);
 }
 
 .friend {
@@ -94,7 +94,7 @@
 
 .seeProfileBtn {
     cursor: pointer;
-    background-color: var(--bright-blue);
+    background-color: var(--bright-accent);
     color: var(--light);
     border-radius: 10px;
     padding: 5px 10px;

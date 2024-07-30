@@ -19,23 +19,23 @@
   --light-grey: #747373;
   --mid-grey: #575656;
   --dark-grey: #444444;
-  --dark-grey: #1b1b1b;
-  --light-blue: #646cff;
-  --mid-blue: #2933f0;
-  --bright-blue: #01088f;
-  --dark-blue: #161946;
-  --darkest-blue: #00001a;
+  --darkest-grey: #1b1b1b;
+  --light-accent: #646cff;
+  --mid-accent: #2933f0;
+  --bright-accent: #01088f;
+  --dark-accent: #161946;
+  --darkest-accent: #00001a;
 }
 
 .link {
   font-weight: 500;
-  color: var(--light-blue);
+  color: var(--light-accent);
   text-decoration: inherit;
   cursor: pointer;
 }
 
 .link:hover {
-  color: var(--mid-blue);
+  color: var(--mid-accent);
 }
 
 body {

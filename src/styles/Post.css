@@ -94,7 +94,7 @@
     
 
 .postLikes:hover {
-    color: var(--bright-blue);
+    color: var(--bright-accent);
 }
 
 .likeBtnPost {
@@ -126,7 +126,7 @@
 .postMessage {
     margin-left: 10px;
     font-weight: 400;
-    color: var(--bright-blue);
+    color: var(--bright-accent);
 }
 
 .updatePost {

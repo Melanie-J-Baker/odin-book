@@ -1,7 +1,7 @@
 .deleteCommentConfirm {
     width: 100%;
     position: absolute;
-    background-color: var(--light-blue);
+    background-color: var(--light-accent);
     top: 0;
     left: 0;
     padding: 20px 0;

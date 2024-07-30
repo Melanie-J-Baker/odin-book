@@ -20,7 +20,7 @@
 .confirmBtn,
 .cancelBtn {
     cursor: pointer;
-    background-color: var(--bright-blue);
+    background-color: var(--bright-accent);
     color: white;
     border-radius: 10px;
     padding: 5px 10px;
@@ -30,8 +30,8 @@
 
 .confirmBtn:hover,
 .cancelBtn:hover {
-    color: var(--mid-blue);
-    background-color: var(--darkest-blue);
+    color: var(--mid-accent);
+    background-color: var(--darkest-accent);
 }
 
 .error {
