@@ -28,4 +28,6 @@ Extra credit:
 - Allow users to update their profile photo.
 - Create a guest sign-in functionality that allows visitors to bypass the login screen without creating an account or supplying credentials
 
-I added react-idle-timer to log out user after 30 minutes of inactivity.
+react-idle-timer was used to log out user after 30 minutes of inactivity.
+
+![image](https://github.com/user-attachments/assets/056c2b13-75c9-4ed1-9272-aa03c48deb1c)
