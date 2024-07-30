@@ -35,7 +35,7 @@ const Nav = ({
   return (
     <nav>
       <ul className='mainMenu'>
-        {(!userid || !isActiveRoute('/odin-book')) && (
+        {(!userid || !isActiveRoute('odin-book')) && (
           <li>
             <Link
               className='link'
