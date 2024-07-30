@@ -26,7 +26,12 @@ const AddComment = ({ userid, token, postid, setCommentAdded }) => {
                 text
             })
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 if (file) {
                     const formData = new FormData();
@@ -38,7 +43,12 @@ const AddComment = ({ userid, token, postid, setCommentAdded }) => {
                         headers: { 'Authorization': `Bearer ${token}` },
                         body: formData
                     })
-                        .then(response => response.json())
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
                         .then(data => setMessage(data.status))
                         .catch(error => {
                             setError(error.message || 'An error occurred');

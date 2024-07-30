@@ -11,7 +11,12 @@ const Logout = ({clearLocalStorage}) => {
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API}/odin-book/users/logout`, { mode: 'cors', method: 'POST', credentials: "include" })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 setMessage(data.message);
                 clearLocalStorage();

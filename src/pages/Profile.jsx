@@ -21,7 +21,12 @@ const Profile = ({ token, currentuserid, sendFriendRequest, setUsers }) => {
         fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/?${new URLSearchParams({ secret_token: token })}`, {
             headers: { 'Authorization': `Bearer ${token}` }   
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 setUser(data.user);
                 setPosts(data.posts)
@@ -35,7 +40,12 @@ const Profile = ({ token, currentuserid, sendFriendRequest, setUsers }) => {
         fetch(`${import.meta.env.VITE_API}/odin-book/users/${currentuserid}/?${new URLSearchParams({ secret_token: token })}`, {
             headers: { 'Authorization': `Bearer ${token}` }
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => data.user.friends.some(user => user._id === userid) ? setCurrentlyFriends(true) : setCurrentlyFriends(false))
             .catch(error => setError(error.message || 'An error occurred'))
             .finally(() => setLoading(false));
@@ -52,7 +62,12 @@ const Profile = ({ token, currentuserid, sendFriendRequest, setUsers }) => {
             },
             body: JSON.stringify({ toFriend: id })
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => setUsers(data.notFriends))
             .catch((error) => setError(error.message  || 'An error occurred'))
             .finally(() => setLoading(false));

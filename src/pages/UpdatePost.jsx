@@ -22,7 +22,12 @@ const UpdatePost = ({ token, userid }) => {
                 'Authorization': `Bearer ${token}`,
             }
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 setPostText(data.text);
                 setCurrentPostImage(data.post_image);
@@ -44,7 +49,12 @@ const UpdatePost = ({ token, userid }) => {
             },
             body: JSON.stringify({ text: postText })
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 setStatus(data.status);
                 file == '' && navigate(-1);
@@ -74,7 +84,12 @@ const UpdatePost = ({ token, userid }) => {
             headers: { 'Authorization': `Bearer ${token}` },
             body: formData
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 setStatus(data.status || data.message);
                 setError(data.error);

@@ -16,7 +16,12 @@ const LikeUsers = ({ component, id, token, showLikeUsers }) => {
             mode: 'cors',
             headers: { 'Authorization': `Bearer ${token}` }
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => setUsers(data.likes || []))
             .catch(error => setError(error.message || 'An error occurred'))
             .finally(() => setLoading(false));

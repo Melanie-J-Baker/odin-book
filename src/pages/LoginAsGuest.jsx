@@ -23,7 +23,12 @@ const LoginAsGuest = ({ setToken, setUserid, setUsername, setProfilePicture, set
             },
             body: new URLSearchParams({ username, password }),
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.user && data.token) {
                     setErrorMessage("");
@@ -54,7 +59,8 @@ const LoginAsGuest = ({ setToken, setUserid, setUsername, setProfilePicture, set
         <div className="error">
             <div className="errorText">A network error was encountered. {errorMessage}</div>
         </div>
-    )
+    );
+    
     return !formSubmitted ? (
         <button className="loginBtn" onClick={submitLogin}>Log in as Guest</button>
     ) : (

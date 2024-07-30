@@ -20,7 +20,12 @@ const FriendRequests= ({ token, userid, requestsLoading, requestDetails, setDele
             },
             body: JSON.stringify({ requestUserId })
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => setAccepted(data.user))
             .catch(error => setError(error.message || 'An error occurred'))
             .finally(() => setLoading(false));
@@ -37,7 +42,12 @@ const FriendRequests= ({ token, userid, requestsLoading, requestDetails, setDele
             },
             body: JSON.stringify({ remove: requestUserId })
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => setDeleted(data.user))
             .catch(error => setError(error.message || 'An error occurred'))
             .finally(() => setLoading(false));

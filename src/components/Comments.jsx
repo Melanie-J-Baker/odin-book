@@ -17,7 +17,12 @@ const Comments = ({ userid, postid, token }) => {
         fetch(`${import.meta.env.VITE_API}/odin-book/posts/${postid}/comments/?${new URLSearchParams({ secret_token: token })}`, {
             headers: { 'Authorization': `Bearer ${token}` }
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => setComments(data))
             .catch(error => setError(error.message || 'An error occurred'))
             .finally(() => setLoading(false));

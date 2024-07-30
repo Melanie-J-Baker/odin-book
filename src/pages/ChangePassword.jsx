@@ -27,7 +27,12 @@ const ChangePassword = ({ token, userid }) => {
             },
             body: JSON.stringify({ currentPassword, newPassword, confirmPassword })
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => setResponseStatus(data.message))
             .catch(error => setError(error.message || 'An error occurred'))
             .finally(() => {

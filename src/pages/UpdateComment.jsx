@@ -20,7 +20,12 @@ const UpdateComment = ({ token, userid }) => {
         fetch(`${import.meta.env.VITE_API}/odin-book/comments/${commentid}/?${new URLSearchParams({ secret_token: token })}`, {
             headers: { 'Authorization': `Bearer ${token}` }
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 setCommentText(data.text);
                 setCommentImage(data.comment_image);
@@ -42,7 +47,12 @@ const UpdateComment = ({ token, userid }) => {
             },
             body: JSON.stringify({ text: commentText })
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 setStatus(data.status);
                 file == '' && navigate(-1);
@@ -72,7 +82,12 @@ const UpdateComment = ({ token, userid }) => {
             headers: { 'Authorization': `Bearer ${token}`},
             body: formData
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 setStatus(data.status || data.message);
                 setError(data.error);

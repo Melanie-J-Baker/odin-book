@@ -26,7 +26,12 @@ const DeleteAccount = ({
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${token}` }
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 setMessage(data.message);
                 if (data.user) {

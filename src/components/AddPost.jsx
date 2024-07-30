@@ -25,7 +25,12 @@ const AddPost = ({ userid, token, setPostAdded }) => {
                 text
             })
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 if (file) {
                     const formData = new FormData();
@@ -39,7 +44,12 @@ const AddPost = ({ userid, token, setPostAdded }) => {
                         },
                         body: formData
                     })
-                        .then(response => response.json())
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
                         .then(data => setMessage(data.status))
                         .catch(error => {
                             setError(error.message || 'An error occurred')

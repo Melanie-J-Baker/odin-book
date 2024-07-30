@@ -25,7 +25,12 @@ const UpdateProfile = ({ token, userid, setUsername, setProfilePicture, setLocal
                 'Authorization': `Bearer ${token}`,
             }
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then((data) => {
                 setUsernameInput(data.user.username);
                 setFirstName(data.user.first_name);
@@ -54,7 +59,12 @@ const UpdateProfile = ({ token, userid, setUsername, setProfilePicture, setLocal
                 email
             })
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 setStatus(data.status);
                 setLocalStorageItems(['username', data.user.username]);
@@ -83,7 +93,12 @@ const UpdateProfile = ({ token, userid, setUsername, setProfilePicture, setLocal
             headers: { 'Authorization': `Bearer ${token}` },
             body: formData
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then((data) => {
                 setErrorMessage(data.message);
                 setStatus(data.message);

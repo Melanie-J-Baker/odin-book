@@ -38,7 +38,12 @@ const Signup = () => {
                 password_confirm: confirmPassword,
             })
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => setData(data))
             .catch(error => setErrorMessage(error.message  || 'An error occurred'))
             .finally(() => {

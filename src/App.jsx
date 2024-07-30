@@ -82,7 +82,12 @@ const  App = () => {
               'Authorization': `Bearer ${token}`,
           },
       })
-        .then(response => response.json())
+        .then(response => {
+              if (!response.ok) {
+                  throw new Error('Network response was not ok');
+              }
+              return response.json();
+          })
         .then(data => setRequestDetails(data.user.requests))
         .catch(error => setError(error.message || 'An error occurred'))
         .finally(() => setRequestsLoading(false));
@@ -99,7 +104,12 @@ const  App = () => {
         },
         body: JSON.stringify({ toFriend: newUserId })
     })
-      .then(response => response.json())
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          return response.json();
+      })
       .then(data => setData(data))
       .catch(error => setError(error.message || 'An error occurred'))
   }

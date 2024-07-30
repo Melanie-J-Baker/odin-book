@@ -15,7 +15,12 @@ const UsersList = ({ token, userid, sendFriendRequest, users, setUsers, error, s
         fetch(`${import.meta.env.VITE_API}/odin-book/users/${userid}/userslist/?${new URLSearchParams({ secret_token: token })}`, {
             headers: { 'Authorization': `Bearer ${token}` }
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => setUsers(data.users))
             .catch(error => setError(error.message || 'An error occurred'))
             .finally(() => setLoading(false));
