@@ -79,7 +79,7 @@ const Nav = ({
             </Link>
           </li>
         )}
-        {userid && isActiveRoute(`/odin-book/users/${userid}/feed`) && (
+        {userid && !isActiveRoute(`/odin-book/users/${userid}/feed`) && (
           <li>
             <Link
               className='link'
@@ -90,7 +90,7 @@ const Nav = ({
             </Link>
           </li>
         )}
-        {userid && isActiveRoute(`/odin-book/users/${userid}/addfriends`) && (
+        {userid && !isActiveRoute(`/odin-book/users/${userid}/addfriends`) && (
           <li className="addFriendsNavDiv">
             <Link
               className='link'
@@ -107,9 +107,9 @@ const Nav = ({
         {profilePicture && (
           <img src={profilePicture} alt="Profile Image" className="profileImage" />
         )}
-        {token && isActiveRoute('odin-book/users/login') && !isActiveRoute('odin-book/users/logout') && (
+        {token && !isActiveRoute('odin-book/users/login') && !isActiveRoute('odin-book/users/logout') && (
           <p className='loggedInAs'>Logged in as {username}</p>)}
-        {userid && isActiveRoute('odin-book/users/logout') && (
+        {userid && !isActiveRoute('odin-book/users/logout') && (
           <Link
             className='logout'
             onClick={handleLogout}
