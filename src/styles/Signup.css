@@ -1,7 +1,6 @@
 .signup {
     display: flex;
     flex-direction: column;
-    align-items: center;
     width: 100%;
     text-align: center;
     margin-top: 110px;
@@ -47,7 +46,6 @@
     align-items: center;
     justify-content: center;
     margin-top: 110px;
-    height: 100vh;
 }
 
 .error {
@@ -56,10 +54,29 @@
     font-size: 1.5rem;
 }
 
+.toLogin, .tryAgain {
+    font-size: 1.6rem;
+    padding-top: 30px;
+}
+
+.errorPage {
+    margin-top: 110px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.errorPageHeading {
+    font-size: 3rem;
+    color: var(--alert)
+}
+
 @media only screen and (min-width: 768px) {
     .signup, 
     .accountCreated, 
-    .error {
+    .error,
+    .errorPage {
         margin-top: 160px;
     }
 }

@@ -30,7 +30,7 @@ const Login = ({setToken, setUserid, setUsername, setProfilePicture, setLocalSto
         })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error("Problem loggin in. Please try again.");
                 }
                 return response.json();
             })
@@ -47,7 +47,7 @@ const Login = ({setToken, setUserid, setUsername, setProfilePicture, setLocalSto
                     setUserid(data.user._id);
                     setUsername(data.user.username);
                     setProfilePicture(data.user.profile_image);
-                    setTimeout(() => navigate(`/odin-book/users/${data.user._id}/feed`), 2000)
+                    navigate(`/odin-book/users/${data.user._id}/feed`);
                 } else {
                     setErrorMessage("Problem logging in. Please try again.") 
                 }

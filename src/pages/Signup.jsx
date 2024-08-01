@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import '../styles/Signup.css';
 import Loading from "./Loading";
 
 const Signup = () => {
+    const navigate = useNavigate();
     const [usernameInput, setUsernameInput] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -14,10 +15,6 @@ const Signup = () => {
     const [formSubmit, setFormSubmit] = useState(false);
     const [data, setData] = useState('');
     const [loading, setLoading] = useState(false);
-
-    useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [])
  
     const submitSignup = () => {
         setLoading(true);
@@ -51,6 +48,11 @@ const Signup = () => {
                 setFormSubmit(true);
             })
     };
+
+    const toggleFormSubmit = () => {
+        formSubmit ? setFormSubmit(false) : setFormSubmit(true);
+        navigate(0);
+    }
 
     if (loading) return <Loading/>
     return !formSubmit && !data ? (
@@ -129,11 +131,22 @@ const Signup = () => {
             </div>
             {errorMessage && <div className="errorMsg">{errorMessage}</div>}
         </div>        
-    ) : (
+    ) : data.status ? (
         <div className="accountCreated">
-            <h1 className="accountCreatedHeading">Account created</h1>
+                <h1 className="accountCreatedHeading">{data.status}!</h1>
             <Link id="toLogin" className="toLogin link" to='/odin-book/users/login'>Please log in</Link>
-        </div >)
+        </div >
+    ) : (
+        <div className="errorPage">
+            <p className="errorPageHeading">Error creating account</p>
+            {data.error.map((error, index) => {
+                return (
+                    <div className="errorItem" key={index}>- {error.msg}</div>
+                )
+            })}
+             <div id="tryAgain" className="tryAgain link" onClick={toggleFormSubmit}>Try Again</div>
+        </div>       
+    )
 }
 
 export default Signup;
