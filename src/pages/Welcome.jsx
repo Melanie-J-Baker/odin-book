@@ -13,7 +13,7 @@ const Welcome = ({ userid, setToken, setUserid, setUsername, setProfilePicture, 
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API}odin-book`)
+    fetch(`${import.meta.env.VITE_API}/odin-book`)
       .then(response => {
           if (!response.ok) {
               throw new Error('Network response was not ok');
