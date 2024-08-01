@@ -31,3 +31,12 @@ Extra credit:
 react-idle-timer was used to log out user after 30 minutes of inactivity.
 
 ![image](https://github.com/user-attachments/assets/056c2b13-75c9-4ed1-9272-aa03c48deb1c)
+![image](https://github.com/user-attachments/assets/8a89d6e6-c915-4e8b-ab00-bd3f9a7172cc)
+![image](https://github.com/user-attachments/assets/a3ad0150-9673-4c7a-9493-a96678b32eca)
+![image](https://github.com/user-attachments/assets/1a68993f-1693-4f99-a942-dac20b38e830)
+![image](https://github.com/user-attachments/assets/9e57da76-dce6-4c88-b19c-2342b242fa01)
+![image](https://github.com/user-attachments/assets/da7dfadc-0797-4620-848c-474b6f46dc91)
+![image](https://github.com/user-attachments/assets/2acfaf15-0287-4319-a4e1-73ec5dfb5001)
+![image](https://github.com/user-attachments/assets/760f2dce-5b31-4cc8-8d50-3c69f35ace41)
+![image](https://github.com/user-attachments/assets/3f28f4f5-26c8-44fa-bd0a-80155f4abe08)
+![image](https://github.com/user-attachments/assets/bf91e075-e384-46f4-a465-4e5367c55bb8)
