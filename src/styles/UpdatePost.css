@@ -3,7 +3,7 @@
     flex-direction: column;
     margin-top: 110px;
     align-items: center;
-    width: 100%;
+    width: 100vw;
 }
 .updatePostHeading {
     font-size: 1.5rem;
