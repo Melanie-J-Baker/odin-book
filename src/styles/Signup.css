@@ -23,7 +23,7 @@
 }
 
 .signupPasswordText {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     font-style: italic;
 }
 
@@ -35,7 +35,7 @@
 }
 
 .signupBtn {
-    margin: 40px 10px;
+    margin: 40px 10px 10px 10px;
     width: 300px;
 }
 

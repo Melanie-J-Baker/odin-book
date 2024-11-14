@@ -86,7 +86,7 @@ const AddPost = ({ userid, token, setPostAdded }) => {
                 name="text"
                 id="text"
                 rows="3"
-                cols="30"
+                cols="35"
                 onChange={(e) => setText(e.target.value)}
             />
             <div className="addPostBtns">

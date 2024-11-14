@@ -104,8 +104,10 @@ const Nav = ({
         )}
       </ul>
       <div className="lowerNav">
-        {profilePicture && (
+        {profilePicture !== "" ? (
           <img src={profilePicture} alt="Profile Image" className="profileImage" />
+        ) : (
+          <img src="../assets/images/default.jpg" alt="Profile Image" className="profileImage" />
         )}
         {token && !isActiveRoute('odin-book/users/login') && !isActiveRoute('odin-book/users/logout') && (
           <p className='loggedInAs'>Logged in as {username}</p>)}
