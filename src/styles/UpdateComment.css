@@ -52,7 +52,7 @@ input::file-selector-button:hover {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
 }
 
@@ -65,6 +65,7 @@ input::file-selector-button:hover {
     margin-top: 110px;
     text-align: center;
     font-size: 1.5rem;
+    width: 100vw;
 }
 
 @media only screen and (min-width: 768px) {

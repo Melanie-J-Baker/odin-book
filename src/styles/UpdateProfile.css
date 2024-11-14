@@ -36,7 +36,7 @@
 
 .accountUpdated {
     margin-top: 110px;
-    width: 100%;
+    width: 100vh;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -81,6 +81,7 @@ input::file-selector-button:hover {
     margin-top: 110px;
     text-align: center;
     font-size: 1.5rem;
+    width: 100vw;
 }
 
 @media only screen and (min-width: 768px) {
