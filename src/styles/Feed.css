@@ -5,6 +5,7 @@
     align-content: center;
     justify-content: center;
     background-color: var(--darkest-grey);
+    width: 100vw;
 }
 
 .feedHeading {

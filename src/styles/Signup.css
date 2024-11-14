@@ -1,7 +1,7 @@
 .signup {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 100vw;
     text-align: center;
     margin-top: 110px;
 }
