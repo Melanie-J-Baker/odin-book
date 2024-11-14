@@ -6,7 +6,7 @@ nav {
     height: 100px;
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 100vw;
     justify-content: center;
     align-items: center;
     z-index: 2;
