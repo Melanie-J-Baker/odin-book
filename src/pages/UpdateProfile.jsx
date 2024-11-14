@@ -185,16 +185,11 @@ const UpdateProfile = ({ token, userid, setUsername, setProfilePicture, setLocal
         </div>
     ) : (
         <div className="accountUpdated">
-            {!status ? (
+            {status && (
                 <>
-                    <div className="errorMessage">An error has occurred! {errorMessage} {error}</div>
+                    <div className="accountUpdatedHeading">{status}</div>
                     <Link id="backToProfile" className="backToProfile link" to={`/odin-book/users/${userid}`}>Back to profile</Link>
                 </>
-            ) : (
-                <>
-                <div className="accountUpdatedHeading">{status}</div>
-                <Link id="backToProfile" className="backToProfile link" to={`/odin-book/users/${userid}`}>Back to profile</Link>
-            </>
             )}
         </div >
     );
