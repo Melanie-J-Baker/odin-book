@@ -45,7 +45,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 110px;
+    margin: 110px 20px 20px 20px;
 }
 
 .error {
@@ -60,7 +60,7 @@
 }
 
 .errorPage {
-    margin-top: 110px;
+    margin-top: 110px 20px 20px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;

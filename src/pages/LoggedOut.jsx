@@ -3,7 +3,7 @@ import '../styles/LoggedOut.css';
 
 const LoggedOut = () => (
     <div className='loggedOut'>
-        <h1>You have been automatically logged out</h1>
+        <h1>You have been logged out</h1>
         <Link to="/">Go to home page</Link>
     </div>
 );
