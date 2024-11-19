@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import '../styles/Signup.css';
 import Loading from "./Loading";
 
 const Signup = () => {
-    const navigate = useNavigate();
     const [usernameInput, setUsernameInput] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -48,11 +47,6 @@ const Signup = () => {
                 setFormSubmit(true);
             })
     };
-
-    const toggleFormSubmit = () => {
-        formSubmit ? setFormSubmit(false) : setFormSubmit(true);
-        navigate(0);
-    }
 
     if (loading) return <Loading/>
     return !formSubmit && !data ? (
@@ -144,7 +138,7 @@ const Signup = () => {
                     <div className="errorItem" key={index}>- {error.msg}</div>
                 )
             })}
-             <div id="tryAgain" className="tryAgain link" onClick={toggleFormSubmit}>Try Again</div>
+             <Link id="cancelSignup" className="cancelSignup link" to='/odin-book'>Go back</Link>
         </div>       
     )
 }
