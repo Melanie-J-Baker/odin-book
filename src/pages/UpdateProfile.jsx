@@ -185,12 +185,12 @@ const UpdateProfile = ({ token, userid, setUsername, setProfilePicture, setLocal
         </div>
     ) : (
         <div className="accountUpdated">
-            {status && (
                 <>
-                    <div className="accountUpdatedHeading">{status}</div>
+                    {status && ( 
+                        <div className="accountUpdatedHeading">{status}</div> 
+                    )}
                     <Link id="backToProfile" className="backToProfile link" to={`/odin-book/users/${userid}`}>Back to profile</Link>
                 </>
-            )}
         </div >
     );
 }
